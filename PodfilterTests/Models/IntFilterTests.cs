@@ -6,15 +6,10 @@ namespace PodfilterTests.Models
 {
     public class IntFilterTests
     {
-        private IntFilter CreateDefaultIntFilter(IntFilter.IntFilterMethods method = IntFilter.IntFilterMethods.Equal)
-        {
-            return new IntFilter(10, method);
-        }
-        
         [Fact]
         public void PassesFilter_WithNonInt_ThrowArgumentException()
         {
-            var filter = new IntFilter();
+            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Equal);
 
             Assert.Throws<ArgumentException>(() => filter.PassesFilter(new object()));
         }

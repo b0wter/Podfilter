@@ -13,10 +13,11 @@ namespace Podfilter.Models
             // Constructor for deserialization.
         }
 
-        public StringFilter(string argument, StringFilterMethod method)
+        public StringFilter(string argument, StringFilterMethod method, bool caseInvariant)
         {
             this.Argument = argument;
             this.Method = method;
+            this.CaseInvariant = caseInvariant;
         }
         
         public override bool PassesFilter(object obj)
