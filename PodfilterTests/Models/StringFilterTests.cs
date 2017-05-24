@@ -26,27 +26,63 @@ namespace PodfilterTests.Models
         }
 
         [Theory]
-        // matches
-        [InlineData(long_string_lower, StringFilter.StringFilterMethod.Matches, false, false)]
-        [InlineData(long_string_lower, StringFilter.StringFilterMethod.Matches, true, false)]
-        [InlineData(long_string, StringFilter.StringFilterMethod.Matches, false, true)]
-        [InlineData(long_string, StringFilter.StringFilterMethod.Matches, true, true)]
-        // does not match
-        [InlineData(long_string_lower, StringFilter.StringFilterMethod.Matches, false, true)]
-        [InlineData(long_string_lower, StringFilter.StringFilterMethod.Matches, true, true)]
-        [InlineData(long_string, StringFilter.StringFilterMethod.Matches, false, false)]
-        [InlineData(long_string, StringFilter.StringFilterMethod.Matches, true, false)]
-        // contains
-        [InlineData("String", StringFilter.StringFilterMethod.Contains, false, true)]
-        [InlineData("String", StringFilter.StringFilterMethod.Contains, true, false)]
-        [InlineData("unknown", StringFilter.StringFilterMethod.Contains, false, false)]
-        [InlineData("unknown", StringFilter.StringFilterMethod.Contains, true, false)]
-        // does not contain
-        public void PassesFilter_WithStringAndMethod_ReturnsTrue(string toTest, StringFilter.StringFilterMethod method, bool caseInvariant, bool expected)
+        [InlineData("This is a string for TESTING.", false, true)]
+        [InlineData("This is a string for TESTING.", true, true)]
+        [InlineData("this is a string for testing.", false, false)]
+        [InlineData("this is a string for testing.", true, true)]
+        [InlineData("unknown", false, false)]
+        [InlineData("unknown", true, false)]
+        public void PassesFilter_Matches_ReturnsTrue(string toTest, bool caseInvariant, bool expected)
         {
-            var filter = new StringFilter("This is a string for TESTING.", method, caseInvariant);
+            var filter = new StringFilter("This is a string for TESTING.", StringFilter.StringFilterMethod.Matches, caseInvariant);
             var result = filter.PassesFilter(toTest);
 
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("This is a string for TESTING.", false, false)]
+        [InlineData("This is a string for TESTING.", true, false)]
+        [InlineData("this is a string for testing.", false, true)]
+        [InlineData("this is a string for testing.", true, false)]
+        [InlineData("unknown", false, true)]
+        [InlineData("unknown", true, true)]
+        public void PassesFilter_DoesNotMatch_ReturnsTrue(string toTest, bool caseInvariant, bool expected)
+        {
+            var filter = new StringFilter("This is a string for TESTING.", StringFilter.StringFilterMethod.DoesNotMatch, caseInvariant);
+            var result = filter.PassesFilter(toTest);
+
+            Assert.Equal(expected, result);
+            
+        }
+
+        [Theory]
+        [InlineData("String", false, false)]
+        [InlineData("String", true, true)]
+        [InlineData("string", false, true)]
+        [InlineData("string", true, true)]
+        [InlineData("unknown", false, false)]
+        [InlineData("unknown", true, false)]
+        public void PassesFilter_Contains_ReturnsTrue(string argument, bool caseInvariant, bool expected)
+        {
+            var filter = new StringFilter(argument, StringFilter.StringFilterMethod.Contains, caseInvariant);
+            var result = filter.PassesFilter("This is a string for TESTING.");
+            
+            Assert.Equal(expected, result);
+        }
+        
+        [Theory]
+        [InlineData("String", false, true)]
+        [InlineData("String", true, false)]
+        [InlineData("string", false, false)]
+        [InlineData("string", true, false)]
+        [InlineData("unknown", false, true)]
+        [InlineData("unknown", true, true)]
+        public void PassesFilter_DoesNotContain_ReturnsTrue(string argument, bool caseInvariant, bool expected)
+        {
+            var filter = new StringFilter(argument, StringFilter.StringFilterMethod.DoesNotContain, caseInvariant);
+            var result = filter.PassesFilter("This is a string for TESTING.");
+            
             Assert.Equal(expected, result);
         }
     }
