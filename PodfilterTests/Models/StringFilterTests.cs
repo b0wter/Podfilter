@@ -6,9 +6,6 @@ namespace PodfilterTests.Models
 {
     public class StringFilterTests
     {
-        private const string long_string = "This is a string for TESTING.";
-        private const string long_string_lower = "this is a string for testing.";
-
         [Fact]
         public void PassesFilter_WithNonString_ThrowArgumentException()
         {
