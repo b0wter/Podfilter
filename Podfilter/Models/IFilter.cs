@@ -3,17 +3,12 @@ using System.Collections.Generic;
 
 namespace Podfilter.Models
 {
-    public class FilterCollection
+    public interface IFilter
     {
-        public List<BaseFilter> Filters { get; private set; }
-
-        public FilterCollection()
-        {
-            Filters = new List<BaseFilter>();
-        }
+        bool PassesFilter(object obj);
     }
-
-    public abstract class BaseFilter
+    
+    public abstract class BaseFilter : IFilter
     {
         public abstract bool PassesFilter(object obj);
         
