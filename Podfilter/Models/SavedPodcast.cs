@@ -57,7 +57,7 @@ namespace Podfilter.Models
         /// <returns></returns>
         public async Task<string> GetCurrentFeed()
         {
-            
+            return null;
         }
     }
 }
