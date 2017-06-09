@@ -5,7 +5,7 @@ namespace Podfilter.Models
 {
     public class TimeFilter : BaseFilter
     {
-        public FilterMethods? Method { get; set; }
+        public TimeFilterMethods? Method { get; set; }
         public DateTime? Argument { get; set; }
 
         public TimeFilter()
@@ -13,7 +13,7 @@ namespace Podfilter.Models
             //
         }
 
-        public TimeFilter(FilterMethods method, DateTime argument)
+        public TimeFilter(TimeFilterMethods method, DateTime argument)
         {
             this.Method = method;
             this.Argument = argument;
@@ -31,19 +31,25 @@ namespace Podfilter.Models
 
             switch (Method)
             {
-                case FilterMethods.Greater:
+                case TimeFilterMethods.Greater:
                     return toTest > Argument;
-                case FilterMethods.Smaller:
+                case TimeFilterMethods.GreaterEquals:
+                    return toTest >= Argument;
+                case TimeFilterMethods.Smaller:
                     return toTest < Argument;
+               case TimeFilterMethods.SmallerEquals:
+                   return toTest <= Argument;
                 default:
                     throw new InvalidOperationException($"Method {Method} is not implemented.");
             }
         }
 
-        public enum FilterMethods
+        public enum TimeFilterMethods
         {
             Greater,
-            Smaller
+            GreaterEquals,
+            Smaller,
+            SmallerEquals
         }
     }
 }
