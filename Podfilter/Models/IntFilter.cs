@@ -2,31 +2,22 @@ using System;
 
 namespace Podfilter.Models
 {
-    public class IntFilter : BaseFilter
+    public class IntFilter : BaseFilter<IntFilter.IntFilterMethods, int>
     {
-        public IntFilterMethods? Method { get; set; }
-        public int Argument { get; set; }
-
-        /// <summary>
-        /// Constructor for deserialization.
-        /// </summary>
-        public IntFilter()
+        public IntFilter() : base()
         {
             //
         }
 
-        public IntFilter(int argument, IntFilterMethods method)
+        public IntFilter(IntFilterMethods method, int argument) : base(method, argument)
         {
-            this.Argument = argument;
-            this.Method = method;
+            //
         }
         
-        public override bool PassesFilter(object obj)
+        protected override bool PassesFilter(int toTest)
         {
-            if(Method == null)
-                throw new InvalidOperationException($"Method has not been set!");
+            ValidateMethodAndArgumentSet();
 
-            int toTest = ConvertToTDefault<int>(obj);
             switch (Method)
             {
                 case IntFilterMethods.Equal:
@@ -46,9 +37,9 @@ namespace Podfilter.Models
             }
         }
 
-        public override bool PassesFilter(string objectAsString)
+        protected override int ParseString(string objectAsString)
         {
-            return PassesFilter(int.Parse(objectAsString));
+            return int.Parse(objectAsString);
         }
 
         public enum IntFilterMethods

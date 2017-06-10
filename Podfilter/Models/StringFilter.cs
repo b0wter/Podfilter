@@ -2,10 +2,8 @@ using System;
 
 namespace Podfilter.Models
 {
-    public class StringFilter : BaseFilter
+    public class StringFilter : BaseFilter<StringFilter.StringFilterMethod, string>
     {
-        public StringFilterMethod? Method { get; set; }
-        public string Argument { get; set; }
         public bool CaseInvariant { get; set; } = true;
         
         public StringFilter()
@@ -13,19 +11,13 @@ namespace Podfilter.Models
             // Constructor for deserialization.
         }
 
-        public StringFilter(string argument, StringFilterMethod method, bool caseInvariant)
+        public StringFilter(string argument, StringFilterMethod method, bool caseInvariant) : base(method, argument)
         {
-            this.Argument = argument;
-            this.Method = method;
             this.CaseInvariant = caseInvariant;
         }
         
-        public override bool PassesFilter(object obj)
+        protected override bool PassesFilter(string toTest)
         {
-            if(Method == null)
-                throw new InvalidOperationException($"Method hsa not been set.");
-            string toTest = ConvertToTDefault<string>(obj);
-
             if (CaseInvariant)
                 return PassesFilterWithoutCase(toTest, Argument);
             else
@@ -54,9 +46,9 @@ namespace Podfilter.Models
             }
         }
 
-        public override bool PassesFilter(string objectAsString)
+        protected override string ParseString(string stringifiedObject)
         {
-            return PassesFilter(objectAsString);
+            return stringifiedObject;
         }
 
         public enum StringFilterMethod

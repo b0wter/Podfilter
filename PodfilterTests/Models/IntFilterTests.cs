@@ -9,7 +9,7 @@ namespace PodfilterTests.Models
         [Fact]
         public void PassesFilter_WithNonInt_ThrowArgumentException()
         {
-            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Equal);
+            var filter = new IntFilter(IntFilter.IntFilterMethods.Equal, 10);
 
             Assert.Throws<ArgumentException>(() => filter.PassesFilter(new object()));
         }
@@ -49,7 +49,7 @@ namespace PodfilterTests.Models
         [InlineData(11, IntFilter.IntFilterMethods.Unequal, true)]
         public void PassesFilter_WithIntAndMethod_ReturnsTrue(int toTest, IntFilter.IntFilterMethods method, bool expected)
         {
-            var filter = new IntFilter(10, method);
+            var filter = new IntFilter(method, 10);
             var result = filter.PassesFilter(toTest);
             
             Assert.Equal(expected, result);
@@ -58,7 +58,7 @@ namespace PodfilterTests.Models
         [Fact]
         public void PassesFilter_WithValidStringAndMethod_ReturnsTrue()
         {
-            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Greater);
+            var filter = new IntFilter(IntFilter.IntFilterMethods.Greater, 10);
             var result = filter.PassesFilter("20");
 
             Assert.True(result);
@@ -67,7 +67,7 @@ namespace PodfilterTests.Models
         [Fact]
         public void PassesFilter_WithInvalidStringAndMethod_ThrowsFormatException()
         {
-            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Greater);
+            var filter = new IntFilter(IntFilter.IntFilterMethods.Greater, 10);
 
             Assert.Throws<FormatException>(() => filter.PassesFilter("not_a_number"));
         }
