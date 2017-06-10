@@ -46,6 +46,11 @@ namespace Podfilter.Models
             }
         }
 
+        public override bool PassesFilter(string objectAsString)
+        {
+            return PassesFilter(int.Parse(objectAsString));
+        }
+
         public enum IntFilterMethods
         {
             Equal,

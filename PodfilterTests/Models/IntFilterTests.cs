@@ -24,27 +24,27 @@ namespace PodfilterTests.Models
 
         [Theory]
         // Equal
-        [InlineData(9, IntFilter.IntFilterMethods.Equal, false)]
+        [InlineData(9,  IntFilter.IntFilterMethods.Equal, false)]
         [InlineData(10, IntFilter.IntFilterMethods.Equal, true)]
         [InlineData(11, IntFilter.IntFilterMethods.Equal, false)]
         // Greater
-        [InlineData(9, IntFilter.IntFilterMethods.Greater, false)]
+        [InlineData(9,  IntFilter.IntFilterMethods.Greater, false)]
         [InlineData(10, IntFilter.IntFilterMethods.Greater, false)]
         [InlineData(11, IntFilter.IntFilterMethods.Greater, true)]
         // GreaterEquals
-        [InlineData(9, IntFilter.IntFilterMethods.GreaterEquals, false)]
+        [InlineData(9,  IntFilter.IntFilterMethods.GreaterEquals, false)]
         [InlineData(10, IntFilter.IntFilterMethods.GreaterEquals, true)]
         [InlineData(11, IntFilter.IntFilterMethods.GreaterEquals, true)]
         // Smaller
-        [InlineData(9, IntFilter.IntFilterMethods.Smaller, true)]
+        [InlineData(9,  IntFilter.IntFilterMethods.Smaller, true)]
         [InlineData(10, IntFilter.IntFilterMethods.Smaller, false)]
         [InlineData(11, IntFilter.IntFilterMethods.Smaller, false)]
         // SmallerEquals
-        [InlineData(9, IntFilter.IntFilterMethods.SmallerEquals, true)]
+        [InlineData(9,  IntFilter.IntFilterMethods.SmallerEquals, true)]
         [InlineData(10, IntFilter.IntFilterMethods.SmallerEquals, true)]
         [InlineData(11, IntFilter.IntFilterMethods.SmallerEquals, false)]
         // Unequal
-        [InlineData(9, IntFilter.IntFilterMethods.Unequal, true)]
+        [InlineData(9,  IntFilter.IntFilterMethods.Unequal, true)]
         [InlineData(10, IntFilter.IntFilterMethods.Unequal, false)]
         [InlineData(11, IntFilter.IntFilterMethods.Unequal, true)]
         public void PassesFilter_WithIntAndMethod_ReturnsTrue(int toTest, IntFilter.IntFilterMethods method, bool expected)
@@ -53,6 +53,23 @@ namespace PodfilterTests.Models
             var result = filter.PassesFilter(toTest);
             
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void PassesFilter_WithValidStringAndMethod_ReturnsTrue()
+        {
+            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Greater);
+            var result = filter.PassesFilter("20");
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void PassesFilter_WithInvalidStringAndMethod_ThrowsFormatException()
+        {
+            var filter = new IntFilter(10, IntFilter.IntFilterMethods.Greater);
+
+            Assert.Throws<FormatException>(() => filter.PassesFilter("not_a_number"));
         }
     }
 }

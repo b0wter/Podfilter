@@ -54,6 +54,11 @@ namespace Podfilter.Models
             }
         }
 
+        public override bool PassesFilter(string objectAsString)
+        {
+            return PassesFilter(objectAsString);
+        }
+
         public enum StringFilterMethod
         {
             Matches,

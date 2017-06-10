@@ -11,7 +11,9 @@ namespace Podfilter.Models
     public abstract class BaseFilter : IFilter
     {
         public abstract bool PassesFilter(object obj);
-        
+
+        public abstract bool PassesFilter(string objectAsString);
+
         protected T ConvertToTDefault<T>(object obj)
         {
             if (typeof(T) != obj.GetType())

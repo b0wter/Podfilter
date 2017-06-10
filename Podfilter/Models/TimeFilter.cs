@@ -44,6 +44,11 @@ namespace Podfilter.Models
             }
         }
 
+        public override bool PassesFilter(string objectAsString)
+        {
+            return PassesFilter(DateTime.Parse(objectAsString));
+        }
+
         public enum TimeFilterMethods
         {
             Greater,
