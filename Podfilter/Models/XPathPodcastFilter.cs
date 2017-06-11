@@ -40,11 +40,11 @@ namespace Podfilter.Models
                     _namespaceManager.AddNamespace(pair.Key, pair.Value);
         }
 
-        public XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters)
+        public override XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters)
         {
             var itemsToRemove = GetItemsToRemove(podcast, filters);
             foreach (var item in itemsToRemove)
-                item.Remove();
+                item.Parent.Remove();
             return podcast;
         }
 
@@ -55,7 +55,8 @@ namespace Podfilter.Models
 
         private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IFilter> filters)
         {
-            var matchingElements = podcast.XPathSelectElements("/", _namespaceManager);
+            var match = podcast.XPathEvaluate("//item/title");
+            var matchingElements = podcast.XPathSelectElements("//item/title", _namespaceManager);
             var itemsToRemove = new List<XElement>();
 
             foreach(var element in matchingElements)

@@ -48,5 +48,35 @@ namespace PodfilterTests.Models
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void PassesFilter_WithNonDateTime_ThrowInvalidOperationException()
+        {
+            var filter = new DurationFilter(DurationFilter.DurationFilterMethods.Greater, MediumDuration);
+
+            Assert.Throws<ArgumentException>(() => filter.PassesFilter(new object()));
+        }
+
+        [Fact]
+        public void PassesFilter_WithDateTimeAndNullMethod_ThrowsInvalidOperationException()
+        {
+            var filter = new DurationFilter
+            {
+                Argument = MediumDuration
+            };
+
+            Assert.Throws<InvalidOperationException>(() => filter.PassesFilter(ShortDuration));
+        }
+
+        [Fact]
+        public void PassesFilter_WithDateTimeAndMethodButNullArgument_ThrowsInvalidOperationException()
+        {
+            var filter = new DurationFilter
+            {
+                Method = DurationFilter.DurationFilterMethods.Greater
+            };
+
+            Assert.Throws<InvalidOperationException>(() => filter.PassesFilter(MediumDuration));
+        }
     }
 }
