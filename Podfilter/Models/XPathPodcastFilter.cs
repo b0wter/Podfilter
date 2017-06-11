@@ -5,26 +5,39 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Podfilter.Helpers;
 
 namespace Podfilter.Models
 {
-    public class XPathPodcastFilter : IPodcastFilter
+    /// <summary>
+    /// Filters podcasts by using <see cref="IFilter"/>s and XPaths.
+    /// </summary>
+    public abstract class XPathPodcastFilter : PodcastFilter
     {
-        public string XPath { get; set; }
+        //public string XPath { get; set; }
+        public abstract string XPath { get; }
 
         private XmlNamespaceManager _namespaceManager;
 
-        public XPathPodcastFilter(string xpath, Dictionary<string, string> namespaces)
+        public XPathPodcastFilter()
         {
-            this.XPath = xpath;
+            CreateNamespaceManager(null);
+        }
+
+        public XPathPodcastFilter(Dictionary<string, string> namespaces) : this()
+        {
             CreateNamespaceManager(namespaces);
         }
 
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
         {
             _namespaceManager = new XmlNamespaceManager(new NameTable());
-            foreach (var pair in namespaces)
-                _namespaceManager.AddNamespace(pair.Key, pair.Value);
+            _namespaceManager.AddNamespace("itunes", _itunesNamespace);
+            _namespaceManager.AddNamespace("atom", _atomNamespace);
+            
+            if(namespaces != null)
+                foreach (var pair in namespaces)
+                    _namespaceManager.AddNamespace(pair.Key, pair.Value);
         }
 
         public XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters)
@@ -33,6 +46,11 @@ namespace Podfilter.Models
             foreach (var item in itemsToRemove)
                 item.Remove();
             return podcast;
+        }
+
+        public XDocument FilterPodcast(XDocument podcast, IFilter filter)
+        {
+            return FilterPodcast(podcast, new List<IFilter>() {filter});
         }
 
         private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IFilter> filters)
