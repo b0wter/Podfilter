@@ -9,15 +9,15 @@ namespace PodfilterTests.Models
     public class PodcastTitleFilterTests
     {
         [Fact]
-        public void FilterPodcast_WithStringFilter_ReturnsTrue()
+        public void FilterPodcast_WithStringFilter_ReturnsCorrectNumberOfEpisodes()
         {
             var itemFilter = new StringFilter("Nachricht", StringFilter.StringFilterMethod.DoesNotContain, false);
             var podcastFilter = new PodcastTitleFilter();
-            var podcast = SamplePodcasts.CreateSampleNewsPodcast();
+            var podcast = SamplePodcasts.CreateSampleNewsPodcastForStringFilter();
 
             podcast = podcastFilter.FilterPodcast(podcast, itemFilter);
 
-            Assert.Equal(0, podcast.Descendants("item").Count());
+            Assert.Equal(1, podcast.Descendants("item").Count());
         }
     }
 }
