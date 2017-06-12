@@ -31,6 +31,8 @@ namespace Podfilter.Models
             set { _argument = value; ArgumentSet = true; }
         }
 
+        public Type TargetType => typeof(U);
+        
         public BaseFilter()
         {
             //
@@ -41,7 +43,7 @@ namespace Podfilter.Models
             this.Method = method;
             this.Argument = argument;
         }
-
+        
         /// <summary>
         /// Determines if <paramref name="obj"/> satisfies this filter.
         /// </summary>

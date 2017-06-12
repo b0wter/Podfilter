@@ -6,5 +6,6 @@ namespace Podfilter.Models
     public interface IPodcastFilter
     {
         XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters);
+        void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters);
     }
 }

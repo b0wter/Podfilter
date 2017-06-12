@@ -7,11 +7,12 @@ namespace Podfilter.Helpers
     /// <summary>
     /// Performs the filtering of podcasts.
     /// </summary>
-    public abstract class PodcastFilter : IFiltersPodcasts
+    public abstract class PodcastFilter : IPodcastFilter
     {
-        protected static string _itunesNamespace = "http://www.itunes.com/dtds/podcast-1.0.dtd";
-        protected static string _atomNamespace = "http://www.w3.org/2005/Atom";
+        protected static string ItunesNamespace = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+        protected static string AtomNamespace = "http://www.w3.org/2005/Atom";
 
         public abstract XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters);
+        public abstract void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters);
     }
 }

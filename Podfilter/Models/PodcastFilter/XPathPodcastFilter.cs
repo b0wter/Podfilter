@@ -10,7 +10,7 @@ using Podfilter.Helpers;
 namespace Podfilter.Models
 {
     /// <summary>
-    /// Filters podcasts by using <see cref="IFilter"/>s and XPaths.
+    /// Filters podcasts by using <see cref="IFilter"/>s and XPaths. Non-generic base class for easiert storage in a list.
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
     {
@@ -24,16 +24,11 @@ namespace Podfilter.Models
             CreateNamespaceManager(null);
         }
 
-        public XPathPodcastFilter(Dictionary<string, string> namespaces) : this()
-        {
-            CreateNamespaceManager(namespaces);
-        }
-
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
         {
             _namespaceManager = new XmlNamespaceManager(new NameTable());
-            _namespaceManager.AddNamespace("itunes", _itunesNamespace);
-            _namespaceManager.AddNamespace("atom", _atomNamespace);
+            _namespaceManager.AddNamespace("itunes", ItunesNamespace);
+            _namespaceManager.AddNamespace("atom", AtomNamespace);
             
             if(namespaces != null)
                 foreach (var pair in namespaces)
@@ -42,6 +37,7 @@ namespace Podfilter.Models
 
         public override XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters)
         {
+            ValidateIFilterTypeMatchesContent(filters);
             var itemsToRemove = GetItemsToRemove(podcast, filters);
             foreach (var item in itemsToRemove)
                 item.Parent.Remove();
@@ -52,7 +48,7 @@ namespace Podfilter.Models
         {
             return FilterPodcast(podcast, new List<IFilter>() {filter});
         }
-
+       
         private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IFilter> filters)
         {
             var match = podcast.XPathEvaluate("//item/title");
