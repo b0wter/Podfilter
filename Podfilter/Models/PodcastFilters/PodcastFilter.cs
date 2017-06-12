@@ -18,6 +18,11 @@ namespace Podfilter.Models
         public List<IFilter> Filters { get; set; } = new List<IFilter>();
 
         /// <summary>
+        /// Human readable description of the filter.
+        /// </summary>
+        public abstract string Description { get; }
+
+        /// <summary>
         /// Uses only <paramref name="filters"/> to filter the <paramref name="podcast"/>. Does not include default filters.
         /// </summary>
         /// <param name="podcast"></param>

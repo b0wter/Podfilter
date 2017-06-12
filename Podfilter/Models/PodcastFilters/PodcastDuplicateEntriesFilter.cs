@@ -12,6 +12,7 @@ namespace Podfilter.Models
     /// </summary>
     public class PodcastDuplicateEntriesFilter : PodcastFilter
     {
+        public override string Description => "Filters any duplicate items in the feed. Duplicates are items that share the same publication date (not time) and title. Keeps the oldest item in the feed since keeping the new item will most likely result in problems with your podcast app.";
 
         public override XDocument Filter(XDocument podcast)
         {

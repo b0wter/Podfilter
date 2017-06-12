@@ -25,5 +25,10 @@ namespace Podfilter.Models
         /// </summary>
         /// <param name="filters"></param>
         void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters);
+
+        /// <summary>
+        /// Human readable description of the filter.
+        /// </summary>
+        string Description { get; }
     }
 }

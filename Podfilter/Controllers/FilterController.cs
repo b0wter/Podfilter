@@ -1,6 +1,8 @@
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using Podfilter.Helpers;
+using Podfilter.Models;
+using System.Collections.Generic;
 
 namespace Podfilter.Controllers
 {
@@ -34,7 +36,6 @@ namespace Podfilter.Controllers
        /// <param name="fromEpoch">discard all items older then the epoch (unix timestamp)</param>
        /// <param name="toEpoch">discards all items newer then the epoch (unix timestamp)</param>
        /// <param name="removeDuplicateTitles">removes any items with a title that has been used previously (keeping the oldest item)</param>
-       /// <param name="removeDuplicatesKeepNewest">Only works with <paramref name="removeDuplicateTitles"/>; keeps the newest item instead of the oldest. This might confuse podcast apps since the content changes but the title doesnt.</param>
        /// <param name="titleMustNotContain">removes any item if it contains at least one of the elements of this string (semicolon separated</param>
        /// <param name="titleMustContain">removes each item that does not contain at least one of the elements of this string (semicolon separated</param>
        /// <param name="minDuration">minimum duration of the postcast in seconds</param>
@@ -46,13 +47,24 @@ namespace Podfilter.Controllers
           [FromQuery]int fromEpoch = int.MinValue, 
           [FromQuery]int toEpoch = int.MaxValue, 
           [FromQuery]bool removeDuplicateTitles = false,
-          [FromQuery]bool removeDuplicatesKeepNewest = false,
           [FromQuery]string titleMustNotContain = null,
           [FromQuery]string titleMustContain = null,
           [FromQuery]int minDuration = int.MinValue,
           [FromQuery]int maxDuration = int.MaxValue)
        {
-          return null;
+            var filters = new List<IPodcastFilter>(8);
+
+            if (removeDuplicateTitles)
+                filters.Add(new PodcastDuplicateEntriesFilter());
+
+            if (titleMustContain != null)
+                filters.Add(PodcastTitleFilter.WithContainsFilter(titleMustContain));
+
+            if (titleMustNotContain != null)
+                filters.Add(PodcastTitleFilter.WithDoesNotContainFilter(titleMustNotContain));
+
+
+            return null;
        }
     }
 }
