@@ -15,7 +15,7 @@ namespace PodfilterTests.Models
             var podcastFilter = new PodcastTitleFilter();
             var podcast = SamplePodcasts.CreateSampleNewsPodcastForStringFilter();
 
-            podcast = podcastFilter.FilterPodcast(podcast, itemFilter);
+            podcast = podcastFilter.FilterWithCustomFilter(podcast, itemFilter);
 
             Assert.Equal(1, podcast.Descendants("item").Count());
         }

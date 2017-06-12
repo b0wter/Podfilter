@@ -16,7 +16,7 @@ namespace PodfilterTests.Models
             var duplicatesFilter = new PodcastDuplicateEntriesFilter();
             var podcast = SamplePodcasts.CreateSampleNewsPodcastForStringFilter();
 
-            podcast = duplicatesFilter.FilterPodcast(podcast, null);
+            podcast = duplicatesFilter.Filter(podcast);
 
             Assert.Equal(2, podcast.Descendants("item").Count());
         }
@@ -37,7 +37,7 @@ namespace PodfilterTests.Models
                 earliestDates.Add(DateTime.Parse(sortedGroup.First().Element("pubDate").Value), sortedGroup.First().Element("title").Value);
             }
 
-            podcast = duplicatesFilter.FilterPodcast(podcast, null);
+            podcast = duplicatesFilter.Filter(podcast);
 
             foreach(var item in podcast.Descendants("item"))
             {

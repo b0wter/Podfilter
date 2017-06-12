@@ -12,7 +12,8 @@ namespace Podfilter.Models
     /// </summary>
     public class PodcastDuplicateEntriesFilter : PodcastFilter
     {
-        public override XDocument FilterPodcast(XDocument podcast, IEnumerable<IFilter> filters)
+
+        public override XDocument Filter(XDocument podcast)
         {
             // doesnt require the usage of filters
 
@@ -42,6 +43,11 @@ namespace Podfilter.Models
             }
 
             return podcast;
+        }
+
+        public override XDocument FilterWithCustomFilters(XDocument podcast, IEnumerable<IFilter> filters)
+        {
+            return Filter(podcast);
         }
 
         public override void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters)
