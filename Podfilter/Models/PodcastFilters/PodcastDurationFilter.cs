@@ -11,5 +11,7 @@ namespace Podfilter.Models
         public override string XPath => "//item/itunes:duration";
 
         public override string Description => "Filters podcast items based on their duration.";
+
+        public static XPathPodcastFilter WithDurationFilter()
     }
 }

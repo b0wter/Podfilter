@@ -24,6 +24,15 @@ namespace Podfilter.Models
             CreateNamespaceManager(null);
         }
 
+        protected static XPathPodcastFilter WithFilters(IEnumerable<IFilter> filters)
+        {
+            var filter = new PodcastTitleFilter
+            {
+                Filters = filters.ToList()
+            };
+            return filter;
+        }
+
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
         {
             _namespaceManager = new XmlNamespaceManager(new NameTable());
