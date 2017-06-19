@@ -61,10 +61,10 @@ namespace Podfilter.Controllers
 				filters.Add(new PodcastDuplicateEntriesFilter());
 
 			if (titleMustContain != null)
-				filters.Add(PodcastTitleFilter.WithContainsFilter(titleMustContain));
+				filters.Add(PodcastTitleFilter.WithContainsFilter<PodcastTitleFilter>(titleMustContain));
 
 			if (titleMustNotContain != null)
-				filters.Add(PodcastTitleFilter.WithDoesNotContainFilter(titleMustNotContain));
+				filters.Add(PodcastTitleFilter.WithDoesNotContainFilter<PodcastTitleFilter>(titleMustNotContain));
 
 			if (minDuration != long.MinValue || maxDuration != long.MaxValue)
 				filters.Add(PodcastDurationFilter.WithMinMaxDurationFilter(minDuration, maxDuration));

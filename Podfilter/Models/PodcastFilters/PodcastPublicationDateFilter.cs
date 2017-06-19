@@ -1,6 +1,7 @@
 using Podfilter.Models.ContentFilter;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Podfilter.Models.PodcastFilters
 {
@@ -13,13 +14,13 @@ namespace Podfilter.Models.PodcastFilters
         public static XPathPodcastFilter WithLaterThanFilter(long fromEpoch)
         {
             var filter = new DateFilter(DateFilter.DateFilterMethods.GreaterEquals, fromEpoch);
-            return WithFilter(filter);
+            return WithFilter<PodcastPublicationDateFilter>(filter);
         }
 
         public static XPathPodcastFilter WithEarlierThanFilter(long toEpoch)
         {
             var filter = new DateFilter(DateFilter.DateFilterMethods.SmallerEquals, toEpoch);
-            return WithFilter(filter);
+            return WithFilter<PodcastPublicationDateFilter>(filter);
         }
 
         public static XPathPodcastFilter WithEarlierAndLaterFilter(long fromEpoch, long toEpoch)
@@ -32,7 +33,14 @@ namespace Podfilter.Models.PodcastFilters
             if(toEpoch != long.MaxValue)
                 filters.Add(new DateFilter(DateFilter.DateFilterMethods.SmallerEquals, toEpoch));
 
-            return WithFilters(filters);
+            return WithFilters<PodcastPublicationDateFilter>(filters);
+        }
+
+        public override void ValidateIFilterTypeMatchesContent(IEnumerable<IContentFilter> filters)
+        {
+            var firstNonMatchingFilter = filters.FirstOrDefault(f => f.TargetType != typeof(long) && f.TargetType != typeof(DateTime));
+            if(firstNonMatchingFilter != null)
+                throw new ArgumentException($"Tried to use a filter that targets {firstNonMatchingFilter.TargetType} for long / DateTime.");
         }
     }
 }

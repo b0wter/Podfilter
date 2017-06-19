@@ -8,34 +8,34 @@ namespace Podfilter.Models.PodcastFilters
 {
     public abstract class PodcastStringPropertyFilter : XPathPodcastFilter<string>
     {
-        protected static XPathPodcastFilter WithStringFilters(IEnumerable<string> arguments, StringFilter.StringFilterMethod method)
+        protected static XPathPodcastFilter WithStringFilters<T>(IEnumerable<string> arguments, StringFilter.StringFilterMethod method) where T : PodcastStringPropertyFilter, new()
         {
             var filters = new List<IContentFilter>(arguments.Count());
             foreach (var argument in arguments)
             {
                 filters.Add(new StringFilter(argument, method, false));
             }
-            return WithFilters(filters);
+            return WithFilters<T>(filters);
         }
 
-        public static XPathPodcastFilter WithContainsFilter(IEnumerable<string> mustContain)
+        public static XPathPodcastFilter WithContainsFilter<T>(IEnumerable<string> mustContain) where T : PodcastStringPropertyFilter, new()
         {
-            return WithStringFilters(mustContain, StringFilter.StringFilterMethod.Contains);
+            return WithStringFilters<T>(mustContain, StringFilter.StringFilterMethod.Contains);
         }
 
-        public static XPathPodcastFilter WithContainsFilter(string mustContain)
+        public static XPathPodcastFilter WithContainsFilter<T>(string mustContain) where T : PodcastStringPropertyFilter, new()
         {
-            return WithContainsFilter(new string[] { mustContain });
+            return WithContainsFilter<T>(new string[] { mustContain });
         }
 
-        public static XPathPodcastFilter WithDoesNotContainFilter(IEnumerable<string> doesNotContain)
-        {
-            return WithStringFilters(doesNotContain, StringFilter.StringFilterMethod.DoesNotContain);
+        public static XPathPodcastFilter WithDoesNotContainFilter<T>(IEnumerable<string> doesNotContain) where T : PodcastStringPropertyFilter, new()
+        { 
+            return WithStringFilters<T>(doesNotContain, StringFilter.StringFilterMethod.DoesNotContain);
         }
 
-        public static XPathPodcastFilter WithDoesNotContainFilter(string doesNotContain)
+        public static XPathPodcastFilter WithDoesNotContainFilter<T>(string doesNotContain) where T : PodcastStringPropertyFilter, new()
         {
-            return WithDoesNotContainFilter(new string[] { doesNotContain });
+            return WithDoesNotContainFilter<T>(new string[] { doesNotContain });
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Podfilter.Models.PodcastFilters
         public static XPathPodcastFilter WithDurationFilter(TimeSpan duration, DurationFilter.DurationFilterMethods method)
         {
             var filter = new DurationFilter(method, duration);
-            return WithFilter(filter);
+            return WithFilter<PodcastDurationFilter>(filter);
         }
 
         public static XPathPodcastFilter WithMinMaxDurationFilter(long minSeconds, long maxSeconds)
@@ -27,13 +27,13 @@ namespace Podfilter.Models.PodcastFilters
             if(maxSeconds != int.MaxValue)
                 filters.Add(new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, maxSeconds));
 
-            return WithFilters(filters);
+            return WithFilters<PodcastDurationFilter>(filters);
         }
         
         public static XPathPodcastFilter WithMinDurationFilter(TimeSpan duration)
         {
             var filter = new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, duration);
-            return WithFilter(filter);
+            return WithFilter<PodcastDurationFilter>(filter);
         }
 
         public static XPathPodcastFilter WithMinDurationFilter(int durationInSeconds)
@@ -45,7 +45,7 @@ namespace Podfilter.Models.PodcastFilters
         public static XPathPodcastFilter WithMaxDurationFilter(TimeSpan duration)
         {
             var filter = new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, duration);
-            return WithFilter(filter);
+            return WithFilter<PodcastDurationFilter>(filter);
         }
 
         public static XPathPodcastFilter WithMaxDurationFilter(int durationInSeconds)
@@ -59,7 +59,7 @@ namespace Podfilter.Models.PodcastFilters
             var minFilter = new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, min);
             var maxFilter = new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, max);
 
-            return WithFilters(new IContentFilter[] {minFilter, maxFilter});
+            return WithFilters<PodcastDurationFilter>(new IContentFilter[] {minFilter, maxFilter});
         }
     }
 }

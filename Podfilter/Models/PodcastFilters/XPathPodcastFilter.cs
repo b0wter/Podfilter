@@ -15,7 +15,6 @@ namespace Podfilter.Models.PodcastFilters
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
     {
-        //public string XPath { get; set; }
         public abstract string XPath { get; }
 
         private XmlNamespaceManager _namespaceManager;
@@ -25,18 +24,18 @@ namespace Podfilter.Models.PodcastFilters
             CreateNamespaceManager(null);
         }
 
-        protected static XPathPodcastFilter WithFilters(IEnumerable<IContentFilter> filters)
+        protected static XPathPodcastFilter WithFilters<T>(IEnumerable<IContentFilter> filters) where T : XPathPodcastFilter, new()
         {
-            var filter = new PodcastTitleFilter
+            var filter = new T
             {
                 Filters = filters.ToList()
             };
             return filter;
         }
 
-        protected static XPathPodcastFilter WithFilter(IContentFilter filter)
+        protected static XPathPodcastFilter WithFilter<T>(IContentFilter filter) where T : XPathPodcastFilter, new()
         {
-            return WithFilters(new IContentFilter[] {filter});
+            return WithFilters<T>(new IContentFilter[] {filter});
         }
         
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
