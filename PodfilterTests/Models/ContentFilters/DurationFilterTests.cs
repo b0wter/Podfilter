@@ -1,4 +1,5 @@
 ﻿using Podfilter.Models;
+using Podfilter.Models.ContentFilter;
 using System;
 using System.Collections.Generic;
 using System.Text;

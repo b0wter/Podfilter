@@ -1,4 +1,5 @@
 ﻿using Podfilter.Models;
+using Podfilter.Models.PodcastFilters;
 using PodfilterTests.Data;
 using System;
 using System.Collections.Generic;

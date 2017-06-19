@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Podfilter.Models.ContentFilter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastFilters
 {
     public class PodcastDurationFilter : XPathPodcastFilter<TimeSpan>
     {
@@ -18,9 +19,9 @@ namespace Podfilter.Models
             return WithFilter(filter);
         }
 
-        public static XPathPodcastFilter WithMinMaxDurationFilter(int minSeconds, int maxSeconds)
+        public static XPathPodcastFilter WithMinMaxDurationFilter(long minSeconds, long maxSeconds)
         {
-            var filters = new List<IFilter>(2);
+            var filters = new List<IContentFilter>(2);
             if(minSeconds != int.MinValue)
                 filters.Add(new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, minSeconds));
             if(maxSeconds != int.MaxValue)
@@ -58,7 +59,7 @@ namespace Podfilter.Models
             var minFilter = new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, min);
             var maxFilter = new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, max);
 
-            return WithFilters(new IFilter[] {minFilter, maxFilter});
+            return WithFilters(new IContentFilter[] {minFilter, maxFilter});
         }
     }
 }

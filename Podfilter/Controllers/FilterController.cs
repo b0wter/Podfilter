@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Podfilter.Helpers;
 using Podfilter.Models;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Threading.Tasks;
+using Podfilter.Models.PodcastFilters;
 
 namespace Podfilter.Controllers
 {
@@ -44,8 +47,8 @@ namespace Podfilter.Controllers
 		[HttpGet]
 		public ActionResult HttpGet_FilterPodcast(
 			[RequiredFromQuery] string url,
-			[FromQuery] int fromEpoch = int.MinValue,
-			[FromQuery] int toEpoch = int.MaxValue,
+			[FromQuery] long fromEpoch = long.MinValue,
+			[FromQuery] long toEpoch = long.MaxValue,
 			[FromQuery] bool removeDuplicateTitles = false,
 			[FromQuery] string titleMustNotContain = null,
 			[FromQuery] string titleMustContain = null,
@@ -63,17 +66,18 @@ namespace Podfilter.Controllers
 			if (titleMustNotContain != null)
 				filters.Add(PodcastTitleFilter.WithDoesNotContainFilter(titleMustNotContain));
 
-			if (minDuration != int.MinValue || maxDuration != int.MaxValue)
+			if (minDuration != long.MinValue || maxDuration != long.MaxValue)
 				filters.Add(PodcastDurationFilter.WithMinMaxDurationFilter(minDuration, maxDuration));
 
-			
-			
-			if(fromEpoch != int.MinValue)
-				filters.Add(PodcastPublicationDateFilter.WithLaterThanFilter(fromEpoch));
-			
-			if(toEpoch != int.MaxValue)
-				filters.Add(PodcastPublicationDateFilter.WithEarlierThanFilter(toEpoch));
+            if (fromEpoch != long.MinValue || toEpoch != long.MaxValue)
+                filters.Add(PodcastPublicationDateFilter.WithEarlierAndLaterFilter(fromEpoch, toEpoch));
+
 			return null;
 		}
+
+        private async Task<XDocument> GetPodcastFromUrl(string url)
+        {
+            return null;
+        }
 	}
 }

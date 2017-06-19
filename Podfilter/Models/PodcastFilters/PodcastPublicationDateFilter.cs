@@ -1,7 +1,8 @@
+using Podfilter.Models.ContentFilter;
 using System;
 using System.Collections.Generic;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastFilters
 {
     public class PodcastPublicationDateFilter : XPathPodcastFilter<DateTime>
     {
@@ -23,7 +24,7 @@ namespace Podfilter.Models
 
         public static XPathPodcastFilter WithEarlierAndLaterFilter(long fromEpoch, long toEpoch)
         {
-            var filters = new List<IFilter>(2);
+            var filters = new List<IContentFilter>(2);
             
             if(fromEpoch != long.MinValue)
                 filters.Add(new DateFilter(DateFilter.DateFilterMethods.GreaterEquals, fromEpoch));

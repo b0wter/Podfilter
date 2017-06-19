@@ -1,8 +1,9 @@
+using Podfilter.Models.ContentFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastFilters
 {
     /// <summary>
     /// Generic version of <see cref="XPathPodcastFilter"/>.
@@ -10,7 +11,7 @@ namespace Podfilter.Models
     /// <typeparam name="T"></typeparam>
     public abstract class XPathPodcastFilter<T> : XPathPodcastFilter
     {
-        public override void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters)
+        public override void ValidateIFilterTypeMatchesContent(IEnumerable<IContentFilter> filters)
         {
             var firstNonMatchingFilter = filters.FirstOrDefault(f => f.TargetType != typeof(T));
             if (firstNonMatchingFilter != null)

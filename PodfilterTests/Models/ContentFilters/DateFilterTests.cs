@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Podfilter.Models;
 using Xunit;
+using Podfilter.Models.ContentFilter;
 
 namespace PodfilterTests.Models
 {

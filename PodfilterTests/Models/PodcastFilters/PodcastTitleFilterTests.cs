@@ -3,6 +3,8 @@ using Podfilter.Models;
 using Xunit;
 using System.Linq;
 using PodfilterTests.Data;
+using Podfilter.Models.ContentFilter;
+using Podfilter.Models.PodcastFilters;
 
 namespace PodfilterTests.Models
 {
