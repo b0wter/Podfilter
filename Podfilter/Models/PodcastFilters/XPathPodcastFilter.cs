@@ -33,6 +33,11 @@ namespace Podfilter.Models
             return filter;
         }
 
+        protected static XPathPodcastFilter WithFilter(IFilter filter)
+        {
+            return WithFilters(new IFilter[] {filter});
+        }
+        
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
         {
             _namespaceManager = new XmlNamespaceManager(new NameTable());

@@ -4,12 +4,20 @@ namespace Podfilter.Models
 {
     public class DurationFilter : BaseFilter<DurationFilter.DurationFilterMethods, TimeSpan>
     {
-        public DurationFilter() : base()
+        public DurationFilter() 
+            : base()
         {
             //
         }
 
-        public DurationFilter(DurationFilterMethods method, TimeSpan argument) : base(method, argument)
+        public DurationFilter(DurationFilterMethods method, TimeSpan argument) 
+            : base(method, argument)
+        {
+            //
+        }
+
+        public DurationFilter(DurationFilterMethods method, int argumentInSeconds) 
+            : base(method,TimeSpan.FromSeconds(argumentInSeconds))
         {
             //
         }

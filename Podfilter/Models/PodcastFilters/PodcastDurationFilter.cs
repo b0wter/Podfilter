@@ -12,6 +12,53 @@ namespace Podfilter.Models
 
         public override string Description => "Filters podcast items based on their duration.";
 
-        public static XPathPodcastFilter WithDurationFilter()
+        public static XPathPodcastFilter WithDurationFilter(TimeSpan duration, DurationFilter.DurationFilterMethods method)
+        {
+            var filter = new DurationFilter(method, duration);
+            return WithFilter(filter);
+        }
+
+        public static XPathPodcastFilter WithMinMaxDurationFilter(int minSeconds, int maxSeconds)
+        {
+            var filters = new List<IFilter>(2);
+            if(minSeconds != int.MinValue)
+                filters.Add(new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, minSeconds));
+            if(maxSeconds != int.MaxValue)
+                filters.Add(new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, maxSeconds));
+
+            return WithFilters(filters);
+        }
+        
+        public static XPathPodcastFilter WithMinDurationFilter(TimeSpan duration)
+        {
+            var filter = new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, duration);
+            return WithFilter(filter);
+        }
+
+        public static XPathPodcastFilter WithMinDurationFilter(int durationInSeconds)
+        {
+            var timespan = TimeSpan.FromSeconds(durationInSeconds);
+            return WithMinDurationFilter(timespan);
+        }
+
+        public static XPathPodcastFilter WithMaxDurationFilter(TimeSpan duration)
+        {
+            var filter = new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, duration);
+            return WithFilter(filter);
+        }
+
+        public static XPathPodcastFilter WithMaxDurationFilter(int durationInSeconds)
+        {
+            var timespan = TimeSpan.FromSeconds(durationInSeconds);
+            return WithMaxDurationFilter(timespan);
+        }
+
+        public static XPathPodcastFilter WithDurationFilters(TimeSpan min, TimeSpan max)
+        {
+            var minFilter = new DurationFilter(DurationFilter.DurationFilterMethods.GreaterEquals, min);
+            var maxFilter = new DurationFilter(DurationFilter.DurationFilterMethods.SmallerEquals, max);
+
+            return WithFilters(new IFilter[] {minFilter, maxFilter});
+        }
     }
 }

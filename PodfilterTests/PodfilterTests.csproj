@@ -21,5 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
+    <Folder Include="Models\ContentFilters" />
+    <Folder Include="Models\PodcastFilters" />
   </ItemGroup>
 </Project>
