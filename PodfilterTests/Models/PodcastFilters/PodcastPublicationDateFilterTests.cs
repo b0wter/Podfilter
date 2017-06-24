@@ -11,10 +11,10 @@ namespace PodfilterTests.Models.PodcastFilters
     public class PodcastPublicationDateFilterTests
     {
         [Theory]
-        [InlineData(0, long.MaxValue, 11)]
+        [InlineData(0, long.MaxValue, 20)]
         public void FilterPodcast_WithArguments_ReturnsExpected(long min, long max, int expectedCount)
         {
-            var filter = PodcastPublicationDateFilter.WithEarlierAndLaterFilter(1, 2);
+            var filter = PodcastPublicationDateFilter.WithEarlierAndLaterFilter(min, max);
 
             var podcast = SamplePodcasts.CreateGenericSampleNewsPodcast();
             var filteredPodcast = filter.Filter(podcast);
