@@ -5,6 +5,8 @@ using Podfilter.Models;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
 using Podfilter.Models.PodcastFilters;
 
 namespace Podfilter.Controllers
@@ -13,7 +15,7 @@ namespace Podfilter.Controllers
 	/// Does the actual filtering of the remote podcasts.
 	/// </summary>
 	[Route("api/[controller]")]
-	public class FilterController : JsonApiBaseController
+	public class FilterController : ApiBaseController
 	{
 		/// <summary>
 		/// Returns a short summary on how to use the api.
@@ -45,7 +47,7 @@ namespace Podfilter.Controllers
 		/// <param name="maxDuration">maximum duration of the podcast in seconds</param>
 		/// <returns>filtered podcast</returns>
 		[HttpGet]
-		public ActionResult HttpGet_FilterPodcast(
+		public async Task<ActionResult> HttpGet_FilterPodcast(
 			[RequiredFromQuery] string url,
 			[FromQuery] long fromEpoch = long.MinValue,
 			[FromQuery] long toEpoch = long.MaxValue,
@@ -55,16 +57,30 @@ namespace Podfilter.Controllers
 			[FromQuery] long minDuration = long.MinValue,
 			[FromQuery] long maxDuration = long.MaxValue)
 		{
+			var filters = CreateFiltersFromArguments(fromEpoch, toEpoch, removeDuplicateTitles, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+			var podcast = await GetPodcastFromUrl(url);
+			var filteredPodcast = filters.FilterPodcast(podcast);
+			var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
+
+			var mediaType = MediaTypeHeaderValue.Parse("application/json");
+			var content = Content(serializedFilteredPodcast, mediaType);
+
+			return content;
+		}
+
+		private PodcastFilterCollection CreateFiltersFromArguments(long fromEpoch, long toEpoch, bool removeDuplicateTitles, string titleMustNotContain, string titleMustContain, long minDuration, long maxDuration)
+		{
 			var filters = new List<IPodcastFilter>(8);
 
 			if (removeDuplicateTitles)
 				filters.Add(new PodcastDuplicateEntriesFilter());
 
+			//TODO: Change filters in a way that makes the extra type unnecessary.
 			if (titleMustContain != null)
-				filters.Add(PodcastTitleFilter.WithContainsFilter<PodcastTitleFilter>(titleMustContain));
+				filters.Add(PodcastStringPropertyFilter.WithContainsFilter<PodcastTitleFilter>(titleMustContain));
 
 			if (titleMustNotContain != null)
-				filters.Add(PodcastTitleFilter.WithDoesNotContainFilter<PodcastTitleFilter>(titleMustNotContain));
+				filters.Add(PodcastStringPropertyFilter.WithDoesNotContainFilter<PodcastTitleFilter>(titleMustNotContain));
 
 			if (minDuration != long.MinValue || maxDuration != long.MaxValue)
 				filters.Add(PodcastDurationFilter.WithMinMaxDurationFilter(minDuration, maxDuration));
@@ -72,12 +88,34 @@ namespace Podfilter.Controllers
             if (fromEpoch != long.MinValue || toEpoch != long.MaxValue)
                 filters.Add(PodcastPublicationDateFilter.WithEarlierAndLaterFilter(fromEpoch, toEpoch));
 
-			return null;
+			return new PodcastFilterCollection(filters);
 		}
 
-        private async Task<XDocument> GetPodcastFromUrl(string url)
+		private async Task<XDocument> GetPodcastFromUrl(string url)
+		{
+			var content = await GetStringFromUrl(url);
+			var document = ReadStringAsXDocument(content);
+			return document;
+		}
+
+        private async Task<string> GetStringFromUrl(string url)
         {
-            return null;
+	        var httpProvider = new HttpContentProvider<string>();
+	        var result = await httpProvider.LoadStringFromUrl(url, new StringContentDeserializer());
+
+	        result.ResponseMessage.EnsureSuccessStatusCode();
+
+	        return result.Content;
         }
+
+		private XDocument ReadStringAsXDocument(string content)
+		{
+			return XDocument.Parse(content);
+		}
+
+		protected override ActionResult MakeResult(object obj)
+		{
+			
+		}
 	}
 }
