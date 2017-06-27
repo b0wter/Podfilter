@@ -1,3 +1,4 @@
+using System;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using Podfilter.Helpers;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Net.Http.Headers;
 using Podfilter.Models.PodcastFilters;
 
@@ -62,7 +64,7 @@ namespace Podfilter.Controllers
 			var filteredPodcast = filters.FilterPodcast(podcast);
 			var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
 
-			var mediaType = MediaTypeHeaderValue.Parse("application/json");
+			var mediaType = MediaTypeHeaderValue.Parse("application/xml");
 			var content = Content(serializedFilteredPodcast, mediaType);
 
 			return content;
@@ -115,7 +117,8 @@ namespace Podfilter.Controllers
 
 		protected override ActionResult MakeResult(object obj)
 		{
-			
+			//TODO: replace this with something nice
+			throw new NotImplementedException();
 		}
 	}
 }
