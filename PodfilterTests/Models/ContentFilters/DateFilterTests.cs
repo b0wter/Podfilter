@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Podfilter.Models;
-using Xunit;
 using Podfilter.Models.ContentFilter;
+using Xunit;
 
-namespace PodfilterTests.Models
+namespace PodfilterTests.Models.ContentFilters
 {
     public class DateFilterTests
     {

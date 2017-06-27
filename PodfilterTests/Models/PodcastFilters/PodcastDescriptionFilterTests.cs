@@ -1,10 +1,10 @@
 ﻿using Podfilter.Models.ContentFilter;
-using Podfilter.Models.PodcastFilters.PodcastFilters;
 using PodfilterTests.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Podfilter.Models.PodcastFilters;
 using Xunit;
 
 namespace PodfilterTests.Models.PodcastFilters
@@ -13,8 +13,9 @@ namespace PodfilterTests.Models.PodcastFilters
     {
         [Theory]
         [InlineData(StringFilter.StringFilterMethod.Contains, 1)]
-        [InlineData(StringFilter.StringFilterMethod.Matches, 0)]
         [InlineData(StringFilter.StringFilterMethod.DoesNotContain, 10)]
+        [InlineData(StringFilter.StringFilterMethod.Matches, 0)]
+        [InlineData(StringFilter.StringFilterMethod.DoesNotMatch, 11)]
         public void PodcastDescriptionFilter_TestWithDifferentMethods_ReturnsFiltered(StringFilter.StringFilterMethod method, int expectedHits)
         {
             var filter = new PodcastDescriptionFilter

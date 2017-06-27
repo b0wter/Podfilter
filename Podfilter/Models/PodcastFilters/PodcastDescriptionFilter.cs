@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Podfilter.Models.PodcastFilters.PodcastFilters
+﻿namespace Podfilter.Models.PodcastFilters
 {
     public class PodcastDescriptionFilter : PodcastStringPropertyFilter
     {

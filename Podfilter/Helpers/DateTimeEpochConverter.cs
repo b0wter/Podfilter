@@ -8,12 +8,12 @@ namespace Podfilter.Helpers
 		
 		public static DateTime EpochToDateTime(long epoch)
 		{
-    		return refDate.AddSeconds(epoch);
+    		return refDate.AddMilliseconds(epoch);
 		}
 
 		public static long DateTimeToEpoch(DateTime date)
 		{
-			return (long)(date.ToUniversalTime() - refDate).TotalSeconds;
+			return (long)(date.ToUniversalTime() - refDate).TotalMilliseconds;
 		}
 	}
 }
