@@ -1,12 +1,11 @@
-﻿using Podfilter.Models;
-using PodfilterTests.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Podfilter.Models.PodcastFilters;
+using PodfilterTests.Data;
 using Xunit;
 
-namespace PodfilterTests.Models
+namespace PodfilterTests.Models.PodcastFilters
 {
     public class PodcastDuplicateEntriesFilterTests
     {

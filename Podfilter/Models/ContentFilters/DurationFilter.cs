@@ -1,15 +1,24 @@
+using Podfilter.Models.ContentaFilter;
 using System;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.ContentFilter
 {
     public class DurationFilter : BaseFilter<DurationFilter.DurationFilterMethods, TimeSpan>
     {
-        public DurationFilter() : base()
+        public DurationFilter() 
+            : base()
         {
             //
         }
 
-        public DurationFilter(DurationFilterMethods method, TimeSpan argument) : base(method, argument)
+        public DurationFilter(DurationFilterMethods method, TimeSpan argument) 
+            : base(method, argument)
+        {
+            //
+        }
+
+        public DurationFilter(DurationFilterMethods method, long argumentInSeconds) 
+            : base(method,TimeSpan.FromSeconds(argumentInSeconds))
         {
             //
         }

@@ -2,10 +2,11 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Podfilter.Models.ContentFilter;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.ContentaFilter
 {
-    public abstract class BaseFilter<T, U> : IFilter
+    public abstract class BaseFilter<T, U> : IContentFilter
     {
         //TODO: Test if restoring an instance from the entity framework actually calls the properties (and thus sets MethodSet/ArgumentSet).
         
