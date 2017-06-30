@@ -14,10 +14,10 @@ namespace Podfilter.Models.PodcastFilters
     /// Filters podcasts by using <see cref="IContentFilter"/>s and XPaths. Non-generic base class for easiert storage in a list.
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
-    {
-        public abstract string XPath { get; }
-
+    {       
         private XmlNamespaceManager _namespaceManager;
+        
+        public abstract string XPath { get; }
 
         public XPathPodcastFilter()
         {
