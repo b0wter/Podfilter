@@ -5,20 +5,24 @@ using System.Xml.XPath;
 
 namespace Podfilter.Models
 {
-    public class XpathPodcastStringValueProvider
+    /// <summary>
+    /// Uses xpath expressions to filter elements from <see cref="XDocument"/>s.
+    /// </summary>
+    public class XpathPodcastElementProvider
     {
+        // Default namespaces for podcasts.
         protected static string ItunesNamespace = "http://www.itunes.com/dtds/podcast-1.0.dtd";
         protected static string AtomNamespace = "http://www.w3.org/2005/Atom";
         
         private XmlNamespaceManager _namespaceManager;
         
-        public XpathPodcastStringValueProvider()
+        public XpathPodcastElementProvider()
             : this(null)
         {
             //
         }
 
-        public XpathPodcastStringValueProvider(Dictionary<string, string> namespaces)
+        public XpathPodcastElementProvider(Dictionary<string, string> namespaces)
         {
             CreateNamespaceManager(namespaces);    
         }
@@ -34,7 +38,7 @@ namespace Podfilter.Models
                     _namespaceManager.AddNamespace(pair.Key, pair.Value);
         }
         
-        public IEnumerable<XElement> GetElement(XDocument podcast, string selector)
+        public IEnumerable<XElement> GetElements(XDocument podcast, string selector)
         {
             var matchingElements = podcast.XPathSelectElements(selector, _namespaceManager);
             return matchingElements;

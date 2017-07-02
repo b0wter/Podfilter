@@ -15,14 +15,9 @@ namespace Podfilter.Models.PodcastFilters
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
     {       
-        private XmlNamespaceManager _namespaceManager;
+        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider();
         
         public abstract string XPath { get; }
-
-        public XPathPodcastFilter()
-        {
-            CreateNamespaceManager(null);
-        }
 
         protected static XPathPodcastFilter WithFilters<T>(IEnumerable<IContentFilter> filters) where T : XPathPodcastFilter, new()
         {
@@ -38,17 +33,6 @@ namespace Podfilter.Models.PodcastFilters
             return WithFilters<T>(new IContentFilter[] {filter});
         }
         
-        private void CreateNamespaceManager(Dictionary<string, string> namespaces)
-        {
-            _namespaceManager = new XmlNamespaceManager(new NameTable());
-            _namespaceManager.AddNamespace("itunes", ItunesNamespace);
-            _namespaceManager.AddNamespace("atom", AtomNamespace);
-            
-            if(namespaces != null)
-                foreach (var pair in namespaces)
-                    _namespaceManager.AddNamespace(pair.Key, pair.Value);
-        }
-
         public override XDocument Filter(XDocument podcast)
         {
             return FilterWithCustomFilters(podcast, Filters);
@@ -70,7 +54,7 @@ namespace Podfilter.Models.PodcastFilters
        
         private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IContentFilter> filters)
         {
-            var matchingElements = podcast.XPathSelectElements(XPath, _namespaceManager);
+            var matchingElements = _xpathPodcastElementProvider.GetElements(podcast, XPath);
             var itemsToRemove = new List<XElement>();
 
             foreach(var element in matchingElements)
