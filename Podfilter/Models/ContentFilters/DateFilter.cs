@@ -1,16 +1,26 @@
 using System;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Podfilter.Helpers;
+using Podfilter.Models.ContentaFilter;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.ContentFilter
 {
     public class DateFilter : BaseFilter<DateFilter.DateFilterMethods, DateTime>
     {
-        public DateFilter() : base()
+        public DateFilter() 
+            : base()
         {
             //
         }
 
-        public DateFilter(DateFilterMethods method, DateTime argument) : base(method, argument)
+        public DateFilter(DateFilterMethods method, DateTime argument) 
+            : base(method, argument)
+        {
+            //
+        }
+
+        public DateFilter(DateFilterMethods method, long argumentInSeconds)
+            : base(method, DateTimeEpochConverter.EpochToDateTime(argumentInSeconds))
         {
             //
         }

@@ -1,10 +1,9 @@
-﻿using Podfilter.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Podfilter.Models.ContentFilter;
 using Xunit;
 
-namespace PodfilterTests.Models
+namespace PodfilterTests.Models.ContentFilters
 {
     public class DurationFilterTests
     {

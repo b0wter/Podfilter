@@ -6,41 +6,39 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Podfilter.Helpers;
+using Podfilter.Models.ContentFilter;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastFilters
 {
     /// <summary>
-    /// Filters podcasts by using <see cref="IFilter"/>s and XPaths. Non-generic base class for easiert storage in a list.
+    /// Filters podcasts by using <see cref="IContentFilter"/>s and XPaths. Non-generic base class for easiert storage in a list.
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
-    {
-        //public string XPath { get; set; }
+    {       
+        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider();
+        
         public abstract string XPath { get; }
 
-        private XmlNamespaceManager _namespaceManager;
-
-        public XPathPodcastFilter()
+        protected static XPathPodcastFilter WithFilters<T>(IEnumerable<IContentFilter> filters) where T : XPathPodcastFilter, new()
         {
-            CreateNamespaceManager(null);
+            var filter = new T
+            {
+                Filters = filters.ToList()
+            };
+            return filter;
         }
 
-        private void CreateNamespaceManager(Dictionary<string, string> namespaces)
+        protected static XPathPodcastFilter WithFilter<T>(IContentFilter filter) where T : XPathPodcastFilter, new()
         {
-            _namespaceManager = new XmlNamespaceManager(new NameTable());
-            _namespaceManager.AddNamespace("itunes", ItunesNamespace);
-            _namespaceManager.AddNamespace("atom", AtomNamespace);
-            
-            if(namespaces != null)
-                foreach (var pair in namespaces)
-                    _namespaceManager.AddNamespace(pair.Key, pair.Value);
+            return WithFilters<T>(new IContentFilter[] {filter});
         }
-
+        
         public override XDocument Filter(XDocument podcast)
         {
             return FilterWithCustomFilters(podcast, Filters);
         }
 
-        public override XDocument FilterWithCustomFilters(XDocument podcast, IEnumerable<IFilter> filters)
+        public override XDocument FilterWithCustomFilters(XDocument podcast, IEnumerable<IContentFilter> filters)
         {
             ValidateIFilterTypeMatchesContent(filters);
             var itemsToRemove = GetItemsToRemove(podcast, filters);
@@ -49,15 +47,14 @@ namespace Podfilter.Models
             return podcast;
         }
 
-        public XDocument FilterWithCustomFilter(XDocument podcast, IFilter filter)
+        public XDocument FilterWithCustomFilter(XDocument podcast, IContentFilter filter)
         {
-            return FilterWithCustomFilters(podcast, new List<IFilter>() {filter});
+            return FilterWithCustomFilters(podcast, new List<IContentFilter>() {filter});
         }
        
-        private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IFilter> filters)
+        private IEnumerable<XElement> GetItemsToRemove(XDocument podcast, IEnumerable<IContentFilter> filters)
         {
-            var match = podcast.XPathEvaluate("//item/title");
-            var matchingElements = podcast.XPathSelectElements("//item/title", _namespaceManager);
+            var matchingElements = _xpathPodcastElementProvider.GetElements(podcast, XPath);
             var itemsToRemove = new List<XElement>();
 
             foreach(var element in matchingElements)
@@ -69,7 +66,7 @@ namespace Podfilter.Models
             return itemsToRemove;
         }
 
-        private bool ElementPassesFilters(string element, IEnumerable<IFilter> filters)
+        private bool ElementPassesFilters(string element, IEnumerable<IContentFilter> filters)
         {
             foreach (var filter in filters)
                 if (filter.PassesFilter(element) == false)

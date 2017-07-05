@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.ContentFilter
 {
-    public interface IFilter
+    public interface IContentFilter
     {
         // IFilter is a non-generic interface because instances with different types need to be stored in a single List<IFilter>.
         

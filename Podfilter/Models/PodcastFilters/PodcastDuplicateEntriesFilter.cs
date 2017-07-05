@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Podfilter.Helpers;
+using Podfilter.Models.ContentFilter;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastFilters
 {
     /// <summary>
     /// Filter that removes duplicate entries from a podcast feed. Duplicates are entries that share the same
@@ -46,12 +47,12 @@ namespace Podfilter.Models
             return podcast;
         }
 
-        public override XDocument FilterWithCustomFilters(XDocument podcast, IEnumerable<IFilter> filters)
+        public override XDocument FilterWithCustomFilters(XDocument podcast, IEnumerable<IContentFilter> filters)
         {
             return Filter(podcast);
         }
 
-        public override void ValidateIFilterTypeMatchesContent(IEnumerable<IFilter> filters)
+        public override void ValidateIFilterTypeMatchesContent(IEnumerable<IContentFilter> filters)
         {
             // no logic required for this filter
         }

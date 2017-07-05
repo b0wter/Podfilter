@@ -1,10 +1,10 @@
-using System.Xml.Linq;
-using Podfilter.Models;
-using Xunit;
 using System.Linq;
+using Podfilter.Models.ContentFilter;
+using Podfilter.Models.PodcastFilters;
 using PodfilterTests.Data;
+using Xunit;
 
-namespace PodfilterTests.Models
+namespace PodfilterTests.Models.PodcastFilters
 {
     public class PodcastTitleFilterTests
     {
