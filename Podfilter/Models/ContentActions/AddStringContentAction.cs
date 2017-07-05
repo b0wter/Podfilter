@@ -13,7 +13,10 @@
         
         public string ModifyContent(string content)
         {
-            return $"{Prefix}{content}{Suffix}";
+            if (content == null)
+                return null;
+            else
+                return $"{Prefix}{content}{Suffix}";
         }
     }
 }

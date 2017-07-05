@@ -10,9 +10,6 @@ namespace Podfilter.Models.PodcastFilters
     /// </summary>
     public abstract class PodcastFilter : IPodcastFilter
     {
-        protected static string ItunesNamespace = "http://www.itunes.com/dtds/podcast-1.0.dtd";
-        protected static string AtomNamespace = "http://www.w3.org/2005/Atom";
-
         /// <summary>
         /// Filters that are used with the <see cref="Filter(XDocument)"/> method.
         /// </summary>
