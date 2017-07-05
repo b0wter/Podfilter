@@ -23,5 +23,16 @@ namespace PodfilterTests.Models.ContentActions
 
             Assert.Throws<ArgumentException>(() => action.ModifyContent("[Example String]"));
         }
+
+        [Theory]
+        [InlineData("Example", "[Example String]", "[ String]")]
+        [InlineData("NotIncludedInModify", "[Example String]", "[Example String]")]
+        public void ModifyContent_WithValid_ReturnsString(string toRemove, string toModify, string expected)
+        {
+            var action = new RemoveStringContentAction(toRemove);
+            var result = action.ModifyContent(toModify);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
