@@ -16,8 +16,8 @@ namespace Podfilter.Models.PodcastActions
         {
             var matchingItems =_xpathPodcastElementProvider.GetElements(podcast, XPath);
 
-            foreach(var item in matchingItems)
-                item.Value
+            //foreach(var item in matchingItems)
+            //    item.Value
 
             return podcast;
         }
