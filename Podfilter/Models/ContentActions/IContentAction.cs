@@ -10,6 +10,13 @@ namespace Podfilter.Models.ContentActions
         /// <param name="t"></param>
         /// <returns></returns>
         bool CanParse(Type t);
+        
+        /// <summary>
+        /// Parses <paramref name="content"/> as typeof T and calls ModifyContent of the derived interface.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        string ParseAndModifyContent(string content);
     }
 
     public interface IContentAction<T> : IContentAction
@@ -20,12 +27,5 @@ namespace Podfilter.Models.ContentActions
         /// <param name="content"></param>
         /// <returns></returns>
         T ModifyContent(T content);
-
-        /// <summary>
-        /// Parses <paramref name="content"/> as typeof T and calls <see cref="ModifyContent(T)"/>.
-        /// </summary>
-        /// <param name="content"></param>
-        /// <returns></returns>
-        T ParseAndModifyContent(string content);
     }
 }

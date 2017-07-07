@@ -8,5 +8,7 @@ namespace Podfilter.Models.PodcastActions
     public class PodcastTitleAction : XPathPodcastAction
     {
         public override string XPath => "//item/title";
+
+        protected override Type TargetElementType => typeof(string);
     }
 }

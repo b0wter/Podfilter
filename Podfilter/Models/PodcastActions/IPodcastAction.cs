@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace Podfilter.Models.PodcastActions
 {
-    interface IPodcastAction
+    public interface IPodcastAction
     {
         XDocument PerformAction(XDocument podcast);
     }

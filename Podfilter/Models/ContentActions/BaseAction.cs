@@ -26,11 +26,12 @@ namespace Podfilter.Models.ContentActions
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public T ParseAndModifyContent(string content)
+        public string ParseAndModifyContent(string content)
         {
             var parsedContent = ParseContent(content);
             var modifiedContent = ModifyContent(parsedContent);
-            return modifiedContent;
+            var modifiedAsString = SerializeContent(modifiedContent);
+            return modifiedAsString;
         }
 
         /// <summary>
@@ -39,5 +40,12 @@ namespace Podfilter.Models.ContentActions
         /// <param name="content"></param>
         /// <returns></returns>
         protected abstract T ParseContent(string content);
+
+        /// <summary>
+        /// Serializes the modified content as a string.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        protected abstract string SerializeContent(T content);
     }
 }

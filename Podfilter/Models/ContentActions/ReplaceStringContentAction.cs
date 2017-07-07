@@ -36,5 +36,10 @@ namespace Podfilter.Models.ContentActions
         {
             return content;
         }
+
+        protected override string SerializeContent(string content)
+        {
+            return content;
+        }
     }
 }
