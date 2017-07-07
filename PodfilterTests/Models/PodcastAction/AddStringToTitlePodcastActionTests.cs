@@ -13,7 +13,6 @@ namespace PodfilterTests.Models.PodcastAction
         [InlineData("[Prefix]", "[Suffix]", "[Prefix]Presseschau - Deutschlandfunk[Suffix]")]
         public void PerformAction_WithValidParameters_ReturnsExpected(string prefix, string suffix, string expected)
         {
-            const string originalPodcastTitle = "Presseschau - Deutschlandfunk";
             var action = AddStringToTitlePodcastAction.WithPrefixAndSuffix(prefix, suffix);
             var podcast = Data.SamplePodcasts.CreateGenericSampleNewsPodcast();
 

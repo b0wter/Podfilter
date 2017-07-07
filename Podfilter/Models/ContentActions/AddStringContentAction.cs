@@ -23,7 +23,8 @@ namespace Podfilter.Models.ContentActions
 
         public override bool CanParse(Type t)
         {
-            return typeof(string) == t.GetType();
+            var isMatch = t == typeof(string);
+            return isMatch;
         }
 
         protected override string ParseContent(string content)
