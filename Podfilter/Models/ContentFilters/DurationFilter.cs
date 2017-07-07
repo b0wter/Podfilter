@@ -1,5 +1,6 @@
 using Podfilter.Models.ContentaFilter;
 using System;
+using System.Linq;
 
 namespace Podfilter.Models.ContentFilter
 {
@@ -44,6 +45,10 @@ namespace Podfilter.Models.ContentFilter
 
         protected override TimeSpan ParseString(string stringifiedObject)
         {
+            // to use the regular parse method of the TimeSpan class we 
+            // need to make sure it's of the format: hh:mm:ss
+            if (stringifiedObject.Count(c => c == ':') < 2)
+                stringifiedObject = $"00:{stringifiedObject}";
             return TimeSpan.Parse(stringifiedObject);
         }
 
