@@ -11,7 +11,7 @@ namespace Podfilter.Models.PodcastActions
         /// <summary>
         /// Reads <see cref="XElement"/>s from <see cref="XDocument"/>s using an XPath expression.
         /// </summary>
-        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider();
+        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider(string.Empty);
 
         /// <summary>
         /// XPath selector for the elements.

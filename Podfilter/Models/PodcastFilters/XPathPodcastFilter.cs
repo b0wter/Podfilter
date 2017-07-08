@@ -15,7 +15,7 @@ namespace Podfilter.Models.PodcastFilters
     /// </summary>
     public abstract class XPathPodcastFilter : PodcastFilter
     {       
-        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider();
+        private readonly XpathPodcastElementProvider _xpathPodcastElementProvider = new XpathPodcastElementProvider(string.Empty);
         
         public abstract string XPath { get; }
 

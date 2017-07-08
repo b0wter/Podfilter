@@ -8,18 +8,19 @@ namespace Podfilter.Models
     /// <summary>
     /// Uses xpath expressions to filter elements from <see cref="XDocument"/>s.
     /// </summary>
-    public class XpathPodcastElementProvider
+    public class XpathPodcastElementProvider : IPodcastElementProvider
     {
         // Default namespaces for podcasts.
         protected static string ItunesNamespace = "http://www.itunes.com/dtds/podcast-1.0.dtd";
         protected static string AtomNamespace = "http://www.w3.org/2005/Atom";
         
-        private XmlNamespaceManager _namespaceManager;
+        public string XPath { get; set; }
         
-        public XpathPodcastElementProvider()
-            : this(null)
+        private XmlNamespaceManager _namespaceManager;
+         
+        public XpathPodcastElementProvider(string xpath)
         {
-            //
+            this.XPath = xpath;
         }
 
         public XpathPodcastElementProvider(Dictionary<string, string> namespaces)
@@ -42,6 +43,11 @@ namespace Podfilter.Models
         {
             var matchingElements = podcast.XPathSelectElements(selector, _namespaceManager);
             return matchingElements;
+        }
+
+        public IEnumerable<XElement> GetElements(XDocument podcast)
+        {
+            return GetElements(podcast, XPath);
         }
     }
 }
