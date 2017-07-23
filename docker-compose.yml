@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  podfilter:
+    image: podfilter
+    build:
+      context: ./Podfilter
+      dockerfile: Dockerfile
