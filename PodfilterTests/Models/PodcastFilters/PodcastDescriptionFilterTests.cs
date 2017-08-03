@@ -1,9 +1,9 @@
-﻿using Podfilter.Models.ContentFilter;
-using PodfilterTests.Data;
+﻿using PodfilterTests.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Podfilter.Models.ContentFilters;
 using Podfilter.Models.PodcastFilters;
 using Xunit;
 

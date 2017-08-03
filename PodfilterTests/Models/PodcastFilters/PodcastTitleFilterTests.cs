@@ -1,5 +1,5 @@
 using System.Linq;
-using Podfilter.Models.ContentFilter;
+using Podfilter.Models.ContentFilters;
 using Podfilter.Models.PodcastFilters;
 using PodfilterTests.Data;
 using Xunit;

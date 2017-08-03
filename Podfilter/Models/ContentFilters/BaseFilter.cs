@@ -2,9 +2,8 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Podfilter.Models.ContentFilter;
 
-namespace Podfilter.Models.ContentaFilter
+namespace Podfilter.Models.ContentFilters
 {
     public abstract class BaseFilter<T, U> : IContentFilter
     {

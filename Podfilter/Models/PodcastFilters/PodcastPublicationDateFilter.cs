@@ -1,7 +1,7 @@
-using Podfilter.Models.ContentFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Podfilter.Models.ContentFilters;
 
 namespace Podfilter.Models.PodcastFilters
 {

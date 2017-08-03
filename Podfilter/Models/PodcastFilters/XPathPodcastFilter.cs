@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Podfilter.Helpers;
-using Podfilter.Models.ContentFilter;
+using Podfilter.Models.ContentFilters;
 
 namespace Podfilter.Models.PodcastFilters
 {

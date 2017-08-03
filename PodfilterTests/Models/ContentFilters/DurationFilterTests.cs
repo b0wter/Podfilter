@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Podfilter.Models.ContentFilter;
+using Podfilter.Models.ContentFilters;
 using Xunit;
 
 namespace PodfilterTests.Models.ContentFilters

@@ -1,7 +1,6 @@
-using Podfilter.Models.ContentaFilter;
 using System;
 
-namespace Podfilter.Models.ContentFilter
+namespace Podfilter.Models.ContentFilters
 {
     public class IntFilter : BaseFilter<IntFilter.IntFilterMethods, int>
     {

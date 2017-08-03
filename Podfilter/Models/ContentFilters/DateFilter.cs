@@ -1,9 +1,7 @@
 using System;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Podfilter.Helpers;
-using Podfilter.Models.ContentaFilter;
 
-namespace Podfilter.Models.ContentFilter
+namespace Podfilter.Models.ContentFilters
 {
     public class DateFilter : BaseFilter<DateFilter.DateFilterMethods, DateTime>
     {
