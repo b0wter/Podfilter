@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace Podfilter.Models
+namespace Podfilter.Models.PodcastModification
 {
     /// <summary>
     /// Uses xpath expressions to filter elements from <see cref="XDocument"/>s.

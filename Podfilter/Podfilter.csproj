@@ -24,4 +24,22 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\PodcastActions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Models\PodcastActions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\PodcastActions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\PodcastFilters\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Models\PodcastFilters\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\PodcastFilters\**" />
+  </ItemGroup>
 </Project>

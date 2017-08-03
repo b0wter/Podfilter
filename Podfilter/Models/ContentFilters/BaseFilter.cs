@@ -5,40 +5,52 @@ using Newtonsoft.Json;
 
 namespace Podfilter.Models.ContentFilters
 {
-    public abstract class BaseFilter<T, U> : IContentFilter
+    public abstract class BaseFilter<TMethod, TArgument> : IContentFilter
     {
         //TODO: Test if restoring an instance from the entity framework actually calls the properties (and thus sets MethodSet/ArgumentSet).
         
+        /// <summary>
+        /// Returns wether a method of operation was set for this filter.
+        /// </summary>
         [JsonIgnore]
         [NotMapped]
         [IgnoreDataMember]
-        public bool MethodSet { get; set; } = false;
-        private T _method;
-        public T Method
+        private bool IsMethodSet { get; set; } = false;
+        private TMethod _method;
+        /// <summary>
+        /// Method of operation set for this filter.
+        /// </summary>
+        public TMethod Method
         {
             get => _method;
-            set { _method = value; MethodSet = true; }
+            set { _method = value; IsMethodSet = true; }
         }
         
+        /// <summary>
+        /// Returns wether an argument has been set for this filter.
+        /// </summary>
         [JsonIgnore]
         [NotMapped]
         [IgnoreDataMember]
-        public bool ArgumentSet { get; set; } = false;
-        private U _argument;
-        public U Argument
+        private bool ArgumentSet { get; set; } = false;
+        private TArgument _argument;
+        public TArgument Argument
         {
             get => _argument;
             set { _argument = value; ArgumentSet = true; }
         }
 
-        public Type TargetType => typeof(U);
+        /// <summary>
+        /// Type of content the filter is meant for.
+        /// </summary>
+        public Type TargetType => typeof(TArgument);
         
-        public BaseFilter()
+        protected BaseFilter()
         {
             //
         }
 
-        public BaseFilter(T method, U argument)
+        protected BaseFilter(TMethod method, TArgument argument)
         {
             this.Method = method;
             this.Argument = argument;
@@ -57,7 +69,7 @@ namespace Podfilter.Models.ContentFilters
         }
 
         /// <summary>
-        /// Tries to parse the content of <paramref name="objectAsString"/> as <see cref="U"/> and determines if it satisfies this filter.
+        /// Tries to parse the content of <paramref name="objectAsString"/> as <see cref="TArgument"/> and determines if it satisfies this filter.
         /// </summary>
         /// <param name="objectAsString"></param>
         /// <returns></returns>
@@ -72,32 +84,32 @@ namespace Podfilter.Models.ContentFilters
         /// </summary>
         /// <param name="toTest"></param>
         /// <returns></returns>
-        protected abstract bool PassesFilter(U toTest);
+        protected abstract bool PassesFilter(TArgument toTest);
 
         /// <summary>
-        /// Parses a string to make an instance of <see cref="U"/>.
+        /// Parses a string to make an instance of <see cref="TArgument"/>.
         /// </summary>
         /// <param name="stringifiedObject"></param>
         /// <returns></returns>
-        protected abstract U ParseString(string stringifiedObject);
+        protected abstract TArgument ParseString(string stringifiedObject);
 
         /// <summary>
-        /// Checks if the type of <paramref name="obj"/> is the same as <see cref="U"/> and casts <paramref name="obj"/>.
+        /// Checks if the type of <paramref name="obj"/> is the same as <see cref="TArgument"/> and casts <paramref name="obj"/>.
         /// Can be overriden by implementing classes to allow a more complex casting.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">If the types dont match.</exception>
-        protected virtual U ConvertToTDefault(object obj)
+        protected virtual TArgument ConvertToTDefault(object obj)
         {
-            if (typeof(U) == obj.GetType())
-                return (U)obj;
+            if (typeof(TArgument) == obj.GetType())
+                return (TArgument)obj;
             else if (obj.GetType() == typeof(string))
                 return ParseString(obj.ToString());
-            if (typeof(U) != obj.GetType())
-                throw new ArgumentException($"Parameter is of type {obj.GetType().Name}, {typeof(U)} expected.");
+            if (typeof(TArgument) != obj.GetType())
+                throw new ArgumentException($"Parameter is of type {obj.GetType().Name}, {typeof(TArgument)} expected.");
             else
-                return (U) obj;
+                return (TArgument) obj;
         }
 
         /// <summary>
@@ -106,7 +118,7 @@ namespace Podfilter.Models.ContentFilters
         /// <exception cref="InvalidOperationException">If either <see cref="Method"/> or <see cref="Argument"/> are not set.</exception>
         protected void ValidateMethodAndArgumentSet()
         {
-            if(MethodSet == false || Method == null)
+            if(IsMethodSet == false || Method == null)
                 throw new InvalidOperationException("Method has not been set!");
             
             if(ArgumentSet == false || Argument == null)

@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Net.Http.Headers;
-using Podfilter.Models.PodcastFilters;
-using Podfilter.Models.PodcastActions;
 
 namespace Podfilter.Controllers
 {
@@ -60,6 +58,7 @@ namespace Podfilter.Controllers
 			[FromQuery] int minDuration = int.MinValue,
 			[FromQuery] int maxDuration = int.MaxValue)
 		{
+			/*
 			var filters = CreateFiltersFromArguments(fromEpoch, toEpoch, removeDuplicateTitles, titleMustNotContain, titleMustContain, minDuration, maxDuration);
 			var podcast = await GetPodcastFromUrl(url);
 			var filteredPodcast = filters.FilterPodcast(podcast);
@@ -70,8 +69,10 @@ namespace Podfilter.Controllers
 			var content = Content(serializedFilteredPodcast, mediaType);
 
 			return content;
+			*/
+			throw new NotImplementedException();
 		}
-
+/*
 		private PodcastFilterCollection CreateFiltersFromArguments(long fromEpoch, long toEpoch, bool removeDuplicateTitles, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
 		{
 			var filters = new List<IPodcastFilter>(8);
@@ -101,6 +102,7 @@ namespace Podfilter.Controllers
             podcast = action.PerformAction(podcast);
             return podcast;
         }
+        */
 
 		private async Task<XDocument> GetPodcastFromUrl(string url)
 		{

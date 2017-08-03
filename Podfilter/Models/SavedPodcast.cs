@@ -1,7 +1,7 @@
-using Podfilter.Models.PodcastFilters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Podfilter.Models.PodcastModification;
 
 namespace Podfilter.Models
 {
@@ -13,11 +13,11 @@ namespace Podfilter.Models
         /// <summary>
         /// Default time a podcast is considered to be current (in seconds).
         /// </summary>
-        public const int DEFAULT_CACHE_LIFETIME = 60 * 60 * 4;
+        public const int DefaultCacheLifetime = 60 * 60 * 4;
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public List<IPodcastFilter> Filters { get; } = new List<IPodcastFilter>();
+        public List<BaseModification> Filters { get; } = new List<BaseModification>();
         /// <summary>
         /// Url of the original podcast.
         /// </summary>
@@ -34,7 +34,7 @@ namespace Podfilter.Models
         /// Time a podcast is considered to be current. If <see cref="LastUpdated"/> + <see cref="CacheLifeTime"/>
         /// is greater than <see cref="DateTime.Now"/> a new feed will be downloaded and parsed on the next request.
         /// </summary>
-        public int CacheLifeTime { get; set; } = DEFAULT_CACHE_LIFETIME;
+        public int CacheLifeTime { get; set; } = DefaultCacheLifetime;
         
         public SavedPodcast(string url)
         {
