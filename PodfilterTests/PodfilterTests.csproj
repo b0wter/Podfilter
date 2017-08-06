@@ -3,10 +3,8 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="4.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="NSubstitute">
-      <Version>2.0.3</Version>
-    </PackageReference>
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
@@ -41,5 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\PodcastAction\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\PodcastModifications\_README.md" />
   </ItemGroup>
 </Project>

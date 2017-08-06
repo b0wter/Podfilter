@@ -9,6 +9,7 @@ namespace Podfilter.Models.PodcastModification
         /// Selects matching elements from an <see cref="XDocument"/>.
         /// </summary>
         private readonly IPodcastElementProvider _elementProvider;
+        
         /// <summary>
         /// Modifies an <see cref="XElement"/> (may also be deleted).
         /// </summary>
@@ -35,8 +36,10 @@ namespace Podfilter.Models.PodcastModification
             // since all the modification of the XElements und XDocuments are performed in place
             // a return value is actually not needed
             var elements = _elementProvider.GetElements(podcast);
-            foreach(var element in elements)
+            foreach (var element in elements)
+            {
                 _contentModification.Modify(element);
+            }    
         }
     }
 }

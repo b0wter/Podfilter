@@ -49,7 +49,7 @@ namespace Podfilter.Models.PodcastModification
                 return element;
             else
             {
-                element.Remove();
+                element.Parent?.Remove();
                 return null;
             }
         }
