@@ -8,6 +8,11 @@ namespace Podfilter.Models.ContentActions
     public abstract class BaseAction<T> : IContentAction<T>
     {
         /// <summary>
+        /// Returns the type that this action is suitable for (e.g. string, DateTime,...).
+        /// </summary>
+        public abstract Type TargetType { get; }
+        
+        /// <summary>
         /// Returns wether content of the given type can be used with this action.
         /// </summary>
         /// <param name="t"></param>

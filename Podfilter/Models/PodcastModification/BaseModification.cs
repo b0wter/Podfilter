@@ -33,6 +33,7 @@ namespace Podfilter.Models.PodcastModification
         /// <param name="podcast"></param>
         public void Modify(XDocument podcast)
         {
+            //TODO: Test compatibility of selector and modification (data type).
             // since all the modification of the XElements und XDocuments are performed in place
             // a return value is actually not needed
             var elements = _elementProvider.GetElements(podcast);

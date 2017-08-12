@@ -6,7 +6,8 @@ namespace Podfilter.Models.ContentActions
     {
         public string Prefix { get; protected set; }
         public string Suffix { get; protected set; }
-
+        public override Type TargetType => typeof(string);
+        
         public AddStringContentAction(string prefix = null, string suffix = null)
         {
             this.Prefix = prefix;

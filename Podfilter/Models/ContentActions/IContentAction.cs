@@ -17,6 +17,11 @@ namespace Podfilter.Models.ContentActions
         /// <param name="content"></param>
         /// <returns></returns>
         string ParseAndModifyContent(string content);
+        
+        /// <summary>
+        /// Type of content that this IContentAction is suitable for (e.g. string, DateTime,...).
+        /// </summary>
+        Type TargetType { get; }
     }
 
     public interface IContentAction<T> : IContentAction

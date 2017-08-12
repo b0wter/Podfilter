@@ -9,6 +9,7 @@ namespace Podfilter.Models.ContentActions
     {
         public string ToReplace { get; protected set; }
         public string ReplaceWith { get; protected set; }
+        public override Type TargetType => typeof(string);
 
         public ReplaceStringContentAction(string toReplace,  string replaceWith)
         {
