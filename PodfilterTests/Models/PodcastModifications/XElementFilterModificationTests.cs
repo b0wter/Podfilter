@@ -24,7 +24,7 @@ namespace PodfilterTests.Models.PodcastModifications
         {
             var fakeElement = A.Fake<XElement>();
             var fakeFilter = A.Fake<IContentFilter>();
-            A.CallTo(() => fakeFilter.PassesFilter(A<XElement>.Ignored)).Returns(true);
+            A.CallTo(() => fakeFilter.PassesFilter(A<string>.Ignored)).Returns(true);
 
 
             var test = fakeFilter.PassesFilter(fakeElement);
@@ -41,9 +41,11 @@ namespace PodfilterTests.Models.PodcastModifications
         {
             var fakeDocument = new XDocument();
             var fakeElement = new XElement("test");
-            fakeDocument.Add(fakeElement);
+            var rootElement = new XElement("root");
+            rootElement.Add(fakeElement);
+            fakeDocument.Add(rootElement);
             var fakeFilter = A.Fake<IContentFilter>();
-            A.CallTo(() => fakeFilter.PassesFilter(fakeElement)).Returns(false);
+            A.CallTo(() => fakeFilter.PassesFilter(fakeElement.Value)).Returns(false);
             
             var modification = new XElementFilterModification(fakeFilter);
             var result = modification.Modify(fakeElement);

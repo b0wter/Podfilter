@@ -49,7 +49,11 @@ namespace Podfilter.Models.PodcastModification
         
         public override XElement Modify(XElement element)
         {
-            if (_filter.PassesFilter(element.Value))
+            if (element == null)
+                throw new ArgumentNullException();
+
+            bool passesFilter = _filter.PassesFilter(element.Value);
+            if (passesFilter)
                 return element;
             else
             {
