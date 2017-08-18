@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Net.Http.Headers;
+using Podfilter.Models.PodcastModification;
+using Podfilter.Models.PodcastModification.Filters;
+using Podfilter.Models.PodcastModification.Actions;
 
 namespace Podfilter.Controllers
 {
@@ -58,59 +61,85 @@ namespace Podfilter.Controllers
 			[FromQuery] int minDuration = int.MinValue,
 			[FromQuery] int maxDuration = int.MaxValue)
 		{
-			/*
-			var filters = CreateFiltersFromArguments(fromEpoch, toEpoch, removeDuplicateTitles, titleMustNotContain, titleMustContain, minDuration, maxDuration);
-			var podcast = await GetPodcastFromUrl(url);
-			var filteredPodcast = filters.FilterPodcast(podcast);
-            filteredPodcast = AddFilteredHintToPodcastTitle(filteredPodcast);
-			var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
+            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateTitles, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var podcast = await GetPodcastFromUrl(url);
+            ApplyModifications(podcast, modifications);
+            AddFilteredHintToPodcastTitle(podcast);
 
-			var mediaType = MediaTypeHeaderValue.Parse("application/xml");
-			var content = Content(serializedFilteredPodcast, mediaType);
+            var serializedFilteredPodcast = podcast.ToStringWithDeclaration();
+            var mediaType = MediaTypeHeaderValue.Parse("application/xml");
+            var content = Content(serializedFilteredPodcast, mediaType);
 
-			return content;
-			*/
-			throw new NotImplementedException();
-		}
-/*
-		private PodcastFilterCollection CreateFiltersFromArguments(long fromEpoch, long toEpoch, bool removeDuplicateTitles, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
-		{
-			var filters = new List<IPodcastFilter>(8);
-
-			if (removeDuplicateTitles)
-				filters.Add(new PodcastDuplicateEntriesFilter());
-
-			//TODO: Change filters in a way that makes the extra type unnecessary.
-			if (titleMustContain != null)
-				filters.Add(PodcastStringPropertyFilter.WithContainsFilter<PodcastTitleFilter>(titleMustContain));
-
-			if (titleMustNotContain != null)
-				filters.Add(PodcastStringPropertyFilter.WithDoesNotContainFilter<PodcastTitleFilter>(titleMustNotContain));
-
-			if (minDuration != int.MinValue || maxDuration != int.MaxValue)
-				filters.Add(PodcastDurationFilter.WithMinMaxDurationFilter(minDuration, maxDuration));
-
-            if (fromEpoch != long.MinValue || toEpoch != long.MaxValue)
-                filters.Add(PodcastPublicationDateFilter.WithEarlierAndLaterFilter(fromEpoch, toEpoch));
-
-			return new PodcastFilterCollection(filters);
+            return content;
 		}
 
+        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateTitles, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
+        {
+            var mods = new List<BasePodcastModification>();
+
+            if (fromEpoch != long.MinValue)
+                mods.Add(new EpisodePublishDateFilterModification(fromEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.GreaterEquals));
+
+            if (toEpoch != long.MaxValue)
+                mods.Add(new EpisodePublishDateFilterModification(toEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.SmallerEquals));
+
+            //TODO: Filter to remove duplicates!
+
+            if (!string.IsNullOrEmpty(titleMustContain))
+                mods.Add(new EpisodeTitleFilterModification(titleMustContain, Models.ContentFilters.StringFilter.StringFilterMethod.Contains));
+
+            if (!string.IsNullOrEmpty(titleMustNotContain))
+                mods.Add(new EpisodeTitleFilterModification(titleMustNotContain, Models.ContentFilters.StringFilter.StringFilterMethod.DoesNotContain));
+
+            if (minDuration != int.MinValue)
+                mods.Add(new EpisodeDurationFilterModification(Models.ContentFilters.DurationFilter.DurationFilterMethods.GreaterEquals, minDuration));
+
+            if (maxDuration != int.MaxValue)
+                mods.Add(new EpisodeDurationFilterModification(Models.ContentFilters.DurationFilter.DurationFilterMethods.SmallerEquals, maxDuration));
+
+            return mods;
+        }
+
+        /// <summary>
+        /// Applies every given modification to the podcast. The modifications are performed in place.
+        /// </summary>
+        /// <param name="podcast"></param>
+        /// <param name="modifications"></param>
+        private void ApplyModifications(XDocument podcast, IEnumerable<BasePodcastModification> modifications)
+        {
+            foreach (var mod in modifications)
+                mod.Modify(podcast);
+        }
+
+        /// <summary>
+        /// Adds a default hint to the podcast title.
+        /// </summary>
+        /// <param name="podcast"></param>
+        /// <returns></returns>
         private XDocument AddFilteredHintToPodcastTitle(XDocument podcast)
         {
-            var action = AddStringToTitlePodcastAction.WithSuffixAction(" (filtered)");
-            podcast = action.PerformAction(podcast);
+            var mod = new AddStringToTitleModification(null, " (filtered)");
+            mod.Modify(podcast);
             return podcast;
         }
-        */
 
-		private async Task<XDocument> GetPodcastFromUrl(string url)
+        /// <summary>
+        /// Retrieves the contents of a podcast from a remote url.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private async Task<XDocument> GetPodcastFromUrl(string url)
 		{
 			var content = await GetStringFromUrl(url);
 			var document = ReadStringAsXDocument(content);
 			return document;
 		}
 
+        /// <summary>
+        /// Retrieves the string content from a remote url.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private async Task<string> GetStringFromUrl(string url)
         {
 	        var httpProvider = new HttpContentProvider<string>();
@@ -121,6 +150,11 @@ namespace Podfilter.Controllers
 	        return result.Content;
         }
 
+        /// <summary>
+        /// Interpretes a string as an <see cref="XDocument"/>.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
 		private XDocument ReadStringAsXDocument(string content)
 		{
 			return XDocument.Parse(content);

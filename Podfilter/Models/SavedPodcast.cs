@@ -17,7 +17,7 @@ namespace Podfilter.Models
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public List<BaseModification> Filters { get; } = new List<BaseModification>();
+        public List<BasePodcastModification> Filters { get; } = new List<BasePodcastModification>();
         /// <summary>
         /// Url of the original podcast.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Podfilter.Models
         /// <returns></returns>
         private async Task Update()
         {
-            
+            throw new NotImplementedException(); 
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Podfilter.Models
         /// <returns></returns>
         public async Task<string> GetCurrentFeed()
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

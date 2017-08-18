@@ -1,11 +1,11 @@
 ﻿using System;
 using Podfilter.Models.ContentFilters;
 
-namespace Podfilter.Models.PodcastModification
+namespace Podfilter.Models.PodcastModification.Filters
 {
-    public class MinEpisodeDurationFilterModification : BaseModification
+    public class EpisodeDurationFilterModification : BasePodcastModification
     {
-        public MinEpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, long duration) 
+        public EpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, long duration) 
             : base(
                 "//item/itunes:duration", 
                 new XElementFilterModification(new DurationFilter(method, duration))
@@ -14,7 +14,7 @@ namespace Podfilter.Models.PodcastModification
             //
         }
         
-        public MinEpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, TimeSpan duration) 
+        public EpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, TimeSpan duration) 
             : base(
                 "//item/itunes:duration", 
                 new XElementFilterModification(new DurationFilter(method, duration))

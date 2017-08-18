@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Razor.Parser;
 
 namespace Podfilter.Models.PodcastModification
 {
-    public abstract class BaseModification
+    public abstract class BasePodcastModification
     {
         /// <summary>
         /// Selects matching elements from an <see cref="XDocument"/>.
@@ -15,14 +15,14 @@ namespace Podfilter.Models.PodcastModification
         /// </summary>
         private readonly XElementModification _contentModification;
 
-        protected BaseModification(IPodcastElementProvider provider, XElementModification modification)
+        protected BasePodcastModification(IPodcastElementProvider provider, XElementModification modification)
         {
             _elementProvider = provider;
             _contentModification = modification;
         }
 
-        protected BaseModification(string xPathSelector, XElementModification modification)
-            : this(new XpathPodcastElementProvider(xPathSelector), modification)
+        protected BasePodcastModification(string xPathSelector, XElementModification modification)
+            : this(new XPathPodcastElementProvider(xPathSelector), modification)
         {
             //
         }

@@ -2,7 +2,7 @@
 
 namespace PodfilterTests.Models.PodcastModifications
 {
-    public class TestableBaseModification : BaseModification
+    public class TestableBaseModification : BasePodcastModification
     {
         public IPodcastElementProvider Provider { get; }
         public XElementModification Modification { get; }
@@ -15,7 +15,7 @@ namespace PodfilterTests.Models.PodcastModifications
 
         public TestableBaseModification(string xPathSelector, XElementModification modification) : base(xPathSelector, modification)
         {
-            Provider = new XpathPodcastElementProvider(xPathSelector);
+            Provider = new XPathPodcastElementProvider(xPathSelector);
             Modification = modification;
         }
     }
