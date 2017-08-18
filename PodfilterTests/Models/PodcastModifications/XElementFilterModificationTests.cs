@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 using FakeItEasy;
 using Podfilter.Models.ContentFilters;
@@ -23,18 +24,32 @@ namespace PodfilterTests.Models.PodcastModifications
         {
             var fakeElement = A.Fake<XElement>();
             var fakeFilter = A.Fake<IContentFilter>();
-            A.CallTo(() => fakeFilter.PassesFilter(fakeElement)).Returns(true);
+            A.CallTo(() => fakeFilter.PassesFilter(A<XElement>.Ignored)).Returns(true);
+
+
+            var test = fakeFilter.PassesFilter(fakeElement);
+            
             var modification = new XElementFilterModification(fakeFilter);
 
             var result = modification.Modify(fakeElement);
 
-            Assert.Same(result, fakeElement);
+            Assert.Same(fakeElement, result);
         }
 
         [Fact]
         public void Modify_WithNonMatchingElement_ReturnsNullAndRemovesFromParent()
         {
+            var fakeDocument = new XDocument();
+            var fakeElement = new XElement("test");
+            fakeDocument.Add(fakeElement);
+            var fakeFilter = A.Fake<IContentFilter>();
+            A.CallTo(() => fakeFilter.PassesFilter(fakeElement)).Returns(false);
             
+            var modification = new XElementFilterModification(fakeFilter);
+            var result = modification.Modify(fakeElement);
+            
+            Assert.Null(result);
+            Assert.Equal(0, fakeDocument.Descendants().Count());
         }
     }
 }
