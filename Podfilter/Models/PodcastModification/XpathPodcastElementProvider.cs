@@ -16,35 +16,60 @@ namespace Podfilter.Models.PodcastModification
         
         public string XPath { get; set; }
         
-        private XmlNamespaceManager _namespaceManager;
+        public XmlNamespaceManager NamespaceManager { private set; get; }
          
         public XpathPodcastElementProvider(string xpath)
         {
             this.XPath = xpath;
+            CreaterDefaultNamespaceManager();
         }
 
-        public XpathPodcastElementProvider(Dictionary<string, string> namespaces)
+        public XpathPodcastElementProvider(string xpath, Dictionary<string, string> namespaces)
         {
+            this.XPath = xpath;
             CreateNamespaceManager(namespaces);    
         }
-        
+
+        /// <summary>
+        /// Initializes the <see cref="NamespaceManager"/> with the two default namespaces.
+        /// </summary>
+        private void CreaterDefaultNamespaceManager()
+        {
+            CreateNamespaceManager(null);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="NamespaceManager"/> with the default namespaces as well as <paramref name="namespaces"/>.
+        /// </summary>
+        /// <param name="namespaces"></param>
         private void CreateNamespaceManager(Dictionary<string, string> namespaces)
         {
-            _namespaceManager = new XmlNamespaceManager(new NameTable());
-            _namespaceManager.AddNamespace("itunes", ItunesNamespace);
-            _namespaceManager.AddNamespace("atom", AtomNamespace);
+            NamespaceManager = new XmlNamespaceManager(new NameTable());
+            NamespaceManager.AddNamespace("itunes", ItunesNamespace);
+            NamespaceManager.AddNamespace("atom", AtomNamespace);
             
             if(namespaces != null)
                 foreach (var pair in namespaces)
-                    _namespaceManager.AddNamespace(pair.Key, pair.Value);
+                    NamespaceManager.AddNamespace(pair.Key, pair.Value);
         }
         
+        /// <summary>
+        /// Gets all matching <see cref="XElement"/>s from <paramref name="podcast"/> using a custom XPath selector.
+        /// </summary>
+        /// <param name="podcast"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         public IEnumerable<XElement> GetElements(XDocument podcast, string selector)
         {
-            var matchingElements = podcast.XPathSelectElements(selector, _namespaceManager);
+            var matchingElements = podcast.XPathSelectElements(selector, NamespaceManager);
             return matchingElements;
         }
 
+        /// <summary>
+        /// Gets all matching <see cref="XElement"/>s from <paramref name="podcast"/> using the Xpath selector supplied during the initialization.
+        /// </summary>
+        /// <param name="podcast"></param>
+        /// <returns></returns>
         public IEnumerable<XElement> GetElements(XDocument podcast)
         {
             return GetElements(podcast, XPath);

@@ -29,7 +29,9 @@ namespace Podfilter.Models.PodcastModification
         
         public override XElement Modify(XElement element)
         {
-            element.Value = _action.ParseAndModifyContent(element.Value);
+            if (element != null)
+                element.Value = _action.ParseAndModifyContent(element.Value);
+
             return element;
         }
     }
