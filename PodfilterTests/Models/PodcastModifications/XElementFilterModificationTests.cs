@@ -26,11 +26,7 @@ namespace PodfilterTests.Models.PodcastModifications
             var fakeFilter = A.Fake<IContentFilter>();
             A.CallTo(() => fakeFilter.PassesFilter(A<string>.Ignored)).Returns(true);
 
-
-            var test = fakeFilter.PassesFilter(fakeElement);
-            
             var modification = new XElementFilterModification(fakeFilter);
-
             var result = modification.Modify(fakeElement);
 
             Assert.Same(fakeElement, result);
