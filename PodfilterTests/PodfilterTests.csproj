@@ -10,18 +10,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Podfilter\Podfilter.csproj">
-      <Project>{a6555056-64d1-4f64-a558-f68ce6c4055f}</Project>
-      <Name>Podfilter</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers" />
-    <Folder Include="Data" />
-    <Folder Include="Data\" />
     <Folder Include="Models\ContentFilters" />
   </ItemGroup>
   <ItemGroup>
@@ -44,5 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\PodcastModifications\_README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Podfilter\Podfilter.csproj" />
   </ItemGroup>
 </Project>
