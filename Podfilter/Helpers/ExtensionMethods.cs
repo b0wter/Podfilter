@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using static Podfilter.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
 
 namespace Podfilter.Helpers
 {
@@ -19,6 +20,19 @@ namespace Podfilter.Helpers
             }
 
             return builder.ToString();
+        }
+
+        public static long Week(this DateTime dateTime)
+        {
+            return (long)TimeSpan.FromTicks(dateTime.Ticks).TotalDays / 7;
+        }
+
+        public static long Week(this DateTime dateTime, DuplicateTimeFrames timeFrame)
+        {
+            if (timeFrame >= DuplicateTimeFrames.Month)
+                return 0;
+            else
+                return dateTime.Week();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Podfilter.Models.PodcastModification.Filters
 {
-    public class EpisodeDescriptionFilterModification : BasePodcastModification
+    public class EpisodeDescriptionFilterModification : BasePodcastElementModification
     {
         public EpisodeDescriptionFilterModification(string argument, StringFilter.StringFilterMethod method, bool caseInvariant = true) 
             : base(

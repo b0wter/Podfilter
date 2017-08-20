@@ -17,7 +17,7 @@ namespace Podfilter.Models
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public List<BasePodcastModification> Filters { get; } = new List<BasePodcastModification>();
+        public List<BasePodcastElementModification> Filters { get; } = new List<BasePodcastElementModification>();
         /// <summary>
         /// Url of the original podcast.
         /// </summary>

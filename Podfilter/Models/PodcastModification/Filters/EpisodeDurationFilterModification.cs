@@ -3,7 +3,7 @@ using Podfilter.Models.ContentFilters;
 
 namespace Podfilter.Models.PodcastModification.Filters
 {
-    public class EpisodeDurationFilterModification : BasePodcastModification
+    public class EpisodeDurationFilterModification : BasePodcastElementModification
     {
         public EpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, long duration) 
             : base(

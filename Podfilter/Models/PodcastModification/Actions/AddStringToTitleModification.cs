@@ -2,7 +2,7 @@
 
 namespace Podfilter.Models.PodcastModification.Actions
 {
-    public class AddStringToTitleModification : BasePodcastModification
+    public class AddStringToTitleModification : BasePodcastElementModification
     {
         public AddStringToTitleModification(string prefix = null, string suffix = null) 
             : base(

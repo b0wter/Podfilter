@@ -2,7 +2,7 @@
 
 namespace PodfilterTests.Models.PodcastModifications
 {
-    public class TestableBaseModification : BasePodcastModification
+    public class TestableBaseModification : BasePodcastElementModification
     {
         public IPodcastElementProvider Provider { get; }
         public XElementModification Modification { get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Podfilter.Models.PodcastModification.Filters
 {
-    public class EpisodePublishDateFilterModification : BasePodcastModification
+    public class EpisodePublishDateFilterModification : BasePodcastElementModification
     {
         public EpisodePublishDateFilterModification(long date, DateFilter.DateFilterMethods method)
             : base(

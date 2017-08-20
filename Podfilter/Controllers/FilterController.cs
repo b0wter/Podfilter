@@ -12,6 +12,7 @@ using Microsoft.Net.Http.Headers;
 using Podfilter.Models.PodcastModification;
 using Podfilter.Models.PodcastModification.Filters;
 using Podfilter.Models.PodcastModification.Actions;
+using Podfilter.Models.PodcastModification.Others;
 
 namespace Podfilter.Controllers
 {
@@ -83,7 +84,8 @@ namespace Podfilter.Controllers
             if (toEpoch != long.MaxValue)
                 mods.Add(new EpisodePublishDateFilterModification(toEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.SmallerEquals));
 
-            //TODO: Filter to remove duplicates!
+            if (removeDuplicateTitles)
+                mods.Add(new RemoveDuplicateEpisodesModification());
 
             if (!string.IsNullOrEmpty(titleMustContain))
                 mods.Add(new EpisodeTitleFilterModification(titleMustContain, Models.ContentFilters.StringFilter.StringFilterMethod.Contains));
