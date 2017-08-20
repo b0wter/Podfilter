@@ -45,7 +45,7 @@ namespace Podfilter.Controllers
 		/// <param name="url">url-encoded url of the podcast</param>
 		/// <param name="fromEpoch">discard all items older then the epoch (unix timestamp)</param>
 		/// <param name="toEpoch">discards all items newer then the epoch (unix timestamp)</param>
-		/// <param name="removeDuplicateTitles">removes any items with a title that has been used previously (keeping the oldest item)</param>
+		/// <param name="removeDuplicateEpisodes">removes any items with a title that has been used previously (keeping the oldest item)</param>
 		/// <param name="titleMustNotContain">removes any item if it contains at least one of the elements of this string (semicolon separated</param>
 		/// <param name="titleMustContain">removes each item that does not contain at least one of the elements of this string (semicolon separated</param>
 		/// <param name="minDuration">minimum duration of the postcast in seconds</param>
@@ -56,13 +56,13 @@ namespace Podfilter.Controllers
 			[RequiredFromQuery] string url,
 			[FromQuery] long fromEpoch = long.MinValue,
 			[FromQuery] long toEpoch = long.MaxValue,
-			[FromQuery] bool removeDuplicateTitles = false,
+			[FromQuery] bool removeDuplicateEpisodes = false,
 			[FromQuery] string titleMustNotContain = null,
 			[FromQuery] string titleMustContain = null,
 			[FromQuery] int minDuration = int.MinValue,
 			[FromQuery] int maxDuration = int.MaxValue)
 		{
-            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateTitles, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration);
             var podcast = await GetPodcastFromUrl(url);
             ApplyModifications(podcast, modifications);
             AddFilteredHintToPodcastTitle(podcast);
@@ -74,7 +74,7 @@ namespace Podfilter.Controllers
             return content;
 		}
 
-        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateTitles, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
+        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
         {
             var mods = new List<BasePodcastModification>();
 
@@ -84,7 +84,7 @@ namespace Podfilter.Controllers
             if (toEpoch != long.MaxValue)
                 mods.Add(new EpisodePublishDateFilterModification(toEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.SmallerEquals));
 
-            if (removeDuplicateTitles)
+            if (removeDuplicateEpisodes)
                 mods.Add(new RemoveDuplicateEpisodesModification());
 
             if (!string.IsNullOrEmpty(titleMustContain))

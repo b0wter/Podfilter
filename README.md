@@ -11,6 +11,7 @@ Basic filtering is possible by passend special urls to the FilterController. You
   * mustNotContain (string)
   * fromEpoch (seconds)
   * toEpoch (seconds)
+  * removeDuplicateEpisodes
   * url (url encoded url to the podcast)
   
 An example might look like this (replace hostname and port):
