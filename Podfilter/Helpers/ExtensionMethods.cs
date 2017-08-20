@@ -24,7 +24,9 @@ namespace Podfilter.Helpers
 
         public static long Week(this DateTime dateTime)
         {
-            return (long)TimeSpan.FromTicks(dateTime.Ticks).TotalDays / 7;
+            var duration = TimeSpan.FromTicks(dateTime.Ticks);
+            var weeks = (long)Math.Floor(duration.TotalDays / 7);
+            return weeks;
         }
 
         public static long Week(this DateTime dateTime, DuplicateTimeFrames timeFrame)

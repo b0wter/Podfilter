@@ -55,47 +55,67 @@ namespace Podfilter.Models.PodcastModification.Others
             if (podcast == null)
                 throw new ArgumentNullException("podcast");
 
-            var grouped = podcast.Descendants("item").GroupBy(item => DateTime.Parse(item.Elements("pubDate").First().Value));
-
             // create new tuples for easier access to the properites pubDate and title
             var dateTimeItems = podcast.Descendants("item")
                 .Select(item => new PodcastTriple(
                     item.Elements("title").First().Value,
                     DateTime.Parse(item.Elements("pubDate").First().Value),
-                    item));
+                    item,
+                    TimeFrame));
 
-            var groupedDateTimeItems = dateTimeItems.GroupBy(
-                item => new DateTime(
-                    item.PubDate.Year, 
-                    item.PubDate.Month, 
-                    TimeFrame < DuplicateTimeFrames.Month ? item.PubDate.Day : 0, 
-                    TimeFrame < DuplicateTimeFrames.Day ? item.PubDate.Hour : 0,
-                    0, 0));
+            var groupedTriples = dateTimeItems.GroupBy(item => item.TimeFramePubDateString);
 
-            foreach(var group in groupedDateTimeItems)
+            foreach(var group in groupedTriples)
             {
-                var titleGroups = group.GroupBy(item => item.Title);
-
-                foreach(var tGroup in titleGroups)
-                {
-                    var orderedGroup = tGroup.OrderBy(t => t.PubDate.Year).ThenBy(t => t.PubDate.Month).ThenBy(t => t.PubDate.Week(TimeFrame)).ThenBy(t => t.PubDate.Day).ThenBy(t => t.PubDate.Hour);
-                    orderedGroup.Skip(1)?.ToList().ForEach(g => g.XElement.Remove());
-                }
-            } 
+                var orderedGroup = group.OrderBy(g => g.PubDate);
+                orderedGroup.Skip(1)?.ToList().ForEach(element => element.XElement.Remove());
+            }
         }
+
 
         private class PodcastTriple
         {
-            public string Title { get; set; }
-            public DateTime PubDate { get; set; }
-            public XElement XElement { get; set; }
+            public string Title { get; }
+            public DateTime PubDate { get; }
+            public long PubWeek { get; set; }
+            public XElement XElement { get; }
+            public DuplicateTimeFrames TimeFrame { get; }
+            /// <summary>
+            /// Creates a string representation of the publication date that includes the week number. E.g.: 2017|08|105222|10|18 (year, month, week, day, hour).
+            /// </summary>
+            public string TotalPubDateString { get; }
+            /// <summary>
+            /// Cuts the <see cref="TotalPubDateString"/> so that only the significant parts remain (according to the <see cref="TimeFrame"/>).
+            /// </summary>
+            public string TimeFramePubDateString { get; }
 
-            public PodcastTriple(string title, DateTime pubDate, XElement xElement)
+            public PodcastTriple(string title, DateTime pubDate, XElement xElement, RemoveDuplicateEpisodesModification.DuplicateTimeFrames timeFrame)
             {
                 this.Title = title;
                 this.PubDate = pubDate;
                 this.XElement = xElement;
+                this.PubWeek = pubDate.Week(timeFrame);
+                TotalPubDateString = CreateDateString(pubDate);
+                TimeFramePubDateString = CreateTimeFramePubDateStringFromDateString(TotalPubDateString, timeFrame);
             }
+
+            private string CreateDateString(DateTime date)
+            {
+                var dateAsString = $"{date.Year.ToString("00")}{date.Month.ToString("00")}{date.Week().ToString("000000")}{date.Day.ToString("00")}{date.Hour.ToString("00")}";
+                return dateAsString;
+            }
+
+            private string CreateTimeFramePubDateStringFromDateString(string totalDateString, DuplicateTimeFrames timeFrame)
+            {
+                // two actions required:
+                // 1. cut the last digits, according to the time frame
+                // 2. replace the month with 00 if the format is weeks (because they can stretch over months)
+                var shortString = new string(totalDateString.Reverse().Skip((int)timeFrame).Reverse().ToArray());
+                if (timeFrame == DuplicateTimeFrames.Week)
+                    shortString = shortString.Remove(4, 2).Insert(4, "00");
+                return shortString;
+            }
+
         }
 
         /// <summary>
@@ -104,9 +124,9 @@ namespace Podfilter.Models.PodcastModification.Others
         public enum DuplicateTimeFrames
         {
             Hour = 0,
-            Day = 1,
-            Week = 2,
-            Month = 3
+            Day = 2,
+            Week = 4,
+            Month = 10
         }
     }
 }
