@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Podfilter.Helpers;
 
 namespace Podfilter
 {
@@ -29,6 +30,8 @@ namespace Podfilter
         {
             // Add framework services.
             services.AddMvc();
+            services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
+            services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

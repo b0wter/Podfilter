@@ -22,6 +22,15 @@ namespace Podfilter.Controllers
 	[Route("api/[controller]")]
 	public class FilterController : ApiBaseController
 	{
+        private IHttpContentProvider<string> _podcastProvider;
+        private IContentDeserializer<string> _podcastDeserializer;
+
+        public FilterController(IHttpContentProvider<string> podcastProvider, IContentDeserializer<string> podcastDeserializer)
+        {
+            _podcastProvider = podcastProvider;
+            _podcastDeserializer = podcastDeserializer;
+        }
+
 		/// <summary>
 		/// Returns a short summary on how to use the api.
 		/// </summary>
@@ -73,6 +82,17 @@ namespace Podfilter.Controllers
 
             return content;
 		}
+
+        /// <summary>
+        /// Retrieves a stored recipe from the database and filters
+        /// </summary>
+        /// <param name="podcastId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> HttpGet_SavedPodcast([RequiredFromQuery]string podcastId)
+        {
+            return null;
+        }
 
         private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
         {
@@ -145,8 +165,7 @@ namespace Podfilter.Controllers
         private async Task<string> GetStringFromUrl(string url)
         {
 	        var httpProvider = new HttpContentProvider<string>();
-	        var result = await httpProvider.LoadStringFromUrl(url, new StringContentDeserializer());
-
+            var result = await _podcastProvider.LoadStringFromUrl(url, _podcastDeserializer);
 	        result.ResponseMessage.EnsureSuccessStatusCode();
 
 	        return result.Content;

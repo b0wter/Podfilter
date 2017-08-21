@@ -13,13 +13,15 @@ namespace Podfilter.Helpers
             if(document == null)
                 throw new NullReferenceException("The document must not be null.");
 
-            var builder = new StringBuilder();
-            using(var writer = new StringWriter(builder))
-            {
-                document.Save(writer);
-            }
+            document.Declaration = new XDeclaration("1.0", "utf-8", null);
+            StringWriter writer = new Utf8StringWriter();
+            document.Save(writer, SaveOptions.None);
 
-            return builder.ToString();
+            return writer.ToString();
+        }
+        private class Utf8StringWriter : StringWriter
+        {
+            public override Encoding Encoding => Encoding.UTF8;
         }
 
         public static long Week(this DateTime dateTime)
