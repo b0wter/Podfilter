@@ -5,13 +5,17 @@ VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "Podfilter\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterTests", "PodfilterTests\PodfilterTests.csproj", "{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCoreTests", "PodfilterTests\PodfilterCoreTests.csproj", "{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1F51D76E-21C1-4650-A25C-7A06592A33DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCore", "PodfilterCore\PodfilterCore.csproj", "{A9ED0492-7C8B-4CE0-B714-8E00ECE1537C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepository", "PodfilterRepository\PodfilterRepository.csproj", "{337641C0-7441-4C63-AB9F-6D314D5DF21B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterRepositoryTests", "PodfilterRepositoryTests\PodfilterRepositoryTests.csproj", "{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{337641C0-7441-4C63-AB9F-6D314D5DF21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{337641C0-7441-4C63-AB9F-6D314D5DF21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{337641C0-7441-4C63-AB9F-6D314D5DF21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
