@@ -4,5 +4,5 @@ services:
   podfilter:
     image: podfilter
     build:
-      context: ./Podfilter
+      context: ./PodfilterWeb
       dockerfile: Dockerfile
