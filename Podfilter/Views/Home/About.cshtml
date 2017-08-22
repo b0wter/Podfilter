@@ -1,7 +1,34 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+﻿<h2>About.</h2>
+<h3>What is Podfilter?</h3>
+<p>Podfilter is a web app that allows you to filter and modify your favorite podcasts. Say for example that a podcast you regularly listen to contains a preview episode for each regular episode.</p>
 
-<p>Use this area to provide additional information.</p>
+<ul class="list-unstyled">
+    <li>Remove episodes based on certain properties:
+        <ul>
+            <li>Title (must/must not contain/matches/does not match)</li>
+            <li>Description (must/must not contain/matches/does not match)</li>
+            <li>Duration (too short/too long)</li>
+            <li>Publication Date (before/after certain date)</li>
+        </ul>
+    </li>
+</ul>
+<ul class="list-unstyled">
+    <li>Modify podcast properties:
+        <ul>
+            <li>Add suffix/prefix to the podcast title.</li>
+            <li>Change the url the podcast points to.</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>How to use Podfilter?</h3>
+<p>
+    The first thing you need to do is get the url of the podcast you would like to modify. This is easy, you can open the podcast using your webbrowser and copy the url form the address bar. If you wanted to filter <a href="https://www.thisamericanlife.org/">This American Life</a> you'd find the following link on their page:
+</p>
+<p><code>http://feed.thisamericanlife.org/talpodcast</code></p>
+<p>
+    Then, go <a href="../Home">here</a> and paste the url. You can then add filters that will be used on the podcast. To do so click "Add Filter" and select the filter you want from the list.
+    Depending on the type of filter you have selected you will need to enter a few parameters. E.g. the filter to discard episodes containing certain words requires the words it should look for.
+    Once you are happy click the "Create" button at the bottom of the page. A new podcast url will be created and written to the textbox next to the button. Thats the link you put into your podcast app!
+</p>
+
