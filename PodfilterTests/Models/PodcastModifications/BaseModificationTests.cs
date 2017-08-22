@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using FakeItEasy;
-using Podfilter.Models.ContentActions;
 using Podfilter.Models.PodcastModification;
 using Xunit;
 
@@ -13,7 +12,7 @@ namespace PodfilterTests.Models.PodcastModifications
         public void Modify_WithMatchingElements_CallsElementProviderAndModifier()
         {
             var fakeSelector = A.Fake<IPodcastElementProvider>();
-            var elementList = new List<XElement>() { A.Fake<XElement>()};
+            var elementList = new List<XElement>() { A.Fake<XElement>(x => x.WithArgumentsForConstructor(() => new XElement("test")))};
             A.CallTo(() => fakeSelector.GetElements(A<XDocument>.Ignored)).Returns(elementList);
             var fakeElementModification = A.Fake<XElementActionModification>();
             var modifier = new TestableBaseModification(fakeSelector, fakeElementModification);

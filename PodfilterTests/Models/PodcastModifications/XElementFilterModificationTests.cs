@@ -22,7 +22,7 @@ namespace PodfilterTests.Models.PodcastModifications
         [Fact]
         public void Modify_WithMatchingElement_ReturnsElement()
         {
-            var fakeElement = A.Fake<XElement>();
+            var fakeElement = A.Fake<XElement>(x => x.WithArgumentsForConstructor(() => new XElement("test")));
             var fakeFilter = A.Fake<IContentFilter>();
             A.CallTo(() => fakeFilter.PassesFilter(A<string>.Ignored)).Returns(true);
 

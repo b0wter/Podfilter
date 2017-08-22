@@ -34,7 +34,7 @@ namespace PodfilterTests.Models.PodcastModifications
         {
             var fakeAction = A.Fake<IContentAction>();
             var modification = new XElementActionModification(fakeAction);
-            var fakeElement = A.Fake<XElement>();
+            var fakeElement = A.Fake<XElement>(x => x.WithArgumentsForConstructor(() => new XElement("test")));
 
             modification.Modify(fakeElement);
 
