@@ -9,6 +9,9 @@ namespace PodfilterRepository
     {
         public string DeserializeString(string s)
         {
+            if (s == null)
+                throw new ArgumentNullException();
+
             return s;
         }
     }

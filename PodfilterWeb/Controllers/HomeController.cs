@@ -8,6 +8,10 @@ namespace PodfilterWeb.Controllers
 {
     public class HomeController : HtmlBaseController
     {
+        /// <summary>
+        /// Index view displays the main ui for creating new podcast urls.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
