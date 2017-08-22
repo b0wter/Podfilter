@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "Podfilter\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "PodfilterWeb\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCoreTests", "PodfilterTests\PodfilterCoreTests.csproj", "{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}"
 EndProject
