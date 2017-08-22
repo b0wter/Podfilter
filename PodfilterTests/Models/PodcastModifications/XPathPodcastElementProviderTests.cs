@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using Podfilter.Models.PodcastModification;
+using PodfilterCore.Models.PodcastModification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     public class XpathPodcastElementProviderTests
     {

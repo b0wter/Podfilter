@@ -1,10 +1,10 @@
-﻿using Podfilter.Models.ContentActions;
+﻿using PodfilterCore.Models.ContentActions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace PodfilterTests.Models.ContentActions
+namespace PodfilterCoreTests.Models.ContentActions
 {
     public class AddStringContentActionTests
     {

@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace Podfilter.Helpers
+namespace PodfilterWeb.Helpers
 {
     public class RequiredFromQueryAttribute : FromQueryAttribute, IParameterModelConvention
     {   

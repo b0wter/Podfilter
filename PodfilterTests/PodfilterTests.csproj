@@ -39,6 +39,6 @@
     <None Remove="Models\PodcastModifications\_README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Podfilter\Podfilter.csproj" />
+    <ProjectReference Include="..\PodfilterCore\PodfilterCore.csproj" />
   </ItemGroup>
 </Project>

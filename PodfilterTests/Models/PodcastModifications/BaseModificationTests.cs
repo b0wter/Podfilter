@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using FakeItEasy;
-using Podfilter.Models.PodcastModification;
+using PodfilterCore.Models.PodcastModification;
 using Xunit;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     public class BaseModificationTests
     {

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
-using static Podfilter.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
+using static PodfilterCore.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
 
-namespace Podfilter.Helpers
+namespace PodfilterWeb.Helpers
 {
     public static class ExtensionMethods
     {
@@ -22,21 +22,6 @@ namespace Podfilter.Helpers
         private class Utf8StringWriter : StringWriter
         {
             public override Encoding Encoding => Encoding.UTF8;
-        }
-
-        public static long Week(this DateTime dateTime)
-        {
-            var duration = TimeSpan.FromTicks(dateTime.Ticks);
-            var weeks = (long)Math.Floor(duration.TotalDays / 7);
-            return weeks;
-        }
-
-        public static long Week(this DateTime dateTime, DuplicateTimeFrames timeFrame)
-        {
-            if (timeFrame >= DuplicateTimeFrames.Month)
-                return 0;
-            else
-                return dateTime.Week();
         }
     }
 }

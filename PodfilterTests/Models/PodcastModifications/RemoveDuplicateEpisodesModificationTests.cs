@@ -1,5 +1,5 @@
 ﻿using FakeItEasy;
-using Podfilter.Models.PodcastModification.Others;
+using PodfilterCore.Models.PodcastModification.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using Xunit;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     /// <summary>
     /// Modification that removes duplicate episodes from the podcast. Duplicates are identified by title.

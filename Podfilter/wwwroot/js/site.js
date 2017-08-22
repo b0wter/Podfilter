@@ -6,3 +6,10 @@ function openNewFilterOverlay() {
 function openNewFilterOverlay() {
     document.getElementById("newFilterOverlay").style.width = "0%";
 }
+
+// Retrieves the url given by the user and encodes it.
+//
+function encodeInputUrl() {
+    var url = document.getElementById("urlInputField").textContent;
+    return encodeURI(url);
+}

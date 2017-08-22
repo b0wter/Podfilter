@@ -1,6 +1,6 @@
-﻿using Podfilter.Models.PodcastModification;
+﻿using PodfilterCore.Models.PodcastModification;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     public class TestableBaseModification : BasePodcastElementModification
     {

@@ -1,20 +1,13 @@
 using System;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
-using Podfilter.Helpers;
-using Podfilter.Models;
-using System.Collections.Generic;
-using System.Xml.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Net.Http.Headers;
-using Podfilter.Models.PodcastModification;
-using Podfilter.Models.PodcastModification.Filters;
-using Podfilter.Models.PodcastModification.Actions;
-using Podfilter.Models.PodcastModification.Others;
+using PodfilterCore.Models;
+using PodfilterCore.Data;
+using PodfilterWeb.Helpers;
 
-namespace Podfilter.Controllers
+namespace PodfilterWeb.Controllers
 {
 	/// <summary>
 	/// Does the actual filtering of the remote podcasts.
@@ -71,8 +64,9 @@ namespace Podfilter.Controllers
 			[FromQuery] int minDuration = int.MinValue,
 			[FromQuery] int maxDuration = int.MaxValue)
 		{
-            var podcastCore = new PodfilterCore(_podcastProvider, _podcastDeserializer);
-            var serializedFilteredPodcast = await podcastCore.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var podcastCore = new Core(_podcastProvider, _podcastDeserializer);
+            var filteredPodcast = await podcastCore.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
 
             var mediaType = MediaTypeHeaderValue.Parse("application/xml");
             var content = Content(serializedFilteredPodcast, mediaType);

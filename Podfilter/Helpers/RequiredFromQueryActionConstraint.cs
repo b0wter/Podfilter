@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
-namespace Podfilter.Helpers
+namespace PodfilterWeb.Helpers
 {
     public class RequiredFromQueryActionConstraint : IActionConstraint
     {   

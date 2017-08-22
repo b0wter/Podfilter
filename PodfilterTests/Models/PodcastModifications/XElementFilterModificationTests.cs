@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Xml.Linq;
 using FakeItEasy;
-using Podfilter.Models.ContentFilters;
-using Podfilter.Models.PodcastModification;
+using PodfilterCore.Models.ContentFilters;
+using PodfilterCore.Models.PodcastModification;
 using Xunit;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     public class XElementFilterModificationTests
     {

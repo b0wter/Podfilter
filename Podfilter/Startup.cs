@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Podfilter.Helpers;
+using PodfilterCore.Data;
+using PodfilterRepository;
+using PodfilterWeb.Helpers;
 
 namespace Podfilter
 {

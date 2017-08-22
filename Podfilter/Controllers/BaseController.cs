@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Podfilter.Controllers
+namespace PodfilterWeb.Controllers
 {
     /// <summary>
     /// Base for all other controllers. Contains helper methods.

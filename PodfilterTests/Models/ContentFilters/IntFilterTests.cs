@@ -1,8 +1,8 @@
 using System;
-using Podfilter.Models.ContentFilters;
+using PodfilterCore.Models.ContentFilters;
 using Xunit;
 
-namespace PodfilterTests.Models.ContentFilters
+namespace PodfilterCoreTests.Models.ContentFilters
 {
     public class IntFilterTests
     {

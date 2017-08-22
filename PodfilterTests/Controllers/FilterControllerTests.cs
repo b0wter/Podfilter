@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PodfilterTests.Controllers
+namespace PodfilterCoreTests.Controllers
 {
     class FilterControllerTests
     {

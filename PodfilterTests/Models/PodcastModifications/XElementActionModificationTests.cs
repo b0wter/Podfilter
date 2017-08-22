@@ -1,10 +1,10 @@
 ﻿using FakeItEasy;
-using Podfilter.Models.ContentActions;
-using Podfilter.Models.PodcastModification;
+using PodfilterCore.Models.ContentActions;
+using PodfilterCore.Models.PodcastModification;
 using System.Xml.Linq;
 using Xunit;
 
-namespace PodfilterTests.Models.PodcastModifications
+namespace PodfilterCoreTests.Models.PodcastModifications
 {
     public class XElementActionModificationTests
     {
