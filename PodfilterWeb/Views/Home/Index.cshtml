@@ -1,93 +1,142 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<!--
-<div id="newFilterOverlay" class="overlay">
-    <div class="overlay-content">
-        <div class="row">
-            <div class="col-xs-12">
-                <p>String Filter</p>
-            </div>
-            <div class="col-sm-6">
-                String
-            </div>
-            <div class="col-sm-6">
-                Paramter
-            <div
-        </div>
-    </div>
-</div>
--->
 
 <h2>Create.</h2>
 
-<div id="podcastUrl" class="row">
-    <div class="col-xs-12">
-        <label for="urlInputField">Url of podcast to filter</label>
-        <input type="text" class="form-control" id="urlInputField" />
-    </div>
-</div>
+<form>
 
-<br/>
-
-<div id="currentFilters" class="row">
-    <div class="col-sm-6">
-        <label for="currentFiltersListBox">Current Filters</label>
-        <div class="list-group" id="currentFiltersListBox">
-            <a href="#" class="list-group-item active">Selected Filter</a>
-            <a href="#" class="list-group-item ">Additional Filter</a>
+    <div id="podcastUrl" class="row">
+        <div class="col-xs-12">
+            <label for="urlInputField">Url of podcast to filter</label>
+            <input type="text" class="form-control" id="urlInputField" />
         </div>
     </div>
-    <div class="col-sm-6">
-        <label for="currentFiltersListBox">Filter Settings</label>
-        <div class="list-group" id="selectedFilterDetails">
-            <div class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-6">Paramter #1</div>
-                    <div class="col-sm-6">Value #1</div>
-                </div>
-            </div>
-            <div class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-6">Paramter #1</div>
-                    <div class="col-sm-6">Value #1</div>
+
+    <br />
+
+    <div id="currentFilters" class="row">
+        <div class="col-sm-6">
+            <label for="currentFiltersListBox">Current Filters</label>
+            <div class="list-group" id="currentFiltersListBox">
+                <!-- list of all filters needs to be inserted here -->
+                <div class="list-group-item active">
+                    <b>Title Filter</b> <i><small>&emsp;String: argument&emsp;Method: contains</small></i>
                 </div>
             </div>
         </div>
+        <!--
+        <div class="col-sm-6">
+            <label for="currentFiltersListBox">Filter Settings</label>
+            <div class="list-group" id="selectedFilterDetails">
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-6">Paramter #1</div>
+                        <div class="col-sm-6">Value #1</div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-6">Paramter #1</div>
+                        <div class="col-sm-6">Value #1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-        <div class="row">
-            <div class="form-group col-xs-6">
-                <div class="selectContainer">
-                    <select class="form-control" name="size">
-                        <option value="">Choose a filter</option>
-                        <option value="s">Title Filter</option>
-                        <option value="m">Description Filter</option>
-                        <option value="l">Duration Filter</option>
-                        <option value="xl">Publication Date Filter</option>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="form-group col-xs-6">
+                    <div class="selectContainer">
+                        <select class="form-control" name="filterType">
+                            <option value="">Choose a filter</option>
+                            <option value="title">Title Filter</option>
+                            <option value="description">Description Filter</option>
+                            <option value="duration">Duration Filter</option>
+                            <option value="pubdate">Publication Date Filter</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 btn-group" role="group" aria-label="filter actions">
+                    <button type="submit" class="btn btn-default" formaction="addFilter" formmethod="post">Add</button>
+                    <button type="submit" class="btn btn-default" formaction="removeFilter" formmethod="post">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- parameter view for new title filters -->
+        <div class="col-xs-12 col-md-6" id="titleFilterParameters">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="titleFilterMethodParameter">Title</label>
+                    <select class="form-control" name="titleFilterMethodParameter" id="titleFilterMethodParameter">
+                        <option value="titleFilterMethodMustContain">contains</option>
+                        <option value="titleFilterMethodMustNotContain">does not contain</option>
+                        <option value="titleFilterMethodMatches">matches</option>
+                        <option value="titleFilterMethodMatches">does not match</option>
                     </select>
                 </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="titleFilterStringParameter">&emsp;</label>
+                    <input type="text" class="form-control" name="titleFilterStringParameter" id="titleFilterStringParameter"/>
+                </div>
             </div>
-            <div class="col-xs-6 btn-group" role="group" aria-label="filter actions">
-                <button type="button" class="btn btn-default" onclick="openNewFilterOverlay()">Add</button>
-                <button type="button" class="btn btn-default">Remove</button>
+        </div>
+
+        <!-- parameter view for new description filters -->
+        <div class="col-xs-12" id="descriptionFilterParameters">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="descriptionFilterMethodParameter">Description</label>
+                    <select class="form-control" name="descriptionFilterMethodParameter" id="descriptionFilterMethodParameter">
+                        <option value="descriptionFilterMethodMustContain">contains</option>
+                        <option value="descriptionFilterMethodMustNotContain">does not contain</option>
+                        <option value="descriptionFilterMethodMatches">matches</option>
+                        <option value="descriptionFilterMethodMatches">does not match</option>
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="descriptionFilterStringParameter">String</label>
+                    <input type="text" class="form-control" name="descriptionFilterStringParameter" id="descriptionFilterStringParameter"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- parameter view for new duration filters -->
+        <div class="col-xs-12" id="descriptionFilterParameters">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="durationFilterMethodParameter">Duration is</label>
+                    <select class="form-control" name="durationFilterMethodParameter" id="durationFilterMethodParameter">
+                        <option value="durationFilterMethodMustContain">less than</option>
+                        <option value="durationFilterMethodMustNotContain">more than</option>
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="durationFilterStringParameter">Duration in seconds</label>
+                    <input type="number" class="form-control" name="durationFilterStringParameter" id="durationFilterStringParameter"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-6">
+            <label for="createPodcast">Click create once you are set all your filters.</label>
+            <div class="input-group" id="createPodcast">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Create</button>
+                </span>
+                <input type="text" class="form-control" placeholder="new podcast url" />
             </div>
         </div>
     </div>
-</div>
 
-<hr/>
-
-<div class="row">
-    <div class="col-lg-6">
-        <label for="createPodcast">Click create once you are set all your filters.</label>
-        <div class="input-group" id="createPodcast">
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Create</button>
-            </span>
-            <input type="text" class="form-control" placeholder="new podcast url"/>
-        </div>
-    </div>
-</div>
+</form>
