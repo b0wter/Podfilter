@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "PodfilterWeb\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
 EndProject
@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCore", "PodfilterC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepository", "PodfilterRepository\PodfilterRepository.csproj", "{337641C0-7441-4C63-AB9F-6D314D5DF21B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterRepositoryTests", "PodfilterRepositoryTests\PodfilterRepositoryTests.csproj", "{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepositoryTests", "PodfilterRepositoryTests\PodfilterRepositoryTests.csproj", "{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterAngular", "PodfilterAngular\PodfilterAngular.csproj", "{852329E3-5531-4DD3-A089-CF1ABA6A90FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
