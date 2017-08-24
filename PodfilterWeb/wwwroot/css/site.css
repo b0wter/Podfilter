@@ -38,7 +38,7 @@ textarea {
 
 /* Styling of the overlay */
 /* The Overlay (background) */
-.overlay {
+.newFilterOverlay {
     /* Height & width depends on how you want to reveal the overlay (see JS below) */
     height: 100%;
     width: 0;
@@ -62,7 +62,7 @@ textarea {
 }
 
 /* The navigation links inside the overlay */
-.overlay a {
+.newFilterOverlay a {
     padding: 8px;
     text-decoration: none;
     font-size: 36px;
@@ -72,12 +72,12 @@ textarea {
 }
 
     /* When you mouse over the navigation links, change their color */
-    .overlay a:hover, .overlay a:focus {
+    .newFilterOverlay a:hover, .overlay a:focus {
         color: #f1f1f1;
     }
 
 /* Position the close button (top right corner) */
-.overlay .closebtn {
+.newFilterOverlay .closebtn {
     position: absolute;
     top: 20px;
     right: 45px;
@@ -86,11 +86,11 @@ textarea {
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
-    .overlay a {
+    .newFilterOverlay a {
         font-size: 20px
     }
 
-    .overlay .closebtn {
+    .newFilterOverlay .closebtn {
         font-size: 40px;
         top: 15px;
         right: 35px;

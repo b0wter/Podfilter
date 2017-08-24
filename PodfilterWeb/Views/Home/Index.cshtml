@@ -1,22 +1,29 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<!--
 <div id="newFilterOverlay" class="overlay">
     <div class="overlay-content">
-        asdfasdf<br />
-        asdf<br/>
-        asdfasdfasdf
+        <div class="row">
+            <div class="col-xs-12">
+                <p>String Filter</p>
+            </div>
+            <div class="col-sm-6">
+                String
+            </div>
+            <div class="col-sm-6">
+                Paramter
+            <div
+        </div>
     </div>
 </div>
+-->
 
-<div id="pageHeader" class="row col-xs-12">
-    <h4>Create new filtered podcast</h4>
-</div>
+<h2>Create.</h2>
 
 <div id="podcastUrl" class="row">
     <div class="col-xs-12">
-        <label for="urlInputField">Url</label>
+        <label for="urlInputField">Url of podcast to filter</label>
         <input type="text" class="form-control" id="urlInputField" />
     </div>
 </div>
@@ -29,10 +36,6 @@
         <div class="list-group" id="currentFiltersListBox">
             <a href="#" class="list-group-item active">Selected Filter</a>
             <a href="#" class="list-group-item ">Additional Filter</a>
-        </div>
-        <div class="btn-group" role="group" aria-label="filter actions">
-            <button type="button" class="btn btn-outline-primary">Add filter</button>
-            <button type="button" class="btn btn-outline-danger">Remove filter</button>
         </div>
     </div>
     <div class="col-sm-6">
@@ -53,8 +56,29 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="row">
+            <div class="form-group col-xs-6">
+                <div class="selectContainer">
+                    <select class="form-control" name="size">
+                        <option value="">Choose a filter</option>
+                        <option value="s">Title Filter</option>
+                        <option value="m">Description Filter</option>
+                        <option value="l">Duration Filter</option>
+                        <option value="xl">Publication Date Filter</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 btn-group" role="group" aria-label="filter actions">
+                <button type="button" class="btn btn-default" onclick="openNewFilterOverlay()">Add</button>
+                <button type="button" class="btn btn-default">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<br />
+<hr/>
 
 <div class="row">
     <div class="col-lg-6">
