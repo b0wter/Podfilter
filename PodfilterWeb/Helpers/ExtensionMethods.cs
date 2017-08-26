@@ -2,6 +2,9 @@
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+
 using static PodfilterCore.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
 
 namespace PodfilterWeb.Helpers
@@ -22,6 +25,17 @@ namespace PodfilterWeb.Helpers
         private class Utf8StringWriter : StringWriter
         {
             public override Encoding Encoding => Encoding.UTF8;
+        }
+
+        public static void Set<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T Get<T>(this ISession session,string key)
+        {
+            var value = session.GetString(key);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

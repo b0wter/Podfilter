@@ -50,12 +50,12 @@
             <div class="row">
                 <div class="form-group col-xs-6">
                     <div class="selectContainer">
-                        <select class="form-control" name="filterType">
+                        <select class="form-control" id="newFilterSelector" name="filterType" oninput="newFilterSelectionChanged()">
                             <option value="">Choose a filter</option>
                             <option value="title">Title Filter</option>
                             <option value="description">Description Filter</option>
                             <option value="duration">Duration Filter</option>
-                            <option value="pubdate">Publication Date Filter</option>
+                            <option value="pubDate">Publication Date Filter</option>
                         </select>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
     </div>
     <div class="row">
         <!-- parameter view for new title filters -->
-        <div class="col-xs-12 col-md-6" id="titleFilterParameters">
+        <div class="col-xs-12 parameterSet" id="titleFilterParameters">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="titleFilterMethodParameter">Title</label>
@@ -87,7 +87,7 @@
         </div>
 
         <!-- parameter view for new description filters -->
-        <div class="col-xs-12" id="descriptionFilterParameters">
+        <div class="col-xs-12 parameterSet" id="descriptionFilterParameters">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="descriptionFilterMethodParameter">Description</label>
@@ -99,14 +99,14 @@
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="descriptionFilterStringParameter">String</label>
+                    <label for="descriptionFilterStringParameter">&emsp;</label>
                     <input type="text" class="form-control" name="descriptionFilterStringParameter" id="descriptionFilterStringParameter"/>
                 </div>
             </div>
         </div>
 
         <!-- parameter view for new duration filters -->
-        <div class="col-xs-12" id="descriptionFilterParameters">
+        <div class="col-xs-12 parameterSet" id="durationFilterParameters">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="durationFilterMethodParameter">Duration is</label>
@@ -116,12 +116,28 @@
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="durationFilterStringParameter">Duration in seconds</label>
+                    <label for="durationFilterStringParameter">&emsp;</label>
                     <input type="number" class="form-control" name="durationFilterStringParameter" id="durationFilterStringParameter"/>
                 </div>
             </div>
         </div>
 
+        <!-- parameter view for new publication date filters -->
+        <div class="col-xs-12 parameterSet" id="pubDateFilterParameters">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="pubDateFilterMethodParameter">Publication date is</label>
+                    <select class="form-control" name="pubDateFilterMethodParameter" id="pubDateFilterMethodParameter">
+                        <option value="pubDateFilterMethodMustContain">before</option>
+                        <option value="pubDateFilterMethodMustNotContain">after</option>
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="pubDateFilterStringParameter">&emsp;</label>
+                    <input type="date" class="form-control" name="pubDateFilterStringParameter" id="pubDateFilterStringParameter"/>
+                </div>
+            </div>
+        </div>
     </div>
 
 

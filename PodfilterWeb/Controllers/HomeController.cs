@@ -9,7 +9,8 @@ namespace PodfilterWeb.Controllers
 {
     public class HomeController : HtmlBaseController
     {
-        private List<BasePodcastModification> _currentModifications = new List<BasePodcastModification>();
+        private const string PodcastUrlKey = "podcastUrl";
+        private const string PodcastModificationsKey = "podcastModifications";
 
         /// <summary>
         /// Index view displays the main ui for creating new podcast urls.
@@ -21,15 +22,16 @@ namespace PodfilterWeb.Controllers
         }
 
         [HttpPost("/addFilter")]
-        public IActionResult AddFilter([FromForm] string filterType)
+        public IActionResult AddFilter([FromForm] string filterType, [FromForm] string argument, [FromForm] string method)
         {
-            // in case the select box hint was submitted
-            if(string.IsNullOrWhiteSpace(filterType))
-                return View();
+            if(!string.IsNullOrWhiteSpace(filterType))
+            {
+                var modification = CreateModificationFromArguments(filterType, argument, method);
+                HttpContext.Session.Set<BasePodcastModification>()
 
+            }
 
-
-            return View();
+            return Redirect("/");
         }
 
         public IActionResult About()

@@ -30,3 +30,24 @@ $(".list-group list-group-item").click(function(e) {
     $(".list-group list-group-item").removeClass("active");
     $(e.target).addClass("active");
  });
+
+ function newFilterSelectionChanged(){
+    console.log("selection changed");
+    var selectBox = document.getElementById("newFilterSelector");
+    var filterType = selectBox.value;
+
+    hideFilterParameters();
+
+    if(filterType != ""){
+        var parameterSetName = filterType + "FilterParameters";
+        console.log("hiding all elements except " + parameterSetName);
+        document.getElementById(parameterSetName).style.display = 'block';
+    }
+ }
+
+ function hideFilterParameters(){
+     document.getElementById("titleFilterParameters").style.display = 'none';
+     document.getElementById("descriptionFilterParameters").style.display = 'none';
+     document.getElementById("durationFilterParameters").style.display = 'none';
+     document.getElementById("pubDateFilterParameters").style.display = 'none';
+ }

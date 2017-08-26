@@ -34,6 +34,13 @@ namespace Podfilter
             services.AddMvc();
             services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
             services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options => 
+                {
+                    options.IdleTimeout = TimeSpan.FromMinutes(2);
+                    options.Cookie.HttpOnly = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +67,8 @@ namespace Podfilter
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseSession();
         }
     }
 }

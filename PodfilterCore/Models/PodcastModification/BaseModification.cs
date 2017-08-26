@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace PodfilterCore.Models.PodcastModification
 {
@@ -8,6 +9,9 @@ namespace PodfilterCore.Models.PodcastModification
     public abstract class BasePodcastModification
     {
         public abstract void Modify(XDocument podcast);      
+
+        [JsonProperty(PropertyName="Type")]
+        public string TypeName => this.GetType().Name;
     }
 
     /// <summary>

@@ -96,3 +96,7 @@ textarea {
         right: 35px;
     }
 }
+
+.parameterSet{
+    display: none;
+}
