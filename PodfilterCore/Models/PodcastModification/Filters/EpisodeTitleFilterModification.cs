@@ -1,5 +1,5 @@
 ﻿using PodfilterCore.Models.ContentFilters;
-using PodfilterCore.Models.ContentFilters;
+using System;
 
 namespace PodfilterCore.Models.PodcastModification.Filters
 {
@@ -12,6 +12,14 @@ namespace PodfilterCore.Models.PodcastModification.Filters
             : base(
                 "//item/title",
                 new XElementFilterModification(new StringFilter(argument, method, caseInvariant)))
+        {
+            //
+        }
+
+        public EpisodeTitleFilterModification(string argument, string methodToParse, bool caseInvariant = true)
+            : base(
+                  "//item/title",
+                  new XElementFilterModification(new StringFilter(argument, (StringFilter.StringFilterMethod)Enum.Parse(typeof(StringFilter.StringFilterMethod), methodToParse), caseInvariant)))
         {
             //
         }

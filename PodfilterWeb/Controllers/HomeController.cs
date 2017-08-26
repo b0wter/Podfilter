@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PodfilterWeb.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using PodfilterCore.Models.PodcastModification;
 
@@ -22,13 +23,14 @@ namespace PodfilterWeb.Controllers
         }
 
         [HttpPost("/addFilter")]
-        public IActionResult AddFilter([FromForm] string filterType, [FromForm] string argument, [FromForm] string method)
+        public IActionResult AddFilter([FromForm] string filterType, [FromForm] string[] newFilterArgument, [FromForm] string newFilterMethod)
         {
             if(!string.IsNullOrWhiteSpace(filterType))
             {
-                var modification = CreateModificationFromArguments(filterType, argument, method);
-                HttpContext.Session.Set<BasePodcastModification>()
-
+                var modification = CreateModificationFromArguments(filterType, newFilterArgument, newFilterMethod);
+                var existingFilters = HttpContext.Session.Get<List<BasePodcastModification>>(PodcastModificationsKey);
+                existingFilters.Add(modification);
+                HttpContext.Session.Set<List<BasePodcastModification>>(PodcastModificationsKey, existingFilters);
             }
 
             return Redirect("/");
@@ -51,6 +53,13 @@ namespace PodfilterWeb.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        private BasePodcastModification CreateModificationFromArguments(string filterType, string[] arguments, string method)
+        {
+            var argument = arguments.First();
+            var modification = (BasePodcastModification)Activator.CreateInstance(Type.GetType($"{filterType}, PodfilterCore"), new object[] { method, argument });
+            return modification;
         }
     }
 }

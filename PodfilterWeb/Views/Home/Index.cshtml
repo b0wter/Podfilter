@@ -51,6 +51,7 @@
                 <div class="form-group col-xs-6">
                     <div class="selectContainer">
                         <select class="form-control" id="newFilterSelector" name="filterType" oninput="newFilterSelectionChanged()">
+                            <!-- Filter Types should match the name of their classes! -->
                             <option value="">Choose a filter</option>
                             <option value="title">Title Filter</option>
                             <option value="description">Description Filter</option>
@@ -72,16 +73,16 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="titleFilterMethodParameter">Title</label>
-                    <select class="form-control" name="titleFilterMethodParameter" id="titleFilterMethodParameter">
-                        <option value="titleFilterMethodMustContain">contains</option>
-                        <option value="titleFilterMethodMustNotContain">does not contain</option>
-                        <option value="titleFilterMethodMatches">matches</option>
-                        <option value="titleFilterMethodMatches">does not match</option>
+                    <select class="form-control" name="newFilterMethod" id="titleFilterMethodParameter">
+                        <option value="Contains">contains</option>
+                        <option value="DoesNotContain">does not contain</option>
+                        <option value="Matches">matches</option>
+                        <option value="DoesNotMatch">does not match</option>
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="titleFilterStringParameter">&emsp;</label>
-                    <input type="text" class="form-control" name="titleFilterStringParameter" id="titleFilterStringParameter"/>
+                    <input type="text" class="form-control" name="newFilterArgument" id="titleFilterStringParameter"/>
                 </div>
             </div>
         </div>
@@ -91,16 +92,16 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="descriptionFilterMethodParameter">Description</label>
-                    <select class="form-control" name="descriptionFilterMethodParameter" id="descriptionFilterMethodParameter">
-                        <option value="descriptionFilterMethodMustContain">contains</option>
-                        <option value="descriptionFilterMethodMustNotContain">does not contain</option>
-                        <option value="descriptionFilterMethodMatches">matches</option>
-                        <option value="descriptionFilterMethodMatches">does not match</option>
+                    <select class="form-control" name="newFilterMethod" id="descriptionFilterMethodParameter">
+                        <option value="Contains">contains</option>
+                        <option value="DoesNotContain">does not contain</option>
+                        <option value="Matches">matches</option>
+                        <option value="DoesNotMatch">does not match</option>
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="descriptionFilterStringParameter">&emsp;</label>
-                    <input type="text" class="form-control" name="descriptionFilterStringParameter" id="descriptionFilterStringParameter"/>
+                    <input type="text" class="form-control" name="newFilterArgument" id="descriptionFilterStringParameter"/>
                 </div>
             </div>
         </div>
@@ -110,14 +111,14 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="durationFilterMethodParameter">Duration is</label>
-                    <select class="form-control" name="durationFilterMethodParameter" id="durationFilterMethodParameter">
-                        <option value="durationFilterMethodMustContain">less than</option>
-                        <option value="durationFilterMethodMustNotContain">more than</option>
+                    <select class="form-control" name="newFilterMethod" id="durationFilterMethodParameter">
+                        <option value="Smaller">less than</option>
+                        <option value="Greater">more than</option>
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="durationFilterStringParameter">&emsp;</label>
-                    <input type="number" class="form-control" name="durationFilterStringParameter" id="durationFilterStringParameter"/>
+                    <input type="number" class="form-control" name="newFilterArgument" id="durationFilterStringParameter"/>
                 </div>
             </div>
         </div>
@@ -127,14 +128,14 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="pubDateFilterMethodParameter">Publication date is</label>
-                    <select class="form-control" name="pubDateFilterMethodParameter" id="pubDateFilterMethodParameter">
-                        <option value="pubDateFilterMethodMustContain">before</option>
-                        <option value="pubDateFilterMethodMustNotContain">after</option>
+                    <select class="form-control" name="newFilterMethod" id="pubDateFilterMethodParameter">
+                        <option value="Smaller">before</option>
+                        <option value="Greater">after</option>
                     </select>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="pubDateFilterStringParameter">&emsp;</label>
-                    <input type="date" class="form-control" name="pubDateFilterStringParameter" id="pubDateFilterStringParameter"/>
+                    <input type="date" class="form-control" name="newFilterArgument" id="pubDateFilterStringParameter"/>
                 </div>
             </div>
         </div>
