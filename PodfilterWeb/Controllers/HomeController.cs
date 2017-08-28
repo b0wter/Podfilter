@@ -144,7 +144,8 @@ namespace PodfilterWeb.Controllers
                 TempData["errorMessage"] = "You need to enter a podcast url.";
 
             var modifications = GetSessionModificationsFromCache();
-            var queryParameters = $"?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
+            var baseUrl = GetBaseUrl();
+            var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
             var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
             queryParameters += $"&url={encodedUrl}";
 
@@ -224,6 +225,14 @@ namespace PodfilterWeb.Controllers
             int i = 0;
             var method = methods[arguments.Select(a => new Tuple<int, string>(i++, a)).First(b => string.IsNullOrWhiteSpace(b.Item2) == false).Item1];
             return method;
+        }
+
+        private string GetBaseUrl()
+        {
+            var request = HttpContext.Request;
+            var host = request.Host.ToUriComponent();
+            var pathBase = request.PathBase.ToUriComponent();
+            return $"{request.Scheme}://{host}{pathBase}";
         }
     }
 }
