@@ -27,7 +27,7 @@ namespace PodfilterCore.Models.PodcastModification
         /// <summary>
         /// Modifies an <see cref="XElement"/> (may also be deleted).
         /// </summary>
-        private readonly XElementModification _contentModification;
+        protected readonly XElementModification _contentModification;
 
         protected BasePodcastElementModification(IPodcastElementProvider provider, XElementModification modification)
         {
@@ -55,5 +55,10 @@ namespace PodfilterCore.Models.PodcastModification
                 _contentModification.Modify(element);
             }    
         }
+
+        /// <summary>
+        /// Creates a string that corresponds to the http get query parameter that is represented by this filter.
+        /// </summary>
+        public abstract string ToQueryString();
     }
 }

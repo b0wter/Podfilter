@@ -6,10 +6,39 @@
 
 <form>
 
+    @if(ViewData.ContainsKey("errorMessage") || TempData.ContainsKey("errorMessage"))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["errorMessage"]
+            @TempData["errorMessage"]
+        </div>
+    }
+
+    @if(ViewData.ContainsKey("infoMessage") || TempData.ContainsKey("infoMessage"))
+    {
+        <div class="alert alert-info" role="alert">
+            @ViewData["infoMessage"]
+            @TempData["infoMessage"]
+        </div>  
+    }
+
+    @if(ViewData.ContainsKey("warningMessage") || TempData.ContainsKey("warningMessage"))
+    {
+        <div class="alert alert-warning" role="alert">
+            @ViewData["warningMessage"]
+            @TempData["warningMessage"]
+        </div>  
+    }
+
     <div id="podcastUrl" class="row">
         <div class="col-xs-12">
-            <label for="urlInputField">Url of podcast to filter</label>
-            <input type="text" class="form-control" id="urlInputField" />
+            <label for="podcastInputField">Url of podcast to filter</label>
+            <div class="input-group" id="podcastInputField">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="submit" formaction="validate" formmethod="post">Validate</button>
+                </span>
+                <input type="text" class="form-control" name="urlInputField" value="@ViewData["podcastUrl"]">
+            </div>
         </div>
     </div>
 
@@ -19,10 +48,21 @@
         <div class="col-sm-6">
             <label for="currentFiltersListBox">Current Filters</label>
             <div class="list-group" id="currentFiltersListBox">
+                @{int i = 0;}
                 @foreach(var filter in ViewData["currentFilters"] as List<PodfilterWeb.Models.DisplayableBasePodcastModification>){
-                    <div class="list-group-item">
-                        <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
-                    </div>
+                    @if((int)ViewData["selectedFilter"] == i)
+                    {
+                        <a href="selectFilter/@i" class="list-group-item active">
+                            <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                        </a>
+                    }
+                    else 
+                    {
+                        <a href="selectFilter/@i" class="list-group-item">
+                            <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                        </a>
+                    }
+                    i++;
                 }
             </div>
         </div>
@@ -147,10 +187,10 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <label for="createPodcast">Click create once you are set all your filters.</label>
+            <label for="createPodcast">Click create once you have set all filters.</label>
             <div class="input-group" id="createPodcast">
                 <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Create</button>
+                    <button class="btn btn-secondary" type="submit" formaction="create" formmethod="post">Create</button>
                 </span>
                 <input type="text" class="form-control" placeholder="new podcast url" />
             </div>

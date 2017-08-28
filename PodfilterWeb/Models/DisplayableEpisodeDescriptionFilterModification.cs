@@ -10,7 +10,7 @@ namespace PodfilterWeb.Models
 {
     public class DisplayableEpisodeDescriptionFilterModification : DisplayableBasePodcastModification<string>
     {
-        public override string Name => "Title Filter";
+        public override string Name => "Description Filter";
         public override string Description => $"Keeps elements {Method} {Argument}."; 
         public bool CaseInvariant {get;set;} = true;
 
