@@ -3,9 +3,9 @@ using PodfilterCore.Models.ContentFilters;
 
 namespace PodfilterWeb.Helpers
 {
-    internal static class ModificationMethodTranslator
+    public class ModificationMethodTranslator : BaseModificationMethodTranslator
     {
-        public static string StringFilterMethodToDisplayString(StringFilter.StringFilterMethod method)
+        public override string StringFilterMethodToDisplayString(StringFilter.StringFilterMethod method)
         {
             switch(method){
                 case StringFilter.StringFilterMethod.Contains:
@@ -21,7 +21,7 @@ namespace PodfilterWeb.Helpers
             }
         }
 
-        public static string DurationFilterMethodToDisplayString(DurationFilter.DurationFilterMethods method)
+        public override string DurationFilterMethodToDisplayString(DurationFilter.DurationFilterMethods method)
         {
             switch(method)
             {
@@ -40,7 +40,7 @@ namespace PodfilterWeb.Helpers
             }
         }
 
-        public static string DateFilterMethodToDisplayString(DateFilter.DateFilterMethods method)
+        public override string DateFilterMethodToDisplayString(DateFilter.DateFilterMethods method)
         {
             switch(method)
             {

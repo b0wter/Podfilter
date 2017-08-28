@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 using static PodfilterCore.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
+using System.Collections.Generic;
+using PodfilterWeb.Converters;
 
 namespace PodfilterWeb.Helpers
 {
@@ -35,7 +37,7 @@ namespace PodfilterWeb.Helpers
         public static T Get<T>(this ISession session,string key)
         {
             var value = session.GetString(key);
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { Converters = new List<JsonConverter> { new BaseModificationJsonConverter() } });
         }
     }
 }

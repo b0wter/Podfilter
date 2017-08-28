@@ -53,10 +53,10 @@
                         <select class="form-control" id="newFilterSelector" name="filterType" oninput="newFilterSelectionChanged()">
                             <!-- Filter Types should match the name of their classes! -->
                             <option value="">Choose a filter</option>
-                            <option value="title">Title Filter</option>
-                            <option value="description">Description Filter</option>
-                            <option value="duration">Duration Filter</option>
-                            <option value="pubDate">Publication Date Filter</option>
+                            <option value="EpisodeTitleFilterModification">Title Filter</option>
+                            <option value="EpisodeDescriptionFilterModification">Description Filter</option>
+                            <option value="EpisodeDurationFilterModification">Duration Filter</option>
+                            <option value="EpisodePublishDateFilterModification">Publication Date Filter</option>
                         </select>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
     </div>
     <div class="row">
         <!-- parameter view for new title filters -->
-        <div class="col-xs-12 parameterSet" id="titleFilterParameters">
+        <div class="col-xs-12 parameterSet" id="EpisodeTitleFilterModification">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="titleFilterMethodParameter">Title</label>
@@ -88,7 +88,7 @@
         </div>
 
         <!-- parameter view for new description filters -->
-        <div class="col-xs-12 parameterSet" id="descriptionFilterParameters">
+        <div class="col-xs-12 parameterSet" id="EpisodeDescriptionFilterModification">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="descriptionFilterMethodParameter">Description</label>
@@ -107,7 +107,7 @@
         </div>
 
         <!-- parameter view for new duration filters -->
-        <div class="col-xs-12 parameterSet" id="durationFilterParameters">
+        <div class="col-xs-12 parameterSet" id="EpisodeDurationFilterModification">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="durationFilterMethodParameter">Duration is</label>
@@ -124,7 +124,7 @@
         </div>
 
         <!-- parameter view for new publication date filters -->
-        <div class="col-xs-12 parameterSet" id="pubDateFilterParameters">
+        <div class="col-xs-12 parameterSet" id="EpisodePublishDateFilterModification">
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="pubDateFilterMethodParameter">Publication date is</label>

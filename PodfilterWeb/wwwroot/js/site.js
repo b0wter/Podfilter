@@ -37,17 +37,23 @@ $(".list-group list-group-item").click(function(e) {
     var filterType = selectBox.value;
 
     hideFilterParameters();
+    clearNewParameters();
 
-    if(filterType != ""){
-        var parameterSetName = filterType + "FilterParameters";
+    if(filterType !== ""){
+        var parameterSetName = filterType;
         console.log("hiding all elements except " + parameterSetName);
         document.getElementById(parameterSetName).style.display = 'block';
     }
  }
 
  function hideFilterParameters(){
-     document.getElementById("titleFilterParameters").style.display = 'none';
-     document.getElementById("descriptionFilterParameters").style.display = 'none';
-     document.getElementById("durationFilterParameters").style.display = 'none';
-     document.getElementById("pubDateFilterParameters").style.display = 'none';
+     document.getElementById("EpisodeTitleFilterModification").style.display = 'none';
+     document.getElementById("EpisodeDescriptionFilterModification").style.display = 'none';
+     document.getElementById("EpisodeDurationFilterModification").style.display = 'none';
+     document.getElementById("EpisodePublishDateFilterModification").style.display = 'none';
  }
+
+function clearNewParameters() {
+    var parameterInputs = document.getElementsByName("newFilterArgument");
+    parameterInputs.forEach(function (element) { element.value = "" });
+}
