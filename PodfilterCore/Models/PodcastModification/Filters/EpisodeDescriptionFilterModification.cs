@@ -11,9 +11,5 @@ namespace PodfilterCore.Models.PodcastModification.Filters
         {
             //
         }
-
-        public override string ToQueryString()
-        {
-        }
     }
 }

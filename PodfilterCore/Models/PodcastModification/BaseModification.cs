@@ -55,10 +55,5 @@ namespace PodfilterCore.Models.PodcastModification
                 _contentModification.Modify(element);
             }    
         }
-
-        /// <summary>
-        /// Creates a string that corresponds to the http get query parameter that is represented by this filter.
-        /// </summary>
-        public abstract string ToQueryString();
     }
 }

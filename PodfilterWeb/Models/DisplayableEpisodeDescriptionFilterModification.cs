@@ -40,5 +40,10 @@ namespace PodfilterWeb.Models
         public static DisplayableEpisodeDescriptionFilterModification CreateEmptyInstanceForDeserialization(){
             return new DisplayableEpisodeDescriptionFilterModification();
         }
+
+        public override string ToQueryString()
+        {
+            return $"description{Method}={Argument}";
+        }
     }
 }

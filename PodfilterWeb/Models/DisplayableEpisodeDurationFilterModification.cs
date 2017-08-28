@@ -48,5 +48,10 @@ namespace PodfilterWeb.Models
         {
             CreateModification(Argument, Method);
         }
+
+        public override string ToQueryString()
+        {
+            return $"duration{Method}={Argument}";
+        }
     }
 }

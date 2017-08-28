@@ -33,6 +33,8 @@ namespace PodfilterWeb.Models
         }
 
         protected abstract void DeserializeModification();
+
+        public abstract string ToQueryString();
     }
 
     public abstract class DisplayableBasePodcastModification<T> : DisplayableBasePodcastModification
