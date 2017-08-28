@@ -26,34 +26,34 @@ namespace PodfilterWeb.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            var session = HttpContext.Session.IsAvailable;
             ViewData["currentFilters"] = GetSessionModificationsFromCache();
             return View();
         }
 
-        private List<BasePodcastElementModification> GetSessionModificationsFromCache()
+        private List<DisplayableBasePodcastModification> GetSessionModificationsFromCache()
         {
             if (HttpContext.Session.IsAvailable)
             {
                 var cachedModifications = HttpContext.Session.Get<List<DisplayableBasePodcastModification>>(PodcastModificationsKey);
                 if (cachedModifications == null || cachedModifications.Count == 0)
-                    return new List<BasePodcastElementModification>();
-
-                throw new NotImplementedException();
+                    return new List<DisplayableBasePodcastModification>();
+                else
+                    return cachedModifications;
             }
             else
             {
-                return new List<BasePodcastElementModification>();
+                return new List<DisplayableBasePodcastModification>();
             }
         }
 
         [HttpPost("/addFilter")]
-        public IActionResult AddFilter([FromForm] string filterType, [FromForm] string[] newFilterArgument, [FromForm] string newFilterMethod)
+        public IActionResult AddFilter([FromForm] string filterType, [FromForm] string[] newFilterArgument, [FromForm] string[] newFilterMethod)
         {
             if (!string.IsNullOrWhiteSpace(filterType))
             {
                 var modificationArgument = GetArgumentFromArgumentsArray(newFilterArgument);
-                var modification = CreateModificationFromArguments(filterType, modificationArgument, newFilterMethod);
+                var filterMethod = GetFilterMethodFromArgumentsArray(newFilterArgument, newFilterMethod);
+                var modification = CreateModificationFromArguments(filterType, modificationArgument, filterMethod);
                 var existingFilters = HttpContext.Session.Get<List<DisplayableBasePodcastModification>>(PodcastModificationsKey) ?? new List<DisplayableBasePodcastModification>();
                 existingFilters.Add(modification);
                 HttpContext.Session.Set<List<DisplayableBasePodcastModification>>(PodcastModificationsKey, existingFilters);
@@ -83,16 +83,9 @@ namespace PodfilterWeb.Controllers
 
         private DisplayableBasePodcastModification CreateModificationFromArguments(string filterType, string argument, string method)
         {
-            var refType = typeof(Models.DisplayableEpisodeDescriptionFilterModification).FullName;
             var typeAsString = $"PodfilterWeb.Models.Displayable{filterType}, PodfilterWeb";
-            var modification = (DisplayableBasePodcastModification)Activator.CreateInstance(Type.GetType(typeAsString), new object[] { argument, method, true });
+            var modification = (DisplayableBasePodcastModification)Activator.CreateInstance(Type.GetType(typeAsString), new object[] { argument, method });
             return modification;
-
-            /*
-            var titleAsString = $"PodfilterCore.Models.PodcastModification.Filters.{filterType}, PodfilterCore";
-            var modification = (BasePodcastModification)Activator.CreateInstance(Type.GetType(titleAsString), new object[] { argument, method, true });
-            return modification;
-            */
         }
 
         private string GetArgumentFromArgumentsArray(string[] arguments)
@@ -101,6 +94,13 @@ namespace PodfilterWeb.Controllers
                 throw new ArgumentException("Arguments array needs to contain exactly one value.");
 
             return arguments.First(argument => string.IsNullOrWhiteSpace(argument) == false);
+        }
+
+        private string GetFilterMethodFromArgumentsArray(string[] arguments, string[] methods)
+        {
+            int i = 0;
+            var method = methods[arguments.Select(a => new Tuple<int, string>(i++, a)).First(b => string.IsNullOrWhiteSpace(b.Item2) == false).Item1];
+            return method;
         }
     }
 }

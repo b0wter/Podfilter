@@ -19,10 +19,11 @@
         <div class="col-sm-6">
             <label for="currentFiltersListBox">Current Filters</label>
             <div class="list-group" id="currentFiltersListBox">
-                <!-- list of all filters needs to be inserted here -->
-                <div class="list-group-item active">
-                    <b>Title Filter</b> <i><small>&emsp;String: argument&emsp;Method: contains</small></i>
-                </div>
+                @foreach(var filter in ViewData["currentFilters"] as List<PodfilterWeb.Models.DisplayableBasePodcastModification>){
+                    <div class="list-group-item">
+                        <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                    </div>
+                }
             </div>
         </div>
         <!--

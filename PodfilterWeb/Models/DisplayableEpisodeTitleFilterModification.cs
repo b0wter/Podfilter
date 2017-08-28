@@ -1,25 +1,26 @@
-﻿using PodfilterCore.Models.PodcastModification.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PodfilterCore.Models.ContentFilters;
 using System.Runtime.Serialization;
+using PodfilterCore.Models.PodcastModification.Filters;
 
 namespace PodfilterWeb.Models
 {
-    public class DisplayableEpisodeDescriptionFilterModification : DisplayableBasePodcastModification<string>
+    public class DisplayableEpisodeTitleFilterModification : DisplayableBasePodcastModification<string>
     {
         public override string Name => "Title Filter";
         public override string Description => $"Keeps elements {Method} {Argument}."; 
+
         public bool CaseInvariant {get;set;} = true;
 
-        protected DisplayableEpisodeDescriptionFilterModification()
+        protected DisplayableEpisodeTitleFilterModification()
         {
             // for deserialization
         }
 
-        public DisplayableEpisodeDescriptionFilterModification(string argument, string methodToParse)
+        public DisplayableEpisodeTitleFilterModification(string argument, string methodToParse)
         {
             this.Argument = argument;
             this.Method = methodToParse;
@@ -34,11 +35,12 @@ namespace PodfilterWeb.Models
         private void CreateModification(string argument, string methodToParse, bool caseInvariant)
         {
             var method = (StringFilter.StringFilterMethod)Enum.Parse(typeof(StringFilter.StringFilterMethod), methodToParse);
-            this.Modification = new EpisodeDescriptionFilterModification(argument, method, caseInvariant);        
+            this.Modification = new EpisodeDescriptionFilterModification(argument, method, caseInvariant);
         }
 
-        public static DisplayableEpisodeDescriptionFilterModification CreateEmptyInstanceForDeserialization(){
-            return new DisplayableEpisodeDescriptionFilterModification();
+        public static DisplayableEpisodeTitleFilterModification CreateEmptyInstanceForDeserialization()
+        {
+            return new DisplayableEpisodeTitleFilterModification();
         }
     }
 }
