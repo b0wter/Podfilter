@@ -1,0 +1,95 @@
+﻿<div class="row">
+    <!-- parameter view for new title filters -->
+    <div class="col-xs-12 parameterSet" id="EpisodeTitleFilterModification">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="titleFilterMethodParameter">Title</label>
+                <select class="form-control" name="newFilterMethod" id="titleFilterMethodParameter">
+                    <option value="Contains">contains</option>
+                    <option value="DoesNotContain">does not contain</option>
+                    <option value="Matches">matches</option>
+                    <option value="DoesNotMatch">does not match</option>
+                </select>
+            </div>
+            <div class="col-xs-6">
+                <label for="titleFilterStringParameter">&emsp;</label>
+                <input type="text" class="form-control" name="newFilterArgument" id="titleFilterStringParameter" />
+            </div>
+        </div>
+    </div>
+
+    <!-- parameter view for new description filters -->
+    <div class="col-xs-12 parameterSet" id="EpisodeDescriptionFilterModification">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="descriptionFilterMethodParameter">Description</label>
+                <select class="form-control" name="newFilterMethod" id="descriptionFilterMethodParameter">
+                    <option value="Contains">contains</option>
+                    <option value="DoesNotContain">does not contain</option>
+                    <option value="Matches">matches</option>
+                    <option value="DoesNotMatch">does not match</option>
+                </select>
+            </div>
+            <div class="col-xs-6">
+                <label for="descriptionFilterStringParameter">&emsp;</label>
+                <input type="text" class="form-control" name="newFilterArgument" id="descriptionFilterStringParameter" />
+            </div>
+        </div>
+    </div>
+
+    <!-- parameter view for new duration filters -->
+    <div class="col-xs-12 parameterSet" id="EpisodeDurationFilterModification">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="durationFilterMethodParameter">Duration is</label>
+                <select class="form-control" name="newFilterMethod" id="durationFilterMethodParameter">
+                    <option value="Smaller">less than</option>
+                    <option value="Greater">more than</option>
+                </select>
+            </div>
+            <div class="col-xs-6">
+                <label for="durationFilterStringParameter">&emsp;</label>
+                <input type="number" class="form-control" name="newFilterArgument" id="durationFilterStringParameter" />
+            </div>
+        </div>
+    </div>
+
+    <!-- parameter view for new publication date filters -->
+    <div class="col-xs-12 parameterSet" id="EpisodePublishDateFilterModification">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="pubDateFilterMethodParameter">Publication date is</label>
+                <select class="form-control" name="newFilterMethod" id="pubDateFilterMethodParameter">
+                    <option value="Smaller">before</option>
+                    <option value="Greater">after</option>
+                </select>
+            </div>
+            <div class="col-xs-6">
+                <label for="pubDateFilterStringParameter">&emsp;</label>
+                <input type="date" class="form-control" name="newFilterArgument" id="pubDateFilterStringParameter" />
+            </div>
+        </div>
+    </div>
+
+    <!-- parameter view for the remove duplicates filter -->
+    <div class="col-xs-12 parameterSet" id="RemoveDuplicateEpisodesModification">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="removeDuplicatesFilterMethodParameter">Dicard duplicate titles in</label>
+                <select class="form-control" name="newFilterMethod" id="removeDuplicatesFilterMethodParameter">
+                    <option value="Hour">hour</option>
+                    <option value="Day">day</option>
+                    <option value="Week">week</option>
+                    <option value="Month">month</option>
+                </select>
+            </div>
+            <div class="col-xs-6">
+                <label for="removeDuplicatesFilterStringParameter">(in doubt use 'keep first')</label>
+                <select class="form-control" name="newFilterArgument" id="removeDuplicatesFilterStringParameter">
+                    <option value="true" name="keepFirstEpisodeItem">keep first</option>
+                    <option value="false" name="keepLatestEpisodeItem">keep latest</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

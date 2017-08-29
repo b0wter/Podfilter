@@ -37,15 +37,47 @@
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" type="submit" formaction="validate" formmethod="post">Validate</button>
                 </span>
-                <input type="text" class="form-control" name="urlInputField" value="@ViewData["podcastUrl"]">
+                <input type="text" class="form-control noMaxWidth" name="urlInputField" value="@ViewData["podcastUrl"]" placeholder="url of podcast to filter">
             </div>
         </div>
     </div>
 
-    <br />
+    <hr />
 
     <div id="currentFilters" class="row">
-        <div class="col-md-6">
+
+        <!-- Controls to add new modifications. -->
+        <div class="col-xs-12 col-md-6">
+            <label for="newModificationsControls">Add filter</label>
+            <div class="row" id="newModificationsControls">
+                <div class="form-group col-xs-6">
+                    <div class="selectContainer">
+                        <select class="form-control" id="newFilterSelector" name="filterType" oninput="newFilterSelectionChanged()">
+                            <!-- Filter Types should match the name of their classes! -->
+                            <option value="">Choose a filter</option>
+                            <option value="EpisodeTitleFilterModification">Title Filter</option>
+                            <option value="EpisodeDescriptionFilterModification">Description Filter</option>
+                            <option value="EpisodeDurationFilterModification">Duration Filter</option>
+                            <option value="EpisodePublishDateFilterModification">Publication Date Filter</option>
+                            <option value="RemoveDuplicateEpisodesModification">Duplicate Episodes Filter</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 btn-group" role="group" aria-label="filter actions">
+                    <button type="submit" class="btn btn-default" formaction="addFilter" formmethod="post">Add</button>
+                    <button type="submit" class="btn btn-default" formaction="removeFilter" formmethod="post">Remove</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    @Html.Partial("NewFilterParameters")
+                </div>
+            </div>
+        </div>
+
+        <!-- List of the current modifications. -->
+        <div class="col-xs-12 col-md-6">
             <label for="currentFiltersListBox">Current Filters</label>
             @if ((int)ViewData["currentFilterCount"] > 0)
             {
@@ -78,156 +110,18 @@
                 </div>
             }
         </div>
-        <!--
-        <div class="col-sm-6">
-            <label for="currentFiltersListBox">Filter Settings</label>
-            <div class="list-group" id="selectedFilterDetails">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-6">Paramter #1</div>
-                        <div class="col-sm-6">Value #1</div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-6">Paramter #1</div>
-                        <div class="col-sm-6">Value #1</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <div class="row">
-                <div class="form-group col-xs-6">
-                    <div class="selectContainer">
-                        <select class="form-control" id="newFilterSelector" name="filterType" oninput="newFilterSelectionChanged()">
-                            <!-- Filter Types should match the name of their classes! -->
-                            <option value="">Choose a filter</option>
-                            <option value="EpisodeTitleFilterModification">Title Filter</option>
-                            <option value="EpisodeDescriptionFilterModification">Description Filter</option>
-                            <option value="EpisodeDurationFilterModification">Duration Filter</option>
-                            <option value="EpisodePublishDateFilterModification">Publication Date Filter</option>
-                            <option value="RemoveDuplicateEpisodesModification">Duplicate Episodes Filter</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 btn-group" role="group" aria-label="filter actions">
-                    <button type="submit" class="btn btn-default" formaction="addFilter" formmethod="post">Add</button>
-                    <button type="submit" class="btn btn-default" formaction="removeFilter" formmethod="post">Remove</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <!-- parameter view for new title filters -->
-        <div class="col-xs-12 parameterSet" id="EpisodeTitleFilterModification">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="titleFilterMethodParameter">Title</label>
-                    <select class="form-control" name="newFilterMethod" id="titleFilterMethodParameter">
-                        <option value="Contains">contains</option>
-                        <option value="DoesNotContain">does not contain</option>
-                        <option value="Matches">matches</option>
-                        <option value="DoesNotMatch">does not match</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="titleFilterStringParameter">&emsp;</label>
-                    <input type="text" class="form-control" name="newFilterArgument" id="titleFilterStringParameter"/>
-                </div>
-            </div>
-        </div>
-
-        <!-- parameter view for new description filters -->
-        <div class="col-xs-12 parameterSet" id="EpisodeDescriptionFilterModification">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="descriptionFilterMethodParameter">Description</label>
-                    <select class="form-control" name="newFilterMethod" id="descriptionFilterMethodParameter">
-                        <option value="Contains">contains</option>
-                        <option value="DoesNotContain">does not contain</option>
-                        <option value="Matches">matches</option>
-                        <option value="DoesNotMatch">does not match</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="descriptionFilterStringParameter">&emsp;</label>
-                    <input type="text" class="form-control" name="newFilterArgument" id="descriptionFilterStringParameter"/>
-                </div>
-            </div>
-        </div>
-
-        <!-- parameter view for new duration filters -->
-        <div class="col-xs-12 parameterSet" id="EpisodeDurationFilterModification">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="durationFilterMethodParameter">Duration is</label>
-                    <select class="form-control" name="newFilterMethod" id="durationFilterMethodParameter">
-                        <option value="Smaller">less than</option>
-                        <option value="Greater">more than</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="durationFilterStringParameter">&emsp;</label>
-                    <input type="number" class="form-control" name="newFilterArgument" id="durationFilterStringParameter"/>
-                </div>
-            </div>
-        </div>
-
-        <!-- parameter view for new publication date filters -->
-        <div class="col-xs-12 parameterSet" id="EpisodePublishDateFilterModification">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="pubDateFilterMethodParameter">Publication date is</label>
-                    <select class="form-control" name="newFilterMethod" id="pubDateFilterMethodParameter">
-                        <option value="Smaller">before</option>
-                        <option value="Greater">after</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="pubDateFilterStringParameter">&emsp;</label>
-                    <input type="date" class="form-control" name="newFilterArgument" id="pubDateFilterStringParameter"/>
-                </div>
-            </div>
-        </div>
-
-        <!-- parameter view for the remove duplicates filter -->
-        <div class="col-xs-12 parameterSet" id="RemoveDuplicateEpisodesModification">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="removeDuplicatesFilterMethodParameter">Skip if other episode with same title in</label>
-                    <select class="form-control" name="newFilterMethod" id="removeDuplicatesFilterMethodParameter">
-                        <option value="Hour">hour</option>
-                        <option value="Day">day</option>
-                        <option value="Week">week</option>
-                        <option value="Month">month</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <label for="removeDuplicatesFilterStringParameter">(always use 'keep first'!)</label>
-                    <select class="form-control" name="newFilterArgument" id="removeDuplicatesFilterStringParameter">
-                        <option value="true" >keep first</option>
-                        <option value="false">keep latest</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <hr />
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xs-12">
             <label for="createPodcast">Click create once you have set all filters.</label>
             <div class="input-group" id="createPodcast">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" type="submit" formaction="create" formmethod="post">Create</button>
                 </span>
-                <input type="text" class="form-control" placeholder="new podcast url" value="@TempData["filteredPodcastUrl"]" />
+                <input type="text" class="form-control noMaxWidth" placeholder="new podcast url" value="@TempData["filteredPodcastUrl"]" />
             </div>
         </div>
     </div>
