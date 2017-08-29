@@ -23,9 +23,9 @@ namespace PodfilterCore.Models
             _podcastDeserializer = contentDeserializer;
         }
 
-        public async Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
+        public async Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
         {
-            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
             var podcast = await GetPodcastFromUrl(url);
             ApplyModifications(podcast, modifications);
             AddFilteredHintToPodcastTitle(podcast);
@@ -43,7 +43,7 @@ namespace PodfilterCore.Models
         /// <param name="minDuration"></param>
         /// <param name="maxDuration"></param>
         /// <returns></returns>
-        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration)
+        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
         {
             var mods = new List<BasePodcastModification>();
 
@@ -67,6 +67,12 @@ namespace PodfilterCore.Models
 
             if (maxDuration != int.MaxValue)
                 mods.Add(new EpisodeDurationFilterModification(Models.ContentFilters.DurationFilter.DurationFilterMethods.SmallerEquals, maxDuration));
+
+            if(string.IsNullOrWhiteSpace(removeDuplicates) == false)
+            {
+                var method = (RemoveDuplicateEpisodesModification.DuplicateTimeFrames)Enum.Parse(typeof(RemoveDuplicateEpisodesModification.DuplicateTimeFrames), removeDuplicates);
+                mods.Add(new RemoveDuplicateEpisodesModification(method));
+            }
 
             return mods;
         }

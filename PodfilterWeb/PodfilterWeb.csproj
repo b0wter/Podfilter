@@ -6,6 +6,12 @@
     <RootNamespace>PodfilterWeb</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Views\Filters\**" />
+    <Content Remove="Views\Filters\**" />
+    <EmbeddedResource Remove="Views\Filters\**" />
+    <None Remove="Views\Filters\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Properties\PublishProfiles\PodfilterWeb.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -21,7 +27,6 @@
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Filters\" />
     <Folder Include="wwwroot\fonts" />
   </ItemGroup>
   <ItemGroup>

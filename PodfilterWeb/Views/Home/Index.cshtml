@@ -98,6 +98,7 @@
                             <option value="EpisodeDescriptionFilterModification">Description Filter</option>
                             <option value="EpisodeDurationFilterModification">Duration Filter</option>
                             <option value="EpisodePublishDateFilterModification">Publication Date Filter</option>
+                            <option value="RemoveDuplicateEpisodesModification">Duplicate Episodes Filter</option>
                         </select>
                     </div>
                 </div>
@@ -177,6 +178,29 @@
                 <div class="col-xs-6 col-sm-4 col-md-3">
                     <label for="pubDateFilterStringParameter">&emsp;</label>
                     <input type="date" class="form-control" name="newFilterArgument" id="pubDateFilterStringParameter"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- parameter view for the remove duplicates filter -->
+        <div class="col-xs-12 parameterSet" id="RemoveDuplicateEpisodesModification">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="removeDuplicatesFilterMethodParameter">Skip if other episode with same title in</label>
+                    <select class="form-control" name="newFilterMethod" id="removeDuplicatesFilterMethodParameter">
+                        <option value="Hour">hour</option>
+                        <option value="Day">day</option>
+                        <option value="Week">week</option>
+                        <option value="Month">month</option>
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <label for="removeDuplicatesFilterStringParameter">(always use 'keep first'!)</label>
+                    <select class="form-control" name="newFilterArgument" id="removeDuplicatesFilterStringParameter">
+                        <option value="true" >keep first</option>
+                        <option value="false">keep latest</option>
+                    </select>
+                    <!--<input type="text" class="form-control" name="newFilterArgument" id="removeDuplicatesFilterStringParameter" value="dummy"/>-->
                 </div>
             </div>
         </div>

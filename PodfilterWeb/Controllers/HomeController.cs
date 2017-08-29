@@ -144,12 +144,17 @@ namespace PodfilterWeb.Controllers
                 TempData["errorMessage"] = "You need to enter a podcast url.";
 
             var modifications = GetSessionModificationsFromCache();
-            var baseUrl = GetBaseUrl();
-            var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
-            var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
-            queryParameters += $"&url={encodedUrl}";
+            if (modifications.Count <= 0)
+                TempData["warningMessage"] = "You have not added any filters.";
+            else
+            {
+                var baseUrl = GetBaseUrl();
+                var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
+                var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
+                queryParameters += $"&url={encodedUrl}";
 
-            TempData["filteredPodcastUrl"] = queryParameters;
+                TempData["filteredPodcastUrl"] = queryParameters;
+            }
 
             return Redirect("/");
         }

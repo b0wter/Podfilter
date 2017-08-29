@@ -62,10 +62,11 @@ namespace PodfilterWeb.Controllers
 			[FromQuery] string titleMustNotContain = null,
 			[FromQuery] string titleMustContain = null,
 			[FromQuery] int minDuration = int.MinValue,
-			[FromQuery] int maxDuration = int.MaxValue)
+			[FromQuery] int maxDuration = int.MaxValue,
+            [FromQuery] string removeDuplicates = "")
 		{
             var podcastCore = new Core(_podcastProvider, _podcastDeserializer);
-            var filteredPodcast = await podcastCore.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration);
+            var filteredPodcast = await podcastCore.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
             var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
 
             var mediaType = MediaTypeHeaderValue.Parse("application/xml");

@@ -51,6 +51,7 @@ $(".list-group list-group-item").click(function(e) {
      document.getElementById("EpisodeDescriptionFilterModification").style.display = 'none';
      document.getElementById("EpisodeDurationFilterModification").style.display = 'none';
      document.getElementById("EpisodePublishDateFilterModification").style.display = 'none';
+     document.getElementById("RemoveDuplicateEpisodesModification").style.display = 'none';
  }
 
 function clearNewParameters() {

@@ -29,12 +29,14 @@ namespace PodfilterWeb.Converters
 
             if (type == typeof(DisplayableEpisodeDescriptionFilterModification).FullName)
                 mod = DisplayableEpisodeDescriptionFilterModification.CreateEmptyInstanceForDeserialization();
-            else if(type == typeof(DisplayableEpisodeTitleFilterModification).FullName)
+            else if (type == typeof(DisplayableEpisodeTitleFilterModification).FullName)
                 mod = DisplayableEpisodeTitleFilterModification.CreateEmptyInstanceForDeserialization();
-            else if(type == typeof(DisplayableEpisodeDurationFilterModification).FullName)
+            else if (type == typeof(DisplayableEpisodeDurationFilterModification).FullName)
                 mod = DisplayableEpisodeDurationFilterModification.CreateEmptyInstanceForDeserialization();
-            else if(type == typeof(DisplayableEpisodePublishDateFilterModification).FullName)
+            else if (type == typeof(DisplayableEpisodePublishDateFilterModification).FullName)
                 mod = DisplayableEpisodePublishDateFilterModification.CreateEmptyInstanceForDeserialization();
+            else if (type == typeof(DisplayableRemoveDuplicateEpisodesModification).FullName)
+                mod = DisplayableRemoveDuplicateEpisodesModification.CreateEmptyInstanceForDeserialization();
             else
                 throw new ArgumentException($"Cannot deserialize objects with the TypeName '{type}'.");
 
