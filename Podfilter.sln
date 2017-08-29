@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "PodfilterWe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCoreTests", "PodfilterCoreTests\PodfilterCoreTests.csproj", "{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1F51D76E-21C1-4650-A25C-7A06592A33DC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterCore", "PodfilterCore\PodfilterCore.csproj", "{A9ED0492-7C8B-4CE0-B714-8E00ECE1537C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepository", "PodfilterRepository\PodfilterRepository.csproj", "{337641C0-7441-4C63-AB9F-6D314D5DF21B}"
@@ -17,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepositoryTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodfilterAngular", "PodfilterAngular\PodfilterAngular.csproj", "{852329E3-5531-4DD3-A089-CF1ABA6A90FE}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{221AFD4B-6735-4FD6-908D-FEF838012D9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DA9A32C-2B6A-45EF-98BE-8BE2C6980F17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F51D76E-21C1-4650-A25C-7A06592A33DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F51D76E-21C1-4650-A25C-7A06592A33DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F51D76E-21C1-4650-A25C-7A06592A33DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F51D76E-21C1-4650-A25C-7A06592A33DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9ED0492-7C8B-4CE0-B714-8E00ECE1537C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9ED0492-7C8B-4CE0-B714-8E00ECE1537C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9ED0492-7C8B-4CE0-B714-8E00ECE1537C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,10 +47,10 @@ Global
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.Build.0 = Release|Any CPU
-		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{852329E3-5531-4DD3-A089-CF1ABA6A90FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
