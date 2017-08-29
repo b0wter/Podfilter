@@ -47,24 +47,36 @@
     <div id="currentFilters" class="row">
         <div class="col-md-6">
             <label for="currentFiltersListBox">Current Filters</label>
-            <div class="list-group" id="currentFiltersListBox">
-                @{int i = 0;}
-                @foreach(var filter in ViewData["currentFilters"] as List<PodfilterWeb.Models.DisplayableBasePodcastModification>){
-                    @if((int)ViewData["selectedFilter"] == i)
+            @if ((int)ViewData["currentFilterCount"] > 0)
+            {
+                <div class="list-group" id="currentFiltersListBox">
+                    @{int i = 0;}
+                    @foreach (var filter in ViewData["currentFilters"] as List<PodfilterWeb.Models.DisplayableBasePodcastModification>)
                     {
-                        <a href="selectFilter/@i" class="list-group-item active">
-                            <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
-                        </a>
+                        @if ((int)ViewData["selectedFilter"] == i)
+                        {
+                            <a href="selectFilter/@i" class="list-group-item active">
+                                <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="selectFilter/@i" class="list-group-item">
+                                <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                            </a>
+                        }
+                        i++;
                     }
-                    else 
-                    {
-                        <a href="selectFilter/@i" class="list-group-item">
-                            <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
-                        </a>
-                    }
-                    i++;
-                }
-            </div>
+                </div>
+            }
+            else
+            {
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        You have not added any filters yet.
+                    </div>
+                </div>
+            }
         </div>
         <!--
         <div class="col-sm-6">

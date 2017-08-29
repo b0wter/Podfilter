@@ -51,8 +51,13 @@ namespace PodfilterWeb.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            ViewData["currentFilters"] = GetSessionModificationsFromCache();
+            // store filter information
+            var filters = GetSessionModificationsFromCache();
+            ViewData["currentFilters"] = filters;
+            ViewData["currentFilterCount"] = filters.Count;
+
             ViewData["selectedFilter"] = GetSelectedFilterFromCache();
+
             ViewData["podcastUrl"] = PodcastUrl;
             return View();
         }
@@ -99,6 +104,10 @@ namespace PodfilterWeb.Controllers
                     existingFilters.Add(modification);
                     HttpContext.Session.Set<List<DisplayableBasePodcastModification>>(PodcastModificationsKey, existingFilters);
                 }
+                else
+                {
+                    TempData["warningMessage"] = "To add a filter please select a filter from the selection box.";
+                }
             }
             catch(Exception ex)
             {
@@ -114,12 +123,16 @@ namespace PodfilterWeb.Controllers
             PodcastUrl = urlInputField;
             if(HttpContext.Session.IsAvailable)
             {
-                int filterIndex = HttpContext.Session.Get<int>(SelectedFilterKey);
-                var modifications = HttpContext.Session.Get<List<DisplayableBasePodcastModification>>(PodcastModificationsKey);
+                int filterIndex = GetSelectedFilterFromCache();
+                var modifications = GetSessionModificationsFromCache();
                 if(filterIndex >= 0 && filterIndex < modifications.Count)
                 {
                     modifications.RemoveAt(filterIndex);
                     HttpContext.Session.Set<List<DisplayableBasePodcastModification>>(PodcastModificationsKey, modifications);
+                }
+                else
+                {
+                    TempData["warningMessage"] = "There is no filter to remove.";
                 }
             }
 
