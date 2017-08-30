@@ -82,8 +82,7 @@ namespace PodfilterWeb.Controllers
 		[HttpGet]
 		public async Task<ActionResult> HttpGet_FilterPodcast([RequiredFromQuery] string url, [RequiredFromQuery] string filters)
 		{
-			var modifications = JsonConvert
-									.DeserializeObject<List<BasePodcastModification>>(
+			var modifications = JsonConvert.DeserializeObject<List<BasePodcastModification>>(
 										filters, 
 										new JsonSerializerSettings{ 
 											Converters = new List<JsonConverter>{
