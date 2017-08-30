@@ -31,57 +31,6 @@ namespace PodfilterCore.Models
             return podcast;
         }
 
-        public async override Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
-        {
-            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
-            return await Modify(url, modifications);
-        }
-
-        /// <summary>
-        /// Creates a list of <see cref="BasePodcastElementModification"/>s from the given parameters.
-        /// </summary>
-        /// <param name="fromEpoch"></param>
-        /// <param name="toEpoch"></param>
-        /// <param name="removeDuplicateEpisodes"></param>
-        /// <param name="titleMustNotContain"></param>
-        /// <param name="titleMustContain"></param>
-        /// <param name="minDuration"></param>
-        /// <param name="maxDuration"></param>
-        /// <returns></returns>
-        private IEnumerable<BasePodcastModification> CreateModifications(long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
-        {
-            var mods = new List<BasePodcastModification>();
-
-            if (fromEpoch != long.MinValue)
-                mods.Add(new EpisodePublishDateFilterModification(fromEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.GreaterEquals));
-
-            if (toEpoch != long.MaxValue)
-                mods.Add(new EpisodePublishDateFilterModification(toEpoch, Models.ContentFilters.DateFilter.DateFilterMethods.SmallerEquals));
-
-            if (removeDuplicateEpisodes)
-                mods.Add(new RemoveDuplicateEpisodesModification());
-
-            if (!string.IsNullOrEmpty(titleMustContain))
-                mods.Add(new EpisodeTitleFilterModification(titleMustContain, Models.ContentFilters.StringFilter.StringFilterMethod.Contains));
-
-            if (!string.IsNullOrEmpty(titleMustNotContain))
-                mods.Add(new EpisodeTitleFilterModification(titleMustNotContain, Models.ContentFilters.StringFilter.StringFilterMethod.DoesNotContain));
-
-            if (minDuration != int.MinValue)
-                mods.Add(new EpisodeDurationFilterModification(Models.ContentFilters.DurationFilter.DurationFilterMethods.GreaterEquals, minDuration));
-
-            if (maxDuration != int.MaxValue)
-                mods.Add(new EpisodeDurationFilterModification(Models.ContentFilters.DurationFilter.DurationFilterMethods.SmallerEquals, maxDuration));
-
-            if(string.IsNullOrWhiteSpace(removeDuplicates) == false)
-            {
-                var method = (RemoveDuplicateEpisodesModification.DuplicateTimeFrames)Enum.Parse(typeof(RemoveDuplicateEpisodesModification.DuplicateTimeFrames), removeDuplicates);
-                mods.Add(new RemoveDuplicateEpisodesModification(method));
-            }
-
-            return mods;
-        }
-
         /// <summary>
         /// Applies every given modification to the podcast. The modifications are performed in place.
         /// </summary>

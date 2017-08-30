@@ -46,7 +46,7 @@ namespace PodfilterCore.Models
         /// <see cref="CachedFeed"/>.
         /// </summary>
         /// <returns></returns>
-        private async Task Update()
+        private void Update()
         {
             throw new NotImplementedException(); 
         }
@@ -56,7 +56,7 @@ namespace PodfilterCore.Models
         /// the <see cref="Filters"/>.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetCurrentFeed()
+        public string GetCurrentFeed()
         {
             throw new NotImplementedException();
         }

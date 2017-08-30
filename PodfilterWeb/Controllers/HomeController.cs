@@ -250,7 +250,7 @@ namespace PodfilterWeb.Controllers
             {
                 TempData["warningMessage"] = $"The given podcast url does not seem to be valid ({ex.GetType().Name}).";
             }
-            catch(XmlException ex)
+            catch(XmlException)
             {
                 TempData["warningMessage"] = $"The remote url does not point to a valid XML document and is most likely not a podcast url!";
             }
