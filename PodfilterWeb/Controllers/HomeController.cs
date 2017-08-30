@@ -166,6 +166,7 @@ namespace PodfilterWeb.Controllers
                 {
                     modifications.RemoveAt(filterIndex);
                     SetPodcastModifications(modifications);
+                    SelectedFilterIndex--;
                 }
                 else
                 {
