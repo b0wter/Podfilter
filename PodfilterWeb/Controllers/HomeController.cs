@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Xml.Linq;
 using System.Xml;
 using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 
 namespace PodfilterWeb.Controllers
 {
@@ -209,7 +210,9 @@ namespace PodfilterWeb.Controllers
             else
             {
                 var baseUrl = GetBaseUrl();
-                var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
+                var serializedModifications = System.Net.WebUtility.UrlEncode(JsonConvert.SerializeObject(GetPodcastModifications(), Newtonsoft.Json.Formatting.None));
+                var queryParameters = $"{baseUrl}/api/filter?filters={serializedModifications}";
+                //var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
                 var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
                 queryParameters += $"&url={encodedUrl}";
 
@@ -232,7 +235,7 @@ namespace PodfilterWeb.Controllers
                 await ValidateRemoteUrlIsXmlDocument(urlInputField);
                 TempData["infoMessage"] = "Remote url is a valid XML document.";
             }
-            catch(InvalidOperationException ex)
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) 
             {
                 TempData["warningMessage"] = "You need to supply a valid url for the test.";
             }
@@ -243,6 +246,10 @@ namespace PodfilterWeb.Controllers
             catch(XmlException ex)
             {
                 TempData["warningMessage"] = $"The remote url does not point to a valid XML document and is most likely not a podcast url!";
+            }
+            catch(Exception)
+            {
+                TempData["warningManager"] = "An unknown error has occured. Please check your input and send a feedback email!";
             }
 
             PodcastUrl = urlInputField;
