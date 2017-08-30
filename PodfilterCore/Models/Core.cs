@@ -23,13 +23,18 @@ namespace PodfilterCore.Models
             _podcastDeserializer = contentDeserializer;
         }
 
-        public async Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
+        public async Task<XDocument> Modify(string url, IEnumerable<BasePodcastModification> modifications)
         {
-            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
             var podcast = await GetPodcastFromUrl(url);
             ApplyModifications(podcast, modifications);
             AddFilteredHintToPodcastTitle(podcast);
             return podcast;
+        }
+
+        public async Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
+        {
+            var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
+            return await Modify(url, modifications);
         }
 
         /// <summary>

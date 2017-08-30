@@ -6,6 +6,11 @@ using Microsoft.Net.Http.Headers;
 using PodfilterCore.Models;
 using PodfilterCore.Data;
 using PodfilterWeb.Helpers;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using PodfilterCore.Models.PodcastModification;
+using Newtonsoft.Json;
+using PodfilterWeb.Converters;
 
 namespace PodfilterWeb.Controllers
 {
@@ -53,8 +58,8 @@ namespace PodfilterWeb.Controllers
 		/// <param name="minDuration">minimum duration of the postcast in seconds</param>
 		/// <param name="maxDuration">maximum duration of the podcast in seconds</param>
 		/// <returns>filtered podcast</returns>
-		[HttpGet]
-		public async Task<ActionResult> HttpGet_FilterPodcast(
+		[HttpGet("/simple")]
+		public async Task<ActionResult> HttpGet_SimpleFilterPodcast(
 			[RequiredFromQuery] string url,
 			[FromQuery] long fromEpoch = long.MinValue,
 			[FromQuery] long toEpoch = long.MaxValue,
@@ -71,8 +76,34 @@ namespace PodfilterWeb.Controllers
 
             var mediaType = MediaTypeHeaderValue.Parse("application/xml");
             var content = Content(serializedFilteredPodcast, mediaType);
-
             return content;
+		}
+
+		[HttpGet]
+		public async Task<ActionResult> HttpGet_FilterPodcast([RequiredFromQuery] string url, [RequiredFromQuery] string filters)
+		{
+			var modifications = JsonConvert
+									.DeserializeObject<List<BasePodcastModification>>(
+										filters, 
+										new JsonSerializerSettings{ 
+											Converters = new List<JsonConverter>{
+												new BaseModificationJsonConverter()
+											}
+										});
+			
+			var serializedFilteredPodcast = await ModifyAndSerialize(url, modifications);
+
+            var mediaType = MediaTypeHeaderValue.Parse("application/xml");
+            var content = Content(serializedFilteredPodcast, mediaType);
+            return content;
+		}
+
+		private async Task<string> ModifyAndSerialize(string url, IEnumerable<BasePodcastModification> modifications)
+		{
+			var core = new Core(_podcastProvider, _podcastDeserializer);
+			var filteredPodcast = await core.Modify(url, modifications);
+			var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
+			return serializedFilteredPodcast;
 		}
 
         /// <summary>
