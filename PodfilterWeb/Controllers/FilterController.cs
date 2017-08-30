@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using PodfilterCore.Models.PodcastModification;
 using Newtonsoft.Json;
 using PodfilterWeb.Converters;
+using PodfilterWeb.Models;
+using System.Linq;
 
 namespace PodfilterWeb.Controllers
 {
@@ -20,13 +22,11 @@ namespace PodfilterWeb.Controllers
 	[Route("api/[controller]")]
 	public class FilterController : ApiBaseController
 	{
-        private IHttpContentProvider<string> _podcastProvider;
-        private IContentDeserializer<string> _podcastDeserializer;
+		private BaseCore _core;
 
-        public FilterController(IHttpContentProvider<string> podcastProvider, IContentDeserializer<string> podcastDeserializer)
+        public FilterController(BaseCore core)
         {
-            _podcastProvider = podcastProvider;
-            _podcastDeserializer = podcastDeserializer;
+			_core = core;
         }
 
 		/// <summary>
@@ -70,37 +70,45 @@ namespace PodfilterWeb.Controllers
 			[FromQuery] int maxDuration = int.MaxValue,
             [FromQuery] string removeDuplicates = "")
 		{
-            var podcastCore = new Core(_podcastProvider, _podcastDeserializer);
-            var filteredPodcast = await podcastCore.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
+            var filteredPodcast = await _core.Modify(url, fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
             var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
-
-            var mediaType = MediaTypeHeaderValue.Parse("application/xml");
-            var content = Content(serializedFilteredPodcast, mediaType);
+			var content = CreateContentResultForSerializedPodcast(serializedFilteredPodcast);
             return content;
 		}
 
+		/// <summary>
+		/// Prefered way of using the controller to filter a podcast.
+		/// </summary>
 		[HttpGet]
 		public async Task<ActionResult> HttpGet_FilterPodcast([RequiredFromQuery] string url, [RequiredFromQuery] string filters)
 		{
-			var modifications = JsonConvert.DeserializeObject<List<BasePodcastModification>>(
+			var displayableModifications = JsonConvert.DeserializeObject<List<DisplayableBasePodcastModification>>(
 										filters, 
 										new JsonSerializerSettings{ 
 											Converters = new List<JsonConverter>{
-												new BaseModificationJsonConverter()
+												new DisplayableBaseModificationJsonConverter()
 											}
 										});
 			
-			var serializedFilteredPodcast = await ModifyAndSerialize(url, modifications);
-
-            var mediaType = MediaTypeHeaderValue.Parse("application/xml");
-            var content = Content(serializedFilteredPodcast, mediaType);
+			var modifications = displayableModifications.Select(x => x.Modification);
+			var serializedFilteredPodcast = await ModifyWithDefaultCore(url, modifications);
+			var content = CreateContentResultForSerializedPodcast(serializedFilteredPodcast);
             return content;
 		}
 
-		private async Task<string> ModifyAndSerialize(string url, IEnumerable<BasePodcastModification> modifications)
+		/// <summary>
+		/// Creates a ContentResult that contains the serialized podcast and sets the media type to xml.
+		/// </summary>
+		private ContentResult CreateContentResultForSerializedPodcast(string podcast)
 		{
-			var core = new Core(_podcastProvider, _podcastDeserializer);
-			var filteredPodcast = await core.Modify(url, modifications);
+            var mediaType = MediaTypeHeaderValue.Parse("application/xml");
+            var content = Content(podcast, mediaType);
+            return content;
+		}
+
+		private async Task<string> ModifyWithDefaultCore(string url, IEnumerable<BasePodcastModification> modifications)
+		{
+			var filteredPodcast = await _core.Modify(url, modifications);
 			var serializedFilteredPodcast = filteredPodcast.ToStringWithDeclaration();
 			return serializedFilteredPodcast;
 		}

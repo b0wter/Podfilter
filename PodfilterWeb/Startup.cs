@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PodfilterCore.Data;
+using PodfilterCore.Helpers;
+using PodfilterCore.Models;
 using PodfilterRepository;
 using PodfilterWeb.Helpers;
 
@@ -35,6 +37,8 @@ namespace Podfilter
             services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
             services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
             services.AddTransient<BaseModificationMethodTranslator, ModificationMethodTranslator>();
+            services.AddTransient<BaseDisplayablePodcastModificationDeserializer, DisplayablePodcastModificationDeserializer>();
+            services.AddTransient<BaseCore, Core>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();

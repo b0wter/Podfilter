@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System.Xml;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PodfilterWeb.Controllers
 {
@@ -211,16 +212,21 @@ namespace PodfilterWeb.Controllers
             else
             {
                 var baseUrl = GetBaseUrl();
-                var serializedModifications = System.Net.WebUtility.UrlEncode(JsonConvert.SerializeObject(GetPodcastModifications(), Newtonsoft.Json.Formatting.None));
-                var queryParameters = $"{baseUrl}/api/filter?filters={serializedModifications}";
-                //var queryParameters = $"{baseUrl}/api/filter?{modifications.Select(mod => mod.ToQueryString()).Aggregate((a, b) => $"{a}&{b}")}";
+                var serializedModifications = GetUrlEncodedSerialiedPodcastModifications();
                 var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
-                queryParameters += $"&url={encodedUrl}";
-
-                TempData["filteredPodcastUrl"] = queryParameters;
+                var filteredPodcastUrl = $"{baseUrl}/api/filter?filters={serializedModifications}&url={encodedUrl}";
+                TempData["filteredPodcastUrl"] = filteredPodcastUrl;
             }
 
             return Redirect("/");
+        }
+
+        private string GetUrlEncodedSerialiedPodcastModifications()
+        {
+            var modifications = GetPodcastModifications();
+            var serializedModifications = JsonConvert.SerializeObject(modifications, Newtonsoft.Json.Formatting.None);
+            var urlEncodedSerializedArray = System.Net.WebUtility.UrlEncode(serializedModifications);
+            return urlEncodedSerializedArray;
         }
 
         /// <summary>

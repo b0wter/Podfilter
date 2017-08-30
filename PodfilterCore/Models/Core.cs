@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace PodfilterCore.Models
 {
-    public class Core
+    public class Core : BaseCore
     {
         private IHttpContentProvider<string> _podcastProvider;
         private IContentDeserializer<string> _podcastDeserializer;
@@ -23,7 +23,7 @@ namespace PodfilterCore.Models
             _podcastDeserializer = contentDeserializer;
         }
 
-        public async Task<XDocument> Modify(string url, IEnumerable<BasePodcastModification> modifications)
+        public async override Task<XDocument> Modify(string url, IEnumerable<BasePodcastModification> modifications)
         {
             var podcast = await GetPodcastFromUrl(url);
             ApplyModifications(podcast, modifications);
@@ -31,7 +31,7 @@ namespace PodfilterCore.Models
             return podcast;
         }
 
-        public async Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
+        public async override Task<XDocument> Modify(string url, long fromEpoch, long toEpoch, bool removeDuplicateEpisodes, string titleMustNotContain, string titleMustContain, int minDuration, int maxDuration, string removeDuplicates)
         {
             var modifications = CreateModifications(fromEpoch, toEpoch, removeDuplicateEpisodes, titleMustNotContain, titleMustContain, minDuration, maxDuration, removeDuplicates);
             return await Modify(url, modifications);
