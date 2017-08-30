@@ -216,6 +216,9 @@ namespace PodfilterWeb.Controllers
                 var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
                 var filteredPodcastUrl = $"{baseUrl}/api/filter?filters={serializedModifications}&url={encodedUrl}";
                 TempData["filteredPodcastUrl"] = filteredPodcastUrl;
+                // trigger the display of a hint if the ui if the resulting url is too long
+                // although the rfcs allow longer urls they are not properly supported by the browsers
+                TempData["filteredPodcastUrlTooLong"] = filteredPodcastUrl.Length > 2000;
             }
 
             return Redirect("/");

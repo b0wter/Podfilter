@@ -112,6 +112,13 @@
 
     <hr />
 
+    @if(TempData.ContainsKey("filteredPodcastUrlTooLong") && (bool)TempData["filteredPodcastUrlTooLong"] == true)
+    {
+        <div class="alert alert-warning" role="alert">
+            The resulting url is longer than 20000 characters. Although this is theoretically allowed most applications do not support this. Please consider using the podcast storage feature.
+        </div>  
+    }
+
     <div class="row">
         <div class="col-xs-12">
             <label for="createPodcast">Click create once you have set all filters.</label>
