@@ -39,6 +39,7 @@ namespace Podfilter
             services.AddTransient<BaseModificationMethodTranslator, ModificationMethodTranslator>();
             services.AddTransient<BaseDisplayablePodcastModificationDeserializer, DisplayablePodcastModificationDeserializer>();
             services.AddTransient<BaseCore, Core>();
+            services.AddTransient<IDateTimeEpochConverter, DateTimeEpochConverter>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();

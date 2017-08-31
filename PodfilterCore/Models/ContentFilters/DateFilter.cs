@@ -17,12 +17,6 @@ namespace PodfilterCore.Models.ContentFilters
             //
         }
 
-        public DateFilter(DateFilterMethods method, long argumentInSeconds)
-            : base(method, DateTimeEpochConverter.EpochToDateTime(argumentInSeconds))
-        {
-            //
-        }
-        
         protected override bool PassesFilter(DateTime toTest)
         {
             switch (Method)

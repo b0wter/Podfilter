@@ -8,10 +8,10 @@ namespace PodfilterCore.Models.PodcastModification.Filters
 {
     public class EpisodePublishDateFilterModification : BasePodcastElementModification
     {
-        public EpisodePublishDateFilterModification(long date, DateFilter.DateFilterMethods method)
+        public EpisodePublishDateFilterModification(DateTime date, DateFilter.DateFilterMethods method)
             : base(
-                  "//item/pubdate",
-                  new XElementFilterModification(new PodfilterCore.Models.ContentFilters.DateFilter(method, date))
+                  "//item/pubDate",
+                  new XElementFilterModification(new DateFilter(method, date))
                   )
         {
             //

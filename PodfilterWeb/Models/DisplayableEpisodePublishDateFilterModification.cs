@@ -10,36 +10,32 @@ using PodfilterCore.Models.PodcastModification.Filters;
 
 namespace PodfilterWeb.Models
 {
-    public class DisplayableEpisodePublishDateFilterModification : DisplayableBasePodcastModification<long>
+    public class DisplayableEpisodePublishDateFilterModification : DisplayableBasePodcastModification<DateTime>
     {
         public override string Name => "Publish Date Filter";
 
-        public override string Description => $"Keeps episodes published {Method} {ArgumentAsDate}";
-        public string ArgumentAsDate => DateTimeEpochConverter.EpochToDateTime(Argument).ToShortDateString();
+        public override string Description => $"Keeps episodes published {Method} {Argument}";
 
         protected DisplayableEpisodePublishDateFilterModification()
         {
             //
         }
 
-        public DisplayableEpisodePublishDateFilterModification(string argument, string methodToParse)
+        public DisplayableEpisodePublishDateFilterModification(string argumentToParse, string methodToParse)
         {
-            var date = DateTime.Parse(argument);
-            var ticks = DateTimeEpochConverter.DateTimeToEpoch(date);
-
             this.Method = methodToParse;
-            this.Argument = ticks;
-            CreateModification(ticks, methodToParse);
+            this.Argument = DateTime.Parse(argumentToParse);
+            CreateModification(Argument, methodToParse);
         }
 
-        public DisplayableEpisodePublishDateFilterModification(long argument, string methodToParse)
+        public DisplayableEpisodePublishDateFilterModification(DateTime argument, string methodToParse)
         {
             this.Method = methodToParse;
             this.Argument = argument;
             CreateModification(argument, methodToParse);
         }
 
-        private void CreateModification(long argument, string methodToParse)
+        private void CreateModification(DateTime argument, string methodToParse)
         {
             var method = (DateFilter.DateFilterMethods)Enum.Parse(typeof(DateFilter.DateFilterMethods), methodToParse);
             this.Modification = new EpisodePublishDateFilterModification(argument, method);
