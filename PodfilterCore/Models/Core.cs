@@ -27,7 +27,6 @@ namespace PodfilterCore.Models
         {
             var podcast = await GetPodcastFromUrl(url);
             ApplyModifications(podcast, modifications);
-            AddFilteredHintToPodcastTitle(podcast);
             return podcast;
         }
 
@@ -40,18 +39,6 @@ namespace PodfilterCore.Models
         {
             foreach (var mod in modifications)
                 mod.Modify(podcast);
-        }
-
-        /// <summary>
-        /// Adds a default hint to the podcast title.
-        /// </summary>
-        /// <param name="podcast"></param>
-        /// <returns></returns>
-        private XDocument AddFilteredHintToPodcastTitle(XDocument podcast)
-        {
-            var mod = new AddStringToTitleModification(null, " (filtered)");
-            mod.Modify(podcast);
-            return podcast;
         }
 
         /// <summary>

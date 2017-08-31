@@ -41,7 +41,12 @@ namespace PodfilterCore.Models.PodcastModification
                 if(string.IsNullOrWhiteSpace(XAttributeName))
                     element.Value = _action.ParseAndModifyContent(element.Value);
                 else
-                    element.Attribute(XAttributeName).Value = _action.ParseAndModifyContent(element.Attribute("XAttributeName").Value);
+                {
+                    var xAttribute = element.Attribute(XAttributeName);
+                    var xAttributeValue = xAttribute.Value;
+                    var modifiedXAttributeValue = _action.ParseAndModifyContent(xAttributeValue);
+                    element.Attribute(XAttributeName).Value = modifiedXAttributeValue;
+                }
             }
 
             return element;

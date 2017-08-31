@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using PodfilterWeb.Converters;
 using PodfilterWeb.Models;
 using System.Linq;
+using PodfilterCore.Models.PodcastModification.Actions;
 
 namespace PodfilterWeb.Controllers
 {
@@ -55,10 +56,29 @@ namespace PodfilterWeb.Controllers
 											}
 										});
 			
-			var modifications = displayableModifications.Select(x => x.Modification);
+			var modifications = displayableModifications.Select(x => x.Modification).ToList();
+			modifications = AddDefaultPodcastModificationActions(modifications, CreateFullUrl());
 			var serializedFilteredPodcast = await ModifyWithDefaultCore(url, modifications);
 			var content = CreateContentResultForSerializedPodcast(serializedFilteredPodcast);
             return content;
+		}
+
+		private string CreateFullUrl()
+		{
+            var request = HttpContext.Request;
+            var host = request.Host.ToUriComponent();
+            var pathBase = request.PathBase.ToUriComponent();
+            return $"{request.Scheme}://{host}{pathBase}/api/filter{Request.QueryString.ToString()}";
+		}
+
+		/// <summary>
+		/// Adds the following default actions: add ' (filtered)' to the podcast title; replace podcast link with a link to this app.
+		/// </summary>
+		private List<BasePodcastModification> AddDefaultPodcastModificationActions(List<BasePodcastModification> existing, string newUrl)
+		{
+			existing.Add(new AddStringToTitleModification(null, " (filtered)"));
+			existing.Add(new ReplaceLinkToSelfModification(newUrl));
+			return existing;
 		}
 
 		/// <summary>
