@@ -21,16 +21,28 @@ namespace PodfilterCore.Models.PodcastModification
     {
         private readonly IContentAction _action;
         public override Type TargetType => null;
+        public string XAttributeName { get; } = null;
 
         public XElementActionModification(IContentAction modification)
         {
             _action = modification;
         }
+
+        public XElementActionModification(IContentAction modification, string attributeName)
+            : this(modification)
+        {
+            XAttributeName = attributeName;
+        }
         
         public override XElement Modify(XElement element)
         {
             if (element != null)
-                element.Value = _action.ParseAndModifyContent(element.Value);
+            {
+                if(string.IsNullOrWhiteSpace(XAttributeName))
+                    element.Value = _action.ParseAndModifyContent(element.Value);
+                else
+                    element.Attribute(XAttributeName).Value = _action.ParseAndModifyContent(element.Attribute("XAttributeName").Value);
+            }
 
             return element;
         }
