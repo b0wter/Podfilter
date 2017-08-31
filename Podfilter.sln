@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "PodfilterWeb\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
 EndProject
@@ -14,8 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepositoryTests", "PodfilterRepositoryTests\PodfilterRepositoryTests.csproj", "{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{221AFD4B-6735-4FD6-908D-FEF838012D9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE17525-6486-413F-BCC6-DBB361EE0604}.Release|Any CPU.Build.0 = Release|Any CPU
-		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{221AFD4B-6735-4FD6-908D-FEF838012D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
