@@ -11,8 +11,6 @@ namespace PodfilterWeb.Models
         public override string Name => "Remove Duplicates";
         public override string Description => $"Discards episodes with the same title and release {Method}.";
 
-        public bool KeepFirst { get; set; } = true;
-
         protected DisplayableRemoveDuplicateEpisodesModification()
         {
             // for deserialization
@@ -34,12 +32,12 @@ namespace PodfilterWeb.Models
         private void CreateModification(bool keepFirst, string timeFrameAsString)
         {
             var timeFrame = (RemoveDuplicateEpisodesModification.DuplicateTimeFrames)Enum.Parse(typeof(RemoveDuplicateEpisodesModification.DuplicateTimeFrames), timeFrameAsString);
-            var modification = new RemoveDuplicateEpisodesModification(timeFrame);
+            this.Modification = new RemoveDuplicateEpisodesModification(timeFrame);
         }
 
         protected override void DeserializeModification()
         {
-            CreateModification(KeepFirst, Method);
+            CreateModification(Argument, Method);
         }
 
         public override string ToQueryString()
