@@ -146,3 +146,8 @@ textarea {
         background-color: #470095;
     }
 }
+
+.list-group-item.active {
+    background-color: #2B0056;
+    border-color: #2B0056;
+}
