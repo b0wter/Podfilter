@@ -21,7 +21,7 @@ namespace PodfilterWeb.Models
         public abstract string Description {get;}        
 
         [JsonIgnore]
-        public BasePodcastElementModification Modification { get; protected set; }
+        public BasePodcastModification Modification { get; protected set; }
 
         [JsonProperty(PropertyName="Type")]
         public string TypeName => this.GetType().FullName;
