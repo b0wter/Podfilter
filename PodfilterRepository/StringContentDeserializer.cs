@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PodfilterRepository
+namespace PodfilterRepository.Http
 {
     public class StringContentDeserializer : IContentDeserializer<string>
     {

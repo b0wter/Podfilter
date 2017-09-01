@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using PodfilterCore.Data;
 using PodfilterCore.Helpers;
 using PodfilterCore.Models;
-using PodfilterRepository;
+using PodfilterRepository.Http;
 using PodfilterWeb.Helpers;
 
 namespace Podfilter

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PodfilterWeb.Helpers
+namespace PodfilterRepository.Http
 {
     public class HttpContentProvider<T> : IHttpContentProvider<T>
     {

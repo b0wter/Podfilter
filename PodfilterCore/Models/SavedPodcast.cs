@@ -15,9 +15,17 @@ namespace PodfilterCore.Models
         /// </summary>
         public const int DefaultCacheLifetime = 60 * 60 * 4;
         /// <summary>
+        /// Default lifetime of a stored podcast. If it is not used within this time it will be deleted.
+        /// </summary>
+        public const int DefaultStorageLifetime = 30 * 24 * 60 * 60;
+        /// <summary>
+        /// Primary key for database and identification purposes.
+        /// </summary>
+        public Guid Id { get; set; }
+        /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public List<BasePodcastElementModification> Filters { get; } = new List<BasePodcastElementModification>();
+        public List<BasePodcastModification> Filters { get; } = new List<BasePodcastModification>();
         /// <summary>
         /// Url of the original podcast.
         /// </summary>
@@ -35,6 +43,10 @@ namespace PodfilterCore.Models
         /// is greater than <see cref="DateTime.Now"/> a new feed will be downloaded and parsed on the next request.
         /// </summary>
         public int CacheLifeTime { get; set; } = DefaultCacheLifetime;
+        /// <summary>
+        /// Last time this podcast was used.
+        /// </summary>
+        public DateTime LastUsed { get; set; }
         
         public SavedPodcast(string url)
         {

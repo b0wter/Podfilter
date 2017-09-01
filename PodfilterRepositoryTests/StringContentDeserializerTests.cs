@@ -1,7 +1,5 @@
-﻿using PodfilterRepository;
+﻿using PodfilterRepository.Http;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace PodfilterRepositoryTests
