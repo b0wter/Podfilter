@@ -77,8 +77,13 @@ namespace PodfilterWeb.Controllers
 		private List<BasePodcastModification> AddDefaultPodcastModificationActions(List<BasePodcastModification> existing, string newUrl)
 		{
 			existing.Add(new AddStringToTitleModification(null, " (filtered)"));
+
+            newUrl = newUrl.Replace("&", "%26");
+            //var url = System.Net.WebUtility.UrlDecode(newUrl);
+            //url = url.Replace("&", "&amp;").Replace("<", "&lt;");
 			existing.Add(new ReplaceLinkToSelfModification(newUrl));
-			return existing;
+
+            return existing;
 		}
 
 		/// <summary>
