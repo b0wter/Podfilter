@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PodfilterCore.Data
 {
-    public interface IBaseRepository<T>
+    public interface IBaseRepository<T> where T : class
     {
         IQueryable<T> All();
         T Find(Predicate<T> predicate);

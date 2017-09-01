@@ -15,4 +15,8 @@
     <ProjectReference Include="..\PodfilterCore\PodfilterCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Http\" />
+  </ItemGroup>
+
 </Project>

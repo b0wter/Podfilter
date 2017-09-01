@@ -9,4 +9,8 @@
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Providers\" />
+  </ItemGroup>
+
 </Project>

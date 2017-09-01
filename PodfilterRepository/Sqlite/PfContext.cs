@@ -22,6 +22,8 @@ namespace PodfilterRepository.Sqlite
         {
             modelBuilder.Entity<SavedPodcast>().ToTable("savedPodcasts");
             modelBuilder.Entity<BasePodcastModification>().ToTable("podcastModifications");
+
+
         }
     }
 }

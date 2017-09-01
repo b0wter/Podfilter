@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using PodfilterCore.Models.PodcastModification;
+using PodfilterCore.Models;
 
 namespace PodfilterRepository.Sqlite
 {
-    public abstract class SqliteRepository<T> : IBaseRepository<T>
+    public abstract class SqliteRepository<T> : IBaseRepository<T> where T : class
     {
         protected PfContext Context { get; }
 
@@ -19,35 +20,71 @@ namespace PodfilterRepository.Sqlite
         public abstract IQueryable<T> All();
         public abstract T Find(Predicate<T> predicate);
         public abstract IEnumerable<T> Where(Func<T, int, bool> predicate);
-        public abstract void Persist(T toPersist);
-        public abstract void Persist(IEnumerable<T> toPersist);
+
+        public T Find(Guid id)
+        {
+            return Context.Find<T>(id);
+        }
+
+        public void Persist(T toPersist)
+        {
+            Context.Update(toPersist);
+            Context.SaveChanges();
+        }
+
+        public void Persist(IEnumerable<T> toPersist)
+        {
+            foreach (var item in toPersist)
+                Context.Update(item);
+            Context.SaveChanges();
+        }
     }
 
     public class BasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
     {
+        public BasePodcastModificationRepository(PfContext context) 
+            : base(context)
+        {
+            //
+        }
+
         public override IQueryable<BasePodcastModification> All()
         {
-            
+            return Context.Modifications;
         }
 
         public override BasePodcastModification Find(Predicate<BasePodcastModification> predicate)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Persist(BasePodcastModification toPersist)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Persist(IEnumerable<BasePodcastModification> toPersist)
-        {
-            throw new NotImplementedException();
+            return Context.Modifications.Find(predicate);
         }
 
         public override IEnumerable<BasePodcastModification> Where(Func<BasePodcastModification, int, bool> predicate)
         {
-            throw new NotImplementedException();
+            return Context.Modifications.Where(predicate);
+        }
+    }
+
+    public class SavedPodcastsRepository : SqliteRepository<SavedPodcast>
+    {
+        public SavedPodcastsRepository(PfContext context) 
+            : base(context)
+        {
+            //
+        }
+
+        public override IQueryable<SavedPodcast> All()
+        {
+            return Context.Podcasts;
+        }
+
+        public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
+        {
+            return Context.Podcasts.Find(predicate);
+        }
+
+        public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
+        {
+            return Context.Podcasts.Where(predicate);
         }
     }
 }

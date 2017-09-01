@@ -12,6 +12,8 @@ using PodfilterCore.Helpers;
 using PodfilterCore.Models;
 using PodfilterRepository.Http;
 using PodfilterWeb.Helpers;
+using PodfilterRepository.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace Podfilter
 {
@@ -39,6 +41,8 @@ namespace Podfilter
             services.AddTransient<BaseModificationMethodTranslator, ModificationMethodTranslator>();
             services.AddTransient<BaseDisplayablePodcastModificationDeserializer, DisplayablePodcastModificationDeserializer>();
             services.AddTransient<BaseCore, Core>();
+
+            services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
 
             // Configure the session management.
             services.AddDistributedMemoryCache();
