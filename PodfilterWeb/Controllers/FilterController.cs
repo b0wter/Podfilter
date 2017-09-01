@@ -78,10 +78,10 @@ namespace PodfilterWeb.Controllers
 		{
 			existing.Add(new AddStringToTitleModification(null, " (filtered)"));
 
-            newUrl = newUrl.Replace("&", "%26");
+            //newUrl = newUrl.Replace("&", "%26");
             //var url = System.Net.WebUtility.UrlDecode(newUrl);
-            //url = url.Replace("&", "&amp;").Replace("<", "&lt;");
-			existing.Add(new ReplaceLinkToSelfModification(newUrl));
+            var url = newUrl.Replace("&", "&amp;").Replace("<", "&lt;");
+			existing.Add(new ReplaceLinkToSelfModification(url));
 
             return existing;
 		}
