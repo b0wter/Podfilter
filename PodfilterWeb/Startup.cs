@@ -43,6 +43,8 @@ namespace Podfilter
             services.AddTransient<BaseCore, Core>();
 
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
+            foreach(var context in services.OfType<PfContext>())
+                context.Database.EnsureCreated();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();
