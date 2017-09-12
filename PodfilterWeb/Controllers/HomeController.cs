@@ -12,6 +12,7 @@ using System.Xml;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace PodfilterWeb.Controllers
 {
@@ -212,9 +213,8 @@ namespace PodfilterWeb.Controllers
             else
             {
                 var baseUrl = GetBaseUrl();
-                var serializedModifications = GetUrlEncodedSerialiedPodcastModifications();
-                var encodedUrl = System.Net.WebUtility.UrlEncode(urlInputField);
-                var filteredPodcastUrl = $"{baseUrl}/api/filter?filters={serializedModifications}&url={encodedUrl}";
+                var serializedArgument = GetUrlEncodedSerializedArgument(urlInputField);
+                var filteredPodcastUrl = $"{baseUrl}/api/filter?argument={serializedArgument}";
                 TempData["filteredPodcastUrl"] = filteredPodcastUrl;
                 // trigger the display of a hint if the ui if the resulting url is too long
                 // although the rfcs allow longer urls they are not properly supported by the browsers
@@ -224,12 +224,13 @@ namespace PodfilterWeb.Controllers
             return Redirect("/");
         }
 
-        private string GetUrlEncodedSerialiedPodcastModifications()
+        private string GetUrlEncodedSerializedArgument(string url)
         {
             var modifications = GetPodcastModifications();
-            var serializedModifications = JsonConvert.SerializeObject(modifications, Newtonsoft.Json.Formatting.None);
-            var urlEncodedSerializedArray = System.Net.WebUtility.UrlEncode(serializedModifications);
-            return urlEncodedSerializedArray;
+            var argument = new PodfilterUrlArgument(url, modifications);
+            var serializedArgument = JsonConvert.SerializeObject(argument);
+            var encodedSerializedArgument = Base64UrlTextEncoder.Encode(System.Text.Encoding.Unicode.GetBytes(serializedArgument));
+            return encodedSerializedArgument;
         }
 
         /// <summary>

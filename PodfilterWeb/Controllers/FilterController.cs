@@ -46,19 +46,20 @@ namespace PodfilterWeb.Controllers
 		/// Prefered way of using the controller to filter a podcast.
 		/// </summary>
 		[HttpGet]
-		public async Task<ActionResult> HttpGet_FilterPodcast([RequiredFromQuery] string url, [RequiredFromQuery] string filters)
+		public async Task<ActionResult> HttpGet_FilterPodcast([RequiredFromQuery] string argument)
 		{
-			var displayableModifications = JsonConvert.DeserializeObject<List<DisplayableBasePodcastModification>>(
-										filters, 
+			var decodedArgument = System.Text.Encoding.Unicode.GetString(Microsoft.AspNetCore.WebUtilities.Base64UrlTextEncoder.Decode(argument));
+			var podfilterArgument = JsonConvert.DeserializeObject<PodfilterUrlArgument>(
+										decodedArgument, 
 										new JsonSerializerSettings{ 
 											Converters = new List<JsonConverter>{
 												new DisplayableBaseModificationJsonConverter()
 											}
 										});
 			
-			var modifications = displayableModifications.Select(x => x.Modification).ToList();
+			var modifications = podfilterArgument.Modifications.Select(x => x.Modification).ToList();
 			modifications = AddDefaultPodcastModificationActions(modifications, CreateFullUrl());
-			var serializedFilteredPodcast = await ModifyWithDefaultCore(url, modifications);
+			var serializedFilteredPodcast = await ModifyWithDefaultCore(podfilterArgument.Url, modifications);
 			var content = CreateContentResultForSerializedPodcast(serializedFilteredPodcast);
             return content;
 		}
