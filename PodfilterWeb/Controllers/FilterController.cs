@@ -83,6 +83,7 @@ namespace PodfilterWeb.Controllers
             //var url = System.Net.WebUtility.UrlDecode(newUrl);
             var url = newUrl.Replace("&", "&amp;").Replace("<", "&lt;");
 			existing.Add(new ReplaceLinkToSelfModification(url));
+			existing.Add(new RemovePodcastElementModification("//itunes:new-feed-url"));
 
             return existing;
 		}
