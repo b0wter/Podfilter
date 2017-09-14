@@ -41,6 +41,7 @@ namespace Podfilter
             services.AddTransient<BaseModificationMethodTranslator, ModificationMethodTranslator>();
             services.AddTransient<BaseDisplayablePodcastModificationDeserializer, DisplayablePodcastModificationDeserializer>();
             services.AddTransient<BaseCore, Core>();
+            services.AddTransient<BaseStringCompressor, GzipStringCompressor>();
 
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
             foreach(var context in services.OfType<PfContext>())

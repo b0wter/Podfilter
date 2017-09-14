@@ -92,10 +92,12 @@ namespace PodfilterWeb.Controllers
         }
 
         private BaseModificationMethodTranslator _methodTranslator;
+        private BaseStringCompressor _stringCompressor;
 
-        public HomeController(BaseModificationMethodTranslator methodTranslator)
+        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor)
         {
             _methodTranslator = methodTranslator;
+            _stringCompressor = stringCompressor;
         }
 
         /// <summary>
@@ -229,7 +231,7 @@ namespace PodfilterWeb.Controllers
             var modifications = GetPodcastModifications();
             var argument = new PodfilterUrlArgument(url, modifications);
             var serializedArgument = JsonConvert.SerializeObject(argument);
-            var encodedSerializedArgument = Base64UrlTextEncoder.Encode(System.Text.Encoding.Unicode.GetBytes(serializedArgument));
+            var encodedSerializedArgument = _stringCompressor.CompressAndBase64UrlEncodeUnicode(serializedArgument);
             return encodedSerializedArgument;
         }
 
