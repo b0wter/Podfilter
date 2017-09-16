@@ -38,17 +38,19 @@ namespace PodfilterWeb.Models
         }
 
         protected abstract void DeserializeModification();
+
+        public abstract DisplayableBasePodcastModificationSource ToSource();
     }
 
     public abstract class DisplayableBasePodcastModification<T> : DisplayableBasePodcastModification
     {
         public T Argument { get; set; }
 
-        public DisplayableBasePodcastModificationSource ToSource()
+        public override DisplayableBasePodcastModificationSource ToSource()
         {
             return new DisplayableBasePodcastModificationSource
             {
-                Type = TypeName,
+                Type = this.GetType().Name,
                 Method = Method,
                 Argument = Argument.ToString()
             };
