@@ -74,17 +74,17 @@ namespace PodfilterRepository.Sqlite
 
         public override IQueryable<SavedPodcast> All()
         {
-            return Context.Podcasts;
+            throw new NotImplementedException();
         }
 
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
         {
-            return Context.Podcasts.Find(predicate);
+            throw new NotImplementedException();
         }
 
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
         {
-            return Context.Podcasts.Where(predicate);
+            throw new NotImplementedException();
         }
     }
 }

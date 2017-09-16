@@ -42,10 +42,5 @@ namespace PodfilterWeb.Models
         {
             return new DisplayableEpisodeTitleFilterModification();
         }
-
-        public override string ToQueryString()
-        {
-            return $"title{Method}={Argument}";
-        }
     }
 }

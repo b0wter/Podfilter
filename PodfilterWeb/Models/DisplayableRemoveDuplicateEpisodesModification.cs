@@ -40,11 +40,6 @@ namespace PodfilterWeb.Models
             CreateModification(Argument, Method);
         }
 
-        public override string ToQueryString()
-        {
-            return $"removeDuplicates={Method}";
-        }
-
         public static DisplayableRemoveDuplicateEpisodesModification CreateEmptyInstanceForDeserialization()
         {
             return new DisplayableRemoveDuplicateEpisodesModification();

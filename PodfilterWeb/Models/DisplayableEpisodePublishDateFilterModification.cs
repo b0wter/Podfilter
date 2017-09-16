@@ -50,10 +50,5 @@ namespace PodfilterWeb.Models
         {
             return new DisplayableEpisodePublishDateFilterModification();
         }
-
-        public override string ToQueryString()
-        {
-            return $"pubDate{Method}={Argument}";
-        }
     }
 }
