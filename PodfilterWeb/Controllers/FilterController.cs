@@ -76,8 +76,7 @@ namespace PodfilterWeb.Controllers
 
 		private async Task<string> FilterPodcast(string encodedSerializedPodcast)
 		{
-			//var decodedArgument = _stringCompressor.Base64UrlDecodeAndDecompressToUnicode(encodedSerializedPodcast);
-			var decodedArgument = System.Net.WebUtility.UrlDecode(encodedSerializedPodcast);
+			var decodedArgument = _stringCompressor.Base64UrlDecodeAndDecompressToUnicode(encodedSerializedPodcast);
 			var podfilterArgument = JsonConvert.DeserializeObject<PodfilterUrlArgument>(
 										decodedArgument, 
 										new JsonSerializerSettings{ 

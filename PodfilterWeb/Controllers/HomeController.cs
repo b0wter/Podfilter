@@ -231,9 +231,7 @@ namespace PodfilterWeb.Controllers
             var modifications = GetPodcastModifications();
             var argument = new PodfilterUrlArgument(url, modifications);
             var serializedArgument = JsonConvert.SerializeObject(argument);
-            //var encodedSerializedArgument = _stringCompressor.CompressAndBase64UrlEncodeUnicode(serializedArgument);
-            //return encodedSerializedArgument;
-            var encodedSerializedArgument = System.Net.WebUtility.UrlEncode(serializedArgument);
+            var encodedSerializedArgument = _stringCompressor.CompressAndBase64UrlEncodeUnicode(serializedArgument);
             return encodedSerializedArgument;
         }
 
