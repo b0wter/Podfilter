@@ -36,16 +36,17 @@ namespace Podfilter
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
+            foreach(var context in services.OfType<PfContext>())
+                context.Database.EnsureCreated();
+
             services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
             services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
             services.AddTransient<BaseModificationMethodTranslator, ModificationMethodTranslator>();
             services.AddTransient<BaseDisplayablePodcastModificationDeserializer, DisplayablePodcastModificationDeserializer>();
             services.AddTransient<BaseCore, Core>();
             services.AddTransient<BaseStringCompressor, GzipStringCompressor>();
-
-            services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
-            foreach(var context in services.OfType<PfContext>())
-                context.Database.EnsureCreated();
+            services.AddSingleton<IBaseRepository<SavedPodcast>, SqliteSavedPodcastsRepository>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();

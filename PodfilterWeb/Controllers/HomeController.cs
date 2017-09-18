@@ -13,6 +13,8 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.WebUtilities;
+using PodfilterCore.Models;
+using PodfilterCore.Data;
 
 namespace PodfilterWeb.Controllers
 {
@@ -94,7 +96,7 @@ namespace PodfilterWeb.Controllers
         private BaseModificationMethodTranslator _methodTranslator;
         private BaseStringCompressor _stringCompressor;
 
-        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor)
+        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, IBaseRepository<SavedPodcast> podcastRepsotiry)
         {
             _methodTranslator = methodTranslator;
             _stringCompressor = stringCompressor;
@@ -214,16 +216,27 @@ namespace PodfilterWeb.Controllers
                 TempData["warningMessage"] = "You have not added any filters.";
             else
             {
-                var baseUrl = GetBaseUrl();
-                var serializedArgument = GetUrlEncodedSerializedArgument(urlInputField);
-                var filteredPodcastUrl = $"{baseUrl}/api/filter?argument={serializedArgument}";
-                TempData["filteredPodcastUrl"] = filteredPodcastUrl;
-                // trigger the display of a hint if the ui if the resulting url is too long
-                // although the rfcs allow longer urls they are not properly supported by the browsers
-                TempData["filteredPodcastUrlTooLong"] = filteredPodcastUrl.Length > 2000;
+                CreateAndAddPermanentPodfilterUrl(urlInputField);
+                CreateAndAddDbPodfilterUrl(urlInputField);
             }
 
             return Redirect("/");
+        }
+
+        /// <summary>
+        /// Creates an url that is permanently valid because it contains serialized filter information.!--
+        /// These urls are pretty long (easily 500+ chars) which limits their compatibility.
+        /// Also adds the new url to TempData.
+        /// </summary>
+        private void CreateAndAddPermanentPodfilterUrl(string podcastUrl)
+        {
+            var baseUrl = GetBaseUrl();
+            var serializedArgument = GetUrlEncodedSerializedArgument(podcastUrl);
+            var filteredPodcastUrl = $"{baseUrl}/api/filter?argument={serializedArgument}";
+            TempData["filteredPodcastUrl"] = filteredPodcastUrl;
+            // trigger the display of a hint if the ui if the resulting url is too long
+            // although the rfcs allow longer urls they are not properly supported by the browsers
+            TempData["filteredPodcastUrlTooLong"] = filteredPodcastUrl.Length > 2000;
         }
 
         private string GetUrlEncodedSerializedArgument(string url)
@@ -233,6 +246,11 @@ namespace PodfilterWeb.Controllers
             var serializedArgument = JsonConvert.SerializeObject(argument);
             var encodedSerializedArgument = _stringCompressor.CompressAndBase64UrlEncodeUnicode(serializedArgument);
             return encodedSerializedArgument;
+        }
+
+        private void CreateAndAddDbPodfilterUrl(string podcastUrl)
+        {
+            
         }
 
         /// <summary>

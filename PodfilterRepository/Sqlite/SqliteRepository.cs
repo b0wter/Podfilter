@@ -64,9 +64,9 @@ namespace PodfilterRepository.Sqlite
         }
     }
 
-    public class SavedPodcastsRepository : SqliteRepository<SavedPodcast>
+    public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
     {
-        public SavedPodcastsRepository(PfContext context) 
+        public SqliteSavedPodcastsRepository(PfContext context) 
             : base(context)
         {
             //
