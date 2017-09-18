@@ -14,6 +14,7 @@ using PodfilterRepository.Http;
 using PodfilterWeb.Helpers;
 using PodfilterRepository.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using PodfilterCore.Models.PodcastModification;
 
 namespace Podfilter
 {
@@ -46,6 +47,8 @@ namespace Podfilter
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
             foreach(var context in services.OfType<PfContext>())
                 context.Database.EnsureCreated();
+            services.AddSingleton<IBaseRepository<SavedPodcast>, SqlSavedPodcastsRepository>();
+            services.AddSingleton<IBaseRepository<BasePodcastModification>, SqlBasePodcastModificationRepository>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();

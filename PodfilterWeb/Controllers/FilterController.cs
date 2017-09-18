@@ -25,13 +25,13 @@ namespace PodfilterWeb.Controllers
 	public class FilterController : ApiBaseController
 	{
 		private BaseCore _core;
-		private PfContext _context;
+        private IBaseRepository<SavedPodcast> _podcastProvider;
 		private BaseStringCompressor _stringCompressor;
 
-        public FilterController(BaseCore core, PfContext context, BaseStringCompressor stringCompressor)
+        public FilterController(BaseCore core, IBaseRepository<SavedPodcast> podcastProvider, BaseStringCompressor stringCompressor)
         {
 			_core = core;
-			_context = context;
+            _podcastProvider = podcastProvider;
 			_stringCompressor = stringCompressor;
         }
 
@@ -47,19 +47,15 @@ namespace PodfilterWeb.Controllers
 			return MakeResult(message);
 		}
 
-		[HttpGet("/saved/{podcastId}")]
+		[HttpGet("{podcastId}")]
 		public async Task<ActionResult> HttpGet_FilterSavedPodcast(long podcastId)
 		{
-			var argument = await GetEncodedSerializedPodcastForId(podcastId);
-			var serializedFilteredPodcast = await FilterPodcast(argument);
+            var savedPodcast = await _podcastProvider.FindAsync(podcastId);
 
-			var content = CreateContentResultForSerializedPodcast(serializedFilteredPodcast);
-            return content;
-		}
+            var modifiedPodcast = await ModifyWithDefaultCore(savedPodcast.Url, savedPodcast.Modifications);
 
-		private async Task<string> GetEncodedSerializedPodcastForId(long podcastId)
-		{
-			throw new NotImplementedException();
+            var content = CreateContentResultForSerializedPodcast(modifiedPodcast);
+            return null;
 		}
 
 		/// <summary>

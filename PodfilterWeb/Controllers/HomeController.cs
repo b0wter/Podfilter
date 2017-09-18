@@ -13,6 +13,9 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.WebUtilities;
+using PodfilterRepository.Sqlite;
+using PodfilterCore.Models;
+using PodfilterCore.Data;
 
 namespace PodfilterWeb.Controllers
 {
@@ -93,11 +96,13 @@ namespace PodfilterWeb.Controllers
 
         private BaseModificationMethodTranslator _methodTranslator;
         private BaseStringCompressor _stringCompressor;
+        private IBaseRepository<SavedPodcast> _savedPodcastProvider;
 
-        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor)
+        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, IBaseRepository<SavedPodcast> savedPodcastProvider)
         {
             _methodTranslator = methodTranslator;
             _stringCompressor = stringCompressor;
+            _savedPodcastProvider = savedPodcastProvider;
         }
 
         /// <summary>
@@ -203,7 +208,7 @@ namespace PodfilterWeb.Controllers
         /// <param name="urlInputField"></param>
         /// <returns></returns>
         [HttpPost("/create")]
-        public IActionResult CreatePodcastUrl([FromForm] string urlInputField)
+        public async Task<IActionResult> CreatePodcastUrl([FromForm] string urlInputField)
         {
             PodcastUrl = urlInputField;
             if(string.IsNullOrWhiteSpace(urlInputField))
@@ -215,12 +220,22 @@ namespace PodfilterWeb.Controllers
             else
             {
                 var baseUrl = GetBaseUrl();
+
+                var savedPodcast = new SavedPodcast(urlInputField)
+                {
+                    LastUpdated = DateTime.Now,
+                    LastUsed = DateTime.Now,
+                    Modifications = modifications.Select(x => x.Modification).AsQueryable()
+                };
+                var persistedPodcast = await _savedPodcastProvider.PersistAsync(savedPodcast);
+                /*
                 var serializedArgument = GetUrlEncodedSerializedArgument(urlInputField);
                 var filteredPodcastUrl = $"{baseUrl}/api/filter?argument={serializedArgument}";
                 TempData["filteredPodcastUrl"] = filteredPodcastUrl;
                 // trigger the display of a hint if the ui if the resulting url is too long
                 // although the rfcs allow longer urls they are not properly supported by the browsers
                 TempData["filteredPodcastUrlTooLong"] = filteredPodcastUrl.Length > 2000;
+                */
             }
 
             return Redirect("/");
