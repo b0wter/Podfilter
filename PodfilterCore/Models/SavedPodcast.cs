@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PodfilterCore.Models.PodcastModification;
+using System.Linq;
 
 namespace PodfilterCore.Models
 {
@@ -21,11 +22,11 @@ namespace PodfilterCore.Models
         /// <summary>
         /// Primary key for database and identification purposes.
         /// </summary>
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public List<BasePodcastModification> Modifications { get; } = new List<BasePodcastModification>();
+        public IQueryable<BasePodcastModification> Modifications { get; set; } = Enumerable.Empty<BasePodcastModification>().AsQueryable();
         /// <summary>
         /// Url of the original podcast.
         /// </summary>

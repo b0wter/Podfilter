@@ -8,6 +8,15 @@ namespace PodfilterCore.Models.PodcastModification
     /// </summary>
     public abstract class BasePodcastModification
     {
+        /// <summary>
+        /// Primary key for identification purposes.
+        /// </summary>
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Performs the modification on an <see cref="XDocument"/>.
+        /// </summary>
+        /// <param name="podcast"></param>
         public abstract void Modify(XDocument podcast);
 
         [JsonProperty(PropertyName = "Type")]

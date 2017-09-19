@@ -5,6 +5,9 @@ using System.Text;
 using System.Linq;
 using PodfilterCore.Models.PodcastModification;
 using PodfilterCore.Models;
+using System.Threading.Tasks;
+using PodfilterCore.Exceptions.Repository;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace PodfilterRepository.Sqlite
 {
@@ -19,30 +22,71 @@ namespace PodfilterRepository.Sqlite
 
         public abstract IQueryable<T> All();
         public abstract T Find(Predicate<T> predicate);
+        public abstract Task<T> FindAsync(Predicate<T> predicat);
         public abstract IEnumerable<T> Where(Func<T, int, bool> predicate);
 
-        public T Find(Guid id)
+        public T Find(long id)
         {
-            return Context.Find<T>(id);
+            return ThrowIfNullOrReturn(Context.Find<T>(id));
         }
 
-        public void Persist(T toPersist)
+        public async Task<T> FindAsync(long id)
         {
-            Context.Update(toPersist);
+            return ThrowIfNullOrReturn(await Context.FindAsync<T>(id));
+        }
+
+        public EntityEntry<T> Persist(T toPersist)
+        {
+            var persisted = Context.Update(toPersist);
             Context.SaveChanges();
+            return persisted;
         }
 
-        public void Persist(IEnumerable<T> toPersist)
+        public async Task<EntityEntry<T>> PersistAsync(T toPersist)
         {
+            var persisted = Context.Update(toPersist);
+            await Context.SaveChangesAsync();
+            return persisted;
+        }
+
+        public List<EntityEntry<T>> Persist(IEnumerable<T> toPersist)
+        {
+            var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
-                Context.Update(item);
+                persisted.Add(Context.Update(item));
             Context.SaveChanges();
+            return persisted;
+        }
+
+        public async Task<List<EntityEntry<T>>> PersistAsync(IEnumerable<T> toPersist)
+        {
+            var persisted = new List<EntityEntry<T>>();
+            foreach (var item in toPersist)
+                persisted.Add(Context.Update(item));
+            await Context.SaveChangesAsync();
+            return persisted;
+        }
+
+        protected T ThrowIfNullOrReturn(T entity)
+        {
+            if (entity == null)
+                throw new EntityNotFoundException();
+            else
+                return entity;
+        }
+
+        protected IEnumerable<T> ThrowIfNullEmptyOrReturn(IEnumerable<T> entities)
+        {
+            if (entities == null || entities.Count() == 0)
+                throw new EntityNotFoundException();
+            else
+                return entities;
         }
     }
 
-    public class BasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
+    public class SqlBasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
     {
-        public BasePodcastModificationRepository(PfContext context) 
+        public SqlBasePodcastModificationRepository(PfContext context) 
             : base(context)
         {
             //
@@ -55,12 +99,17 @@ namespace PodfilterRepository.Sqlite
 
         public override BasePodcastModification Find(Predicate<BasePodcastModification> predicate)
         {
-            return Context.Modifications.Find(predicate);
+            return ThrowIfNullOrReturn(Context.Modifications.Find(predicate));
+        }
+
+        public override async Task<BasePodcastModification> FindAsync(Predicate<BasePodcastModification> predicate)
+        {
+            return ThrowIfNullOrReturn(await Context.Modifications.FindAsync(predicate));
         }
 
         public override IEnumerable<BasePodcastModification> Where(Func<BasePodcastModification, int, bool> predicate)
         {
-            return Context.Modifications.Where(predicate);
+            return ThrowIfNullEmptyOrReturn(Context.Modifications.Where(predicate));
         }
     }
 
@@ -74,17 +123,22 @@ namespace PodfilterRepository.Sqlite
 
         public override IQueryable<SavedPodcast> All()
         {
-            throw new NotImplementedException();
+            return Context.Podcasts;
         }
 
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
         {
-            throw new NotImplementedException();
+            return ThrowIfNullOrReturn(Context.Podcasts.Find(predicate));
+        }
+
+        public override async Task<SavedPodcast> FindAsync(Predicate<SavedPodcast> predicate)
+        {
+            return ThrowIfNullOrReturn(await Context.Podcasts.FindAsync(predicate));
         }
 
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
         {
-            throw new NotImplementedException();
+            return ThrowIfNullEmptyOrReturn(Context.Podcasts.Where(predicate));
         }
     }
 }

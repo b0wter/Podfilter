@@ -10,7 +10,7 @@ namespace PodfilterRepository.Sqlite
     public class PfContext : DbContext
     {
         public virtual DbSet<BasePodcastModification> Modifications { get; set; }
-        public virtual DbSet<SavedPodcastDto> Podcasts { get; set; }
+        public virtual DbSet<SavedPodcast> Podcasts { get; set; }
 
         public PfContext(DbContextOptions options)
             : base(options)
@@ -20,7 +20,7 @@ namespace PodfilterRepository.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SavedPodcastDto>().ToTable("savedPodcastDtos");
+            modelBuilder.Entity<SavedPodcast>().ToTable("savedPodcastDtos");
             modelBuilder.Entity<BasePodcastModification>().ToTable("podcastModifications");
 
             modelBuilder.Entity<SavedPodcast>().HasMany<BasePodcastModification>(podcast => podcast.Modifications);

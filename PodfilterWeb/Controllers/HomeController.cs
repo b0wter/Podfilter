@@ -95,11 +95,13 @@ namespace PodfilterWeb.Controllers
 
         private BaseModificationMethodTranslator _methodTranslator;
         private BaseStringCompressor _stringCompressor;
+        private IBaseRepository<SavedPodcast> _savedPodcastProvider;
 
-        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, IBaseRepository<SavedPodcast> podcastRepsotiry)
+        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, IBaseRepository<SavedPodcast> savedPodcastProvider)
         {
             _methodTranslator = methodTranslator;
             _stringCompressor = stringCompressor;
+            _savedPodcastProvider = savedPodcastProvider;
         }
 
         /// <summary>
@@ -205,7 +207,7 @@ namespace PodfilterWeb.Controllers
         /// <param name="urlInputField"></param>
         /// <returns></returns>
         [HttpPost("/create")]
-        public IActionResult CreatePodcastUrl([FromForm] string urlInputField)
+        public async Task<IActionResult> CreatePodcastUrl([FromForm] string urlInputField)
         {
             PodcastUrl = urlInputField;
             if(string.IsNullOrWhiteSpace(urlInputField))
