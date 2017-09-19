@@ -35,36 +35,36 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullOrReturn(await Context.FindAsync<T>(id));
         }
 
-        public EntityEntry<T> Persist(T toPersist)
+        public T Persist(T toPersist)
         {
             var persisted = Context.Update(toPersist);
             Context.SaveChanges();
-            return persisted;
+            return persisted.Entity;
         }
 
-        public async Task<EntityEntry<T>> PersistAsync(T toPersist)
+        public async Task<T> PersistAsync(T toPersist)
         {
             var persisted = Context.Update(toPersist);
             await Context.SaveChangesAsync();
-            return persisted;
+            return persisted.Entity;
         }
 
-        public List<EntityEntry<T>> Persist(IEnumerable<T> toPersist)
+        public IEnumerable<T> Persist(IEnumerable<T> toPersist)
         {
             var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
                 persisted.Add(Context.Update(item));
             Context.SaveChanges();
-            return persisted;
+            return persisted.Select(x => x.Entity);
         }
 
-        public async Task<List<EntityEntry<T>>> PersistAsync(IEnumerable<T> toPersist)
+        public async Task<IEnumerable<T>> PersistAsync(IEnumerable<T> toPersist)
         {
             var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
                 persisted.Add(Context.Update(item));
             await Context.SaveChangesAsync();
-            return persisted;
+            return persisted.Select(x => x.Entity);
         }
 
         protected T ThrowIfNullOrReturn(T entity)

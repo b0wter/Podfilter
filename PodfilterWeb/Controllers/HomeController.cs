@@ -252,7 +252,19 @@ namespace PodfilterWeb.Controllers
 
         private void CreateAndAddDbPodfilterUrl(string podcastUrl)
         {
-            
+            var savedPodcast = new SavedPodcast
+            {
+                LastUpdated = DateTime.Now,
+                LastUsed = DateTime.Now,
+                Modifications = GetPodcastModifications().Select(x => x.Modification).AsQueryable(),
+                Url = podcastUrl
+            };
+
+            var persistedPodcast = _savedPodcastProvider.Persist(savedPodcast);
+
+            var baseUrl = GetBaseUrl();
+            TempData["savedPodcastId"] = persistedPodcast.Id;
+            TempData["savedPodcastUrl"] = $"{baseUrl}/api/filter/{persistedPodcast.Id}";
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace PodfilterCore.Models
         /// <summary>
         /// Url of the original podcast.
         /// </summary>
-        public string Url { get; private set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
         /// <summary>
         /// Serialized, filtered string.
         /// </summary>
@@ -48,11 +48,6 @@ namespace PodfilterCore.Models
         /// Last time this podcast was used.
         /// </summary>
         public DateTime LastUsed { get; set; }
-        
-        public SavedPodcast(string url)
-        {
-            this.Url = url;
-        }
 
         /// <summary>
         /// Updates the feed from the remote source and runs the filters. Updates <see cref="LastUpdated"/> and 

@@ -120,15 +120,43 @@
     }
 
     <div class="row">
-        <div class="col-xs-12">
-            <label for="createPodcast">Click create once you have set all filters.</label>
-            <div class="input-group" id="createPodcast">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="submit" formaction="create" formmethod="post">Create</button>
-                </span>
-                <input type="text" class="form-control noMaxWidth" placeholder="new podcast url" value="@TempData["filteredPodcastUrl"]" />
-            </div>
+        <div class="col-xs-12 form-group">
+            <button class="btn btn-secondary" type="submit" formaction="create" formmethod="post">Create new podcast url!</button>
         </div>
     </div>
+
+    @if(TempData.ContainsKey("filteredPodcastUrl"))
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="longPodcastUrl">Long, permanent url:</label>
+                <div class="form-group" id="longPodcastUrl">
+                    <input type="text" class="form-control noMaxWidth" placeholder="new podcast url" value="@TempData["filteredPodcastUrl"]" />
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <p>
+                    This podcast link is valid indefinitely since it contains all the necessary information. Since this makes these urls very long (500+ characters) they are compatible with most browsers but hardly any podcast apps.
+                </p>
+            </div>
+        </div>
+    }
+
+    @if(TempData.ContainsKey("savedPodcastUrl"))
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="shortPodcastUrl">Short, temporary url:</label>
+                <div class="form-group" id="shortPodcastUrl">
+                    <input type="text" class="form-control noMaxWidth" placeholder="new podcast url" value="@TempData["filteredPodcastUrl"]" />
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <p>
+                    This podcast link is valid for 30 days because it is stored in our database. If the podcast is not used within this time it may be deleted. This podcast should work with any browser and podcast app since it does not contain any special characters and is short.
+                </p>
+            </div>
+        </div>
+    }
 
 </form>

@@ -51,7 +51,7 @@ namespace Podfilter
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
             foreach(var context in services.OfType<PfContext>())
                 context.Database.EnsureCreated();
-            services.AddSingleton<IBaseRepository<SavedPodcast>, SqlSavedPodcastsRepository>();
+            services.AddSingleton<IBaseRepository<SavedPodcast>, SqliteSavedPodcastsRepository>();
             services.AddSingleton<IBaseRepository<BasePodcastModification>, SqlBasePodcastModificationRepository>();
 
             // Configure the session management.

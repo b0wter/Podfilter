@@ -20,10 +20,10 @@ namespace PodfilterCore.Data
         // There is no async where because its Lynq and only an expression tree is build.
         IEnumerable<T> Where(Func<T, int, bool> predicate);
 
-        Task<EntityEntry<T>> Persist(T toPersist);
-        Task PersistAsync(T toPersist);
+        T Persist(T toPersist);
+        Task<T> PersistAsync(T toPersist);
 
-        void Persist(IEnumerable<T> toPersist);
-        Task PersistAsync(IEnumerable<T> toPersist);
+        IEnumerable<T> Persist(IEnumerable<T> toPersist);
+        Task<IEnumerable<T>> PersistAsync(IEnumerable<T> toPersist);
     }
 }
