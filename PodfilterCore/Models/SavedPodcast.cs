@@ -26,7 +26,7 @@ namespace PodfilterCore.Models
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public IQueryable<BasePodcastModification> Modifications { get; set; } = Enumerable.Empty<BasePodcastModification>().AsQueryable();
+        public ICollection<BasePodcastModification> Modifications { get; set; }
         /// <summary>
         /// Url of the original podcast.
         /// </summary>

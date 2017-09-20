@@ -84,6 +84,7 @@ namespace PodfilterRepository.Sqlite
         }
     }
 
+/*
     public class SqlBasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
     {
         public SqlBasePodcastModificationRepository(PfContext context) 
@@ -112,6 +113,7 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullEmptyOrReturn(Context.Modifications.Where(predicate));
         }
     }
+*/
 
     public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
     {

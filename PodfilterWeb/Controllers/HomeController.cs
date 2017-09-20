@@ -256,7 +256,7 @@ namespace PodfilterWeb.Controllers
             {
                 LastUpdated = DateTime.Now,
                 LastUsed = DateTime.Now,
-                Modifications = GetPodcastModifications().Select(x => x.Modification).AsQueryable(),
+                Modifications = GetPodcastModifications().Select(x => x.Modification).ToList(),
                 Url = podcastUrl
             };
 

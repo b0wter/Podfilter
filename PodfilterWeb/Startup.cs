@@ -49,10 +49,7 @@ namespace Podfilter
             services.AddTransient<BaseStringCompressor, GzipStringCompressor>();
 
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
-            foreach(var context in services.OfType<PfContext>())
-                context.Database.EnsureCreated();
             services.AddSingleton<IBaseRepository<SavedPodcast>, SqliteSavedPodcastsRepository>();
-            services.AddSingleton<IBaseRepository<BasePodcastModification>, SqlBasePodcastModificationRepository>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();
@@ -64,8 +61,10 @@ namespace Podfilter
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PfContext context)
         {
+            context.Database.EnsureCreated();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
