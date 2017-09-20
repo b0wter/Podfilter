@@ -260,11 +260,17 @@ namespace PodfilterWeb.Controllers
                 Url = podcastUrl
             };
 
-            var persistedPodcast = _savedPodcastProvider.Persist(savedPodcast);
+            try{
+                var persistedPodcast = _savedPodcastProvider.Persist(savedPodcast);
 
-            var baseUrl = GetBaseUrl();
-            TempData["savedPodcastId"] = persistedPodcast.Id;
-            TempData["savedPodcastUrl"] = $"{baseUrl}/api/filter/{persistedPodcast.Id}";
+                var baseUrl = GetBaseUrl();
+                TempData["savedPodcastId"] = persistedPodcast.Id;
+                TempData["savedPodcastUrl"] = $"{baseUrl}/api/filter/{persistedPodcast.Id}";
+            }
+            catch(Exception ex)
+            {
+                TempData["errorMessage"] = $"There was a problem ({ex}). Please try again. If the problem persists contat the administrator.";
+            }
         }
 
         /// <summary>

@@ -14,6 +14,16 @@ namespace PodfilterCore.Models.PodcastModification
         public long Id { get; set; }
 
         /// <summary>
+        /// Id of the podcast this modification belongs to.
+        /// </summary>
+        public long SavedPodcastId { get; set; }
+
+        /// <summary>
+        /// Reference to the podcast this modification belongs to.
+        /// </summary>
+        public SavedPodcast SavedPodcast {get;set;}
+
+        /// <summary>
         /// Performs the modification on an <see cref="XDocument"/>.
         /// </summary>
         /// <param name="podcast"></param>
