@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers" />
-    <Folder Include="Helpers\" />
     <Folder Include="Models\ContentFilters" />
   </ItemGroup>
   <ItemGroup>
@@ -43,5 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PodfilterCore\PodfilterCore.csproj" />
+    <ProjectReference Include="..\PodfilterRepository\PodfilterRepository.csproj" />
   </ItemGroup>
 </Project>

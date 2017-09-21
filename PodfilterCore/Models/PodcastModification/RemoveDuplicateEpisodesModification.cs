@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace PodfilterCore.Models.PodcastModification.Others
+namespace PodfilterCore.Models.PodcastModification
 {
     public class RemoveDuplicateEpisodesModification : BasePodcastModification
     {

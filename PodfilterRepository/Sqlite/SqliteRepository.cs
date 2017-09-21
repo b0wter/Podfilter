@@ -35,14 +35,14 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullOrReturn(await Context.FindAsync<T>(id));
         }
 
-        public T Persist(T toPersist)
+        public virtual T Persist(T toPersist)
         {
             var persisted = Context.Update(toPersist);
             Context.SaveChanges();
             return persisted.Entity;
         }
 
-        public async Task<T> PersistAsync(T toPersist)
+        public virtual async Task<T> PersistAsync(T toPersist)
         {
             var persisted = Context.Update(toPersist);
             await Context.SaveChangesAsync();
@@ -84,7 +84,7 @@ namespace PodfilterRepository.Sqlite
         }
     }
 
-/*
+    /*
     public class SqlBasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
     {
         public SqlBasePodcastModificationRepository(PfContext context) 
@@ -113,7 +113,7 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullEmptyOrReturn(Context.Modifications.Where(predicate));
         }
     }
-*/
+    */
 
     public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
     {
@@ -123,24 +123,38 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
+        public override SavedPodcast Persist(SavedPodcast toPersist)
+        {
+            SavedPodcast persisted = null;
+
+            var dto = Context.Podcasts.Find(toPersist.Id);
+            if (dto == null)
+                dto = new SavedPodcastDto(toPersist);
+
+            Context.Update(dto);
+            toPersist.Id = dto.Id;
+            Context.SaveChanges();
+            return persisted;
+        }
+
         public override IQueryable<SavedPodcast> All()
         {
-            return Context.Podcasts;
+            return Context.Podcasts.Select(x => x.SavedPodcast).AsQueryable();
         }
 
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
         {
-            return ThrowIfNullOrReturn(Context.Podcasts.Find(predicate));
+            return ThrowIfNullOrReturn(Context.Podcasts.Find(predicate)?.SavedPodcast);
         }
 
         public override async Task<SavedPodcast> FindAsync(Predicate<SavedPodcast> predicate)
         {
-            return ThrowIfNullOrReturn(await Context.Podcasts.FindAsync(predicate));
+            return ThrowIfNullOrReturn((await Context.Podcasts.FindAsync(predicate))?.SavedPodcast);
         }
 
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
         {
-            return ThrowIfNullEmptyOrReturn(Context.Podcasts.Where(predicate));
+            return ThrowIfNullEmptyOrReturn(Context.Podcasts.Select(dto => dto.SavedPodcast).Where(predicate));
         }
     }
 }

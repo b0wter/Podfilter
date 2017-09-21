@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PodfilterCore.Models.ContentFilters;
 using System.Runtime.Serialization;
-using PodfilterCore.Models.PodcastModification.Filters;
+using PodfilterCore.Models.PodcastModification;
 
 namespace PodfilterWeb.Models
 {

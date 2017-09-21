@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using PodfilterCore.Models.PodcastModification;
 using PodfilterCore.Helpers;
 
-namespace PodfilterCore.Models
+namespace PodfilterCore.Models.PodcastModification
 {
     public class RemovePodcastElementModification : BasePodcastModification
     {

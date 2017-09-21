@@ -1,7 +1,7 @@
 ﻿using PodfilterCore.Models.ContentFilters;
 using System;
 
-namespace PodfilterCore.Models.PodcastModification.Filters
+namespace PodfilterCore.Models.PodcastModification
 {
     public class EpisodeTitleFilterModification : BasePodcastElementModification
     {

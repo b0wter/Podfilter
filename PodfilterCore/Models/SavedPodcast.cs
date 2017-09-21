@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PodfilterCore.Models.PodcastModification;
 using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PodfilterCore.Models
 {

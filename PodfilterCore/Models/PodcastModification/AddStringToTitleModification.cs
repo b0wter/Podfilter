@@ -1,6 +1,6 @@
 ﻿using PodfilterCore.Models.ContentActions;
 
-namespace PodfilterCore.Models.PodcastModification.Actions
+namespace PodfilterCore.Models.PodcastModification
 {
     public class AddStringToTitleModification : BasePodcastElementModification
     {

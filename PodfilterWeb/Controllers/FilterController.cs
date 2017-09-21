@@ -13,7 +13,6 @@ using Newtonsoft.Json;
 using PodfilterWeb.Converters;
 using PodfilterWeb.Models;
 using System.Linq;
-using PodfilterCore.Models.PodcastModification.Actions;
 using PodfilterRepository.Sqlite;
 
 namespace PodfilterWeb.Controllers

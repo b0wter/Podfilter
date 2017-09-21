@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static PodfilterCore.Models.PodcastModification.Others.RemoveDuplicateEpisodesModification;
+using static PodfilterCore.Models.PodcastModification.RemoveDuplicateEpisodesModification;
 
 namespace PodfilterCore.Helpers
 {

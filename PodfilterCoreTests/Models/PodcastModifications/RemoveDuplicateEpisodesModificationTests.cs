@@ -1,5 +1,5 @@
 ﻿using FakeItEasy;
-using PodfilterCore.Models.PodcastModification.Others;
+using PodfilterCore.Models.PodcastModification;
 using System;
 using System.Collections.Generic;
 using System.Linq;

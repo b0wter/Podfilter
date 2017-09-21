@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PodfilterCore.Models.PodcastModification;
-using PodfilterCore.Models.PodcastModification.Filters;
 using PodfilterWeb.Models;
 using System;
 using System.Collections.Generic;

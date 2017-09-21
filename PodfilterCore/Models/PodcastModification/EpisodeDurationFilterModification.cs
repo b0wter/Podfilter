@@ -1,7 +1,7 @@
 ﻿using System;
 using PodfilterCore.Models.ContentFilters;
 
-namespace PodfilterCore.Models.PodcastModification.Filters
+namespace PodfilterCore.Models.PodcastModification
 {
     public class EpisodeDurationFilterModification : BasePodcastElementModification
     {

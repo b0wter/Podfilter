@@ -1,12 +1,6 @@
 ﻿using PodfilterCore.Data;
-using PodfilterCore.Helpers;
 using PodfilterCore.Models.PodcastModification;
-using PodfilterCore.Models.PodcastModification.Actions;
-using PodfilterCore.Models.PodcastModification.Filters;
-using PodfilterCore.Models.PodcastModification.Others;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
