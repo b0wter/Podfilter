@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PodfilterCore.Models.PodcastModification;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
