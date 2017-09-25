@@ -49,7 +49,7 @@ namespace PodfilterRepository.Sqlite
             return persisted.Entity;
         }
 
-        public IEnumerable<T> Persist(IEnumerable<T> toPersist)
+        public virtual IEnumerable<T> Persist(IEnumerable<T> toPersist)
         {
             var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
@@ -58,7 +58,7 @@ namespace PodfilterRepository.Sqlite
             return persisted.Select(x => x.Entity);
         }
 
-        public async Task<IEnumerable<T>> PersistAsync(IEnumerable<T> toPersist)
+        public virtual async Task<IEnumerable<T>> PersistAsync(IEnumerable<T> toPersist)
         {
             var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
@@ -135,6 +135,21 @@ namespace PodfilterRepository.Sqlite
             toPersist.Id = dto.Id;
             Context.SaveChanges();
             return persisted;
+        }
+
+        public override Task<SavedPodcast> PersistAsync(SavedPodcast toPersist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<SavedPodcast> Persist(IEnumerable<SavedPodcast> toPersist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<IEnumerable<SavedPodcast>> PersistAsync(IEnumerable<SavedPodcast> toPersist)
+        {
+            throw new NotImplementedException();
         }
 
         public override IQueryable<SavedPodcast> All()

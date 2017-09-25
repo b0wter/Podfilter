@@ -27,7 +27,7 @@ namespace PodfilterCore.Models
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
-        public ICollection<BasePodcastModification> Modifications { get; set; }
+        public IEnumerable<BasePodcastModification> Modifications { get; set; }
         /// <summary>
         /// Url of the original podcast.
         /// </summary>

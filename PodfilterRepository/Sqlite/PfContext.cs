@@ -4,13 +4,15 @@ using PodfilterCore.Models.PodcastModification;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PodfilterCore.Models.ContentActions;
+using PodfilterRepository.Dtos;
 
 namespace PodfilterRepository.Sqlite
 {
     public class PfContext : DbContext
     {
-        internal virtual DbSet<SavedPodcastDto> Podcasts { get; set; }
-        internal virtual DbSet<PodcastModificationDto> Modifications {get;set;}
+        internal DbSet<SavedPodcastDto> Podcasts { get; set; }
+        internal DbSet<BasePodcastModificationDto> Modifications {get;set;}
 
         public PfContext(DbContextOptions options)
             : base(options)
@@ -20,17 +22,25 @@ namespace PodfilterRepository.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PodcastModificationDto>()
-                .ToTable("PodcastModificationDtos");
+            //modelBuilder.Entity<EpisodeTitleFilterModification>().ToTable("EpisodeTitleFilters");
+            //modelBuilder.Entity<EpisodeDescriptionFilterModification>().ToTable("EpisodeDescriptionFilters");
+            //modelBuilder.Entity<EpisodeDurationFilterModification>().ToTable("EpisodeDurationFilters");
+            //modelBuilder.Entity<EpisodePublishDateFilterModification>().ToTable("EpisodePublishDateFilters");
+
+            modelBuilder.Entity<BasePodcastModificationDto>()
+                .HasDiscriminator<string>("ModificationTypeDtos")
+                .HasValue<EpisodeTitleFilterModificationDto>("EpisodeTitleFilter")
+                .HasValue<EpisodeDescriptionFilterModificationDto>("EpisodeDescriptionFilters")
+                .HasValue<EpisodeDurationFilterModificationDto>("EpisodeDurationFilters")
+                .HasValue<EpisodePublishDateFilterModificationDto>("EpisodePublishDateFilters")
+                .HasValue<RemoveDuplicateEpisodesModificationDto>("RemoveDuplicateEpisodes");
+
 
             modelBuilder.Entity<SavedPodcastDto>()
-                .ToTable("SavedPodcastDtos")
-                .HasMany(podcast => podcast.ModificationDtos)
-                .WithOne(modification => modification.SavedPodcastDto)
+                .ToTable("SavedPodcastsDtos")
+                .HasMany<BasePodcastModificationDto>(podcast => podcast.ModificationDtos)
+                .WithOne(modification => modification.SavedPodcast)
                 .HasForeignKey(podcast => podcast.Id);
-
-            // Dont map the Modifications in the SavedPodcast automatically since they need some manual attention.
-            modelBuilder.Entity<SavedPodcast>().Ignore(podcast => podcast.Modifications);
         }
     }
 }
