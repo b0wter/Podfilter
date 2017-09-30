@@ -13,14 +13,5 @@ namespace PodfilterCore.Models.PodcastModification
         {
             //
         }
-        
-        public EpisodeDurationFilterModification(DurationFilter.DurationFilterMethods method, TimeSpan duration) 
-            : base(
-                "//item/itunes:duration", 
-                new XElementFilterModification(new DurationFilter(method, duration))
-                )
-        {
-            //
-        }
     }
 }

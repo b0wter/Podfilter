@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using Newtonsoft.Json;
+using PodfilterCore.Data;
 
 namespace PodfilterCore.Models.PodcastModification
 {

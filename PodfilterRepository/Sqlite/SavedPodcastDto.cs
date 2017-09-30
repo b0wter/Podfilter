@@ -9,7 +9,6 @@ namespace PodfilterRepository.Sqlite
     {
         public long Id { get; set; }
         public SavedPodcast SavedPodcast { get; set; }
-        public IEnumerable<PodcastModificationDto> ModificationDtos { get; set; }
 
         public SavedPodcastDto(SavedPodcast podcast)
         {
