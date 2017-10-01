@@ -8,6 +8,7 @@ using PodfilterCore.Models;
 using System.Threading.Tasks;
 using PodfilterCore.Exceptions.Repository;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 
 namespace PodfilterRepository.Sqlite
 {
@@ -25,7 +26,7 @@ namespace PodfilterRepository.Sqlite
         public abstract Task<T> FindAsync(Predicate<T> predicat);
         public abstract IEnumerable<T> Where(Func<T, int, bool> predicate);
 
-        public T Find(long id)
+        public virtual T Find(long id)
         {
             return ThrowIfNullOrReturn(Context.Find<T>(id));
         }
@@ -112,6 +113,16 @@ namespace PodfilterRepository.Sqlite
         public override IQueryable<SavedPodcast> All()
         {
             return Context.Podcasts.Select(x => x.SavedPodcast).AsQueryable();
+        }
+
+        public override SavedPodcast Find(long id)
+        {
+            var dto = Context.Podcasts
+                .Include(x => x.SavedPodcast)
+                .Include(x => x.Modifications).ThenInclude(x => x.Parameters) 
+                .Where(x => x.Id == id)
+                .SingleOrDefault();
+            return FillSavedPodcastFromDto(dto);
         }
 
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)

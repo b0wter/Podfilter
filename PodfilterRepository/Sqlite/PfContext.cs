@@ -26,10 +26,13 @@ namespace PodfilterRepository.Sqlite
             modelBuilder.Entity<SavedPodcastDto>()
                 .HasMany<ModificationDto>(x => x.Modifications);
             modelBuilder.Entity<SavedPodcastDto>()
+                .ToTable("SavedPodcastDtos")
                 .HasOne<SavedPodcast>(x => x.SavedPodcast);
+            modelBuilder.Entity<SavedPodcast>()
+                .ToTable("SavedPodcasts");
 
             modelBuilder.Entity<ModificationDto>()
-                .ToTable("ModificationDto")
+                .ToTable("ModificationDtos")
                 .HasMany<BaseDbParameter>(x => x.Parameters);
 
             modelBuilder.Entity<BaseDbParameter>()

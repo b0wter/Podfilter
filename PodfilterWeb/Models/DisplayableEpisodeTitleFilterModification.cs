@@ -35,7 +35,7 @@ namespace PodfilterWeb.Models
         private void CreateModification(string argument, string methodToParse, bool caseInvariant)
         {
             var method = (StringFilter.StringFilterMethod)Enum.Parse(typeof(StringFilter.StringFilterMethod), methodToParse);
-            this.Modification = new EpisodeDescriptionFilterModification(argument, method, caseInvariant);
+            this.Modification = new EpisodeTitleFilterModification(argument, method, caseInvariant);
         }
 
         public static DisplayableEpisodeTitleFilterModification CreateEmptyInstanceForDeserialization()

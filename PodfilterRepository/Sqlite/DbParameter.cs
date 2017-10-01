@@ -63,82 +63,153 @@ namespace PodfilterRepository.Sqlite
         {
             TypedValue = value;
         }
+
+        public BaseDbParameter()
+        {
+            // Parameterless constructor for use with the entity framework.
+        }
     }
 
     public class BoolParameter : BaseDbParameter<bool>
     {
+        public BoolParameter()
+        {
+            //
+        }
+
         public BoolParameter(bool value) : base(value)
         {
+            //
         }
     }
 
     public class IntParameter : BaseDbParameter<int>
     {
+        public IntParameter()
+        {
+            //
+        }
+
         public IntParameter(int value) : base(value)
         {
+            //
         }
     }
 
     public class LongParameter : BaseDbParameter<long>
     {
+        public LongParameter()
+        {
+            //
+        }
+
         public LongParameter(long value) : base(value)
         {
+            //
         }
     }
 
     public class StringParameter : BaseDbParameter<string>
     {
+        public StringParameter()
+        {
+            //
+        }
+
         public StringParameter(string value) : base(value)
         {
+            //
         }
     }
 
     public class DateTimeParameter : BaseDbParameter<DateTime>
     {
+        public DateTimeParameter()
+        {
+            //
+        }
+
         public DateTimeParameter(DateTime value) : base(value)
         {
+            //
         }
     }
 
     public class TimeSpanParameter : BaseDbParameter<TimeSpan>
     {
+        public TimeSpanParameter()
+        {
+            //
+        }
+
         public TimeSpanParameter(TimeSpan value) : base(value)
         {
+            //
         }
     }
 
     public class StringFilterMethodParameter : BaseDbParameter<StringFilter.StringFilterMethod>
     {
+        public StringFilterMethodParameter()
+        {
+            //
+        }
+
         public StringFilterMethodParameter(StringFilter.StringFilterMethod value) : base(value)
         {
+            //
         }
     }
 
     public class IntFilterMethodParameter : BaseDbParameter<IntFilter.IntFilterMethods>
     {
+        public IntFilterMethodParameter()
+        {
+            //
+        }
+
         public IntFilterMethodParameter(IntFilter.IntFilterMethods value) : base(value)
         {
+            //
         }
     }
 
     public class DateTimeFilterMethodParameter : BaseDbParameter<DateFilter.DateFilterMethods>
     {
+        public DateTimeFilterMethodParameter()
+        {
+            //   
+        }
+
         public DateTimeFilterMethodParameter(DateFilter.DateFilterMethods value) : base(value)
         {
+            //
         }
     }
 
     public class DurationFilterMethodParameter : BaseDbParameter<DurationFilter.DurationFilterMethods>
     {
+        public DurationFilterMethodParameter()
+        {
+            //
+        }
+
         public DurationFilterMethodParameter(DurationFilter.DurationFilterMethods value) : base(value)
         {
+            //
         }
     }
 
     public class RemoveDuplicateEpisodesMethodParameter : BaseDbParameter<RemoveDuplicateEpisodesModification.DuplicateTimeFrames>
     {
+        public RemoveDuplicateEpisodesMethodParameter()
+        {
+            //
+        }
+
         public RemoveDuplicateEpisodesMethodParameter(RemoveDuplicateEpisodesModification.DuplicateTimeFrames value) : base(value)
         {
+            //
         }
     }
 }
