@@ -27,6 +27,7 @@ namespace PodfilterCore.Models
         /// <summary>
         /// List of filters that are applied to the podcast.
         /// </summary>
+        [NotMapped]
         public ICollection<BasePodcastModification> Modifications { get; set; }
         /// <summary>
         /// Url of the original podcast.

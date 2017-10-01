@@ -54,7 +54,7 @@ namespace PodfilterWeb.Controllers
             var modifiedPodcast = await ModifyWithDefaultCore(savedPodcast.Url, savedPodcast.Modifications);
 
             var content = CreateContentResultForSerializedPodcast(modifiedPodcast);
-            return null;
+            return content;
 		}
 
 		/// <summary>

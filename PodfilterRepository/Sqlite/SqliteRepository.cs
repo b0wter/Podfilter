@@ -30,7 +30,7 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullOrReturn(Context.Find<T>(id));
         }
 
-        public async Task<T> FindAsync(long id)
+        public virtual async Task<T> FindAsync(long id)
         {
             return ThrowIfNullOrReturn(await Context.FindAsync<T>(id));
         }
@@ -84,37 +84,6 @@ namespace PodfilterRepository.Sqlite
         }
     }
 
-    /*
-    public class SqlBasePodcastModificationRepository : SqliteRepository<BasePodcastModification>
-    {
-        public SqlBasePodcastModificationRepository(PfContext context) 
-            : base(context)
-        {
-            //
-        }
-
-        public override IQueryable<BasePodcastModification> All()
-        {
-            return Context.Modifications;
-        }
-
-        public override BasePodcastModification Find(Predicate<BasePodcastModification> predicate)
-        {
-            return ThrowIfNullOrReturn(Context.Modifications.Find(predicate));
-        }
-
-        public override async Task<BasePodcastModification> FindAsync(Predicate<BasePodcastModification> predicate)
-        {
-            return ThrowIfNullOrReturn(await Context.Modifications.FindAsync(predicate));
-        }
-
-        public override IEnumerable<BasePodcastModification> Where(Func<BasePodcastModification, int, bool> predicate)
-        {
-            return ThrowIfNullEmptyOrReturn(Context.Modifications.Where(predicate));
-        }
-    }
-    */
-
     public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
     {
         public SqliteSavedPodcastsRepository(PfContext context) 
@@ -125,16 +94,19 @@ namespace PodfilterRepository.Sqlite
 
         public override SavedPodcast Persist(SavedPodcast toPersist)
         {
-            SavedPodcast persisted = null;
-
             var dto = Context.Podcasts.Find(toPersist.Id);
             if (dto == null)
+            {
                 dto = new SavedPodcastDto(toPersist);
+                Context.Podcasts.Add(dto);
+            }
 
-            Context.Update(dto);
-            toPersist.Id = dto.Id;
+            dto.Modifications = toPersist.Modifications.Select(x => new ModificationDto(x)).ToList();
+            Context.Parameters.AddRange(dto.Modifications.SelectMany(x => x.Parameters));
+            Context.Modificastions.AddRange(dto.Modifications);
             Context.SaveChanges();
-            return persisted;
+            toPersist.Id = dto.Id;
+            return toPersist;
         }
 
         public override IQueryable<SavedPodcast> All()
@@ -144,12 +116,31 @@ namespace PodfilterRepository.Sqlite
 
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
         {
-            return ThrowIfNullOrReturn(Context.Podcasts.Find(predicate)?.SavedPodcast);
+            var dto = Context.Podcasts.Find(predicate);
+            return FillSavedPodcastFromDto(dto);
+        }
+
+        public override async Task<SavedPodcast> FindAsync(long id)
+        {
+            var dto = await Context.Podcasts.FindAsync(id);
+            return FillSavedPodcastFromDto(dto);
         }
 
         public override async Task<SavedPodcast> FindAsync(Predicate<SavedPodcast> predicate)
         {
-            return ThrowIfNullOrReturn((await Context.Podcasts.FindAsync(predicate))?.SavedPodcast);
+            var dto = await Context.Podcasts.FindAsync(predicate);
+            return FillSavedPodcastFromDto(dto);
+        }
+
+        private SavedPodcast FillSavedPodcastFromDto(SavedPodcastDto dto)
+        {
+            if (dto == null)
+                throw new EntityNotFoundException();
+
+            var modifications = dto.Modifications.Select(x => x.ToModification());
+            dto.SavedPodcast.Modifications = modifications.ToList();
+
+            return dto.SavedPodcast;
         }
 
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)

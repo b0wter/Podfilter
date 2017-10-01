@@ -207,7 +207,7 @@ namespace PodfilterWeb.Controllers
         /// <param name="urlInputField"></param>
         /// <returns></returns>
         [HttpPost("/create")]
-        public async Task<IActionResult> CreatePodcastUrl([FromForm] string urlInputField)
+        public IActionResult CreatePodcastUrl([FromForm] string urlInputField)
         {
             PodcastUrl = urlInputField;
             if(string.IsNullOrWhiteSpace(urlInputField))

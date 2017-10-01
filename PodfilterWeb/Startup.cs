@@ -37,9 +37,6 @@ namespace Podfilter
         {
             // Add framework services.
             services.AddMvc();
-            services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
-            foreach(var context in services.OfType<PfContext>())
-                context.Database.EnsureCreated();
 
             services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
             services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
