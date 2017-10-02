@@ -103,8 +103,6 @@ namespace PodfilterRepository.Sqlite
             }
 
             dto.Modifications = toPersist.Modifications.Select(x => new ModificationDto(x)).ToList();
-            Context.Parameters.AddRange(dto.Modifications.SelectMany(x => x.Parameters));
-            Context.Modificastions.AddRange(dto.Modifications);
             Context.SaveChanges();
             toPersist.Id = dto.Id;
             return toPersist;

@@ -50,6 +50,8 @@ namespace PodfilterWeb.Controllers
 		public async Task<ActionResult> HttpGet_FilterSavedPodcast(long podcastId)
 		{
             var savedPodcast = _podcastProvider.Find(podcastId);
+            var defaultModifications = CreateDefaultPodcastModificationActions(CreateFullUrl()).ToList();
+            defaultModifications.ForEach(x => savedPodcast.Modifications.Add(x));
 
             var modifiedPodcast = await ModifyWithDefaultCore(savedPodcast.Url, savedPodcast.Modifications);
 
@@ -81,7 +83,7 @@ namespace PodfilterWeb.Controllers
 										});
 			
 			var modifications = podfilterArgument.Modifications.Select(x => x.ToModification().Modification).ToList();
-			modifications = AddDefaultPodcastModificationActions(modifications, CreateFullUrl());
+			modifications.AddRange(CreateDefaultPodcastModificationActions(CreateFullUrl()));
 			var serializedFilteredPodcast = await ModifyWithDefaultCore(podfilterArgument.Url, modifications);
 			return serializedFilteredPodcast;
 		}
@@ -97,14 +99,15 @@ namespace PodfilterWeb.Controllers
 		/// <summary>
 		/// Adds the following default actions: add ' (filtered)' to the podcast title; replace podcast link with a link to this app.
 		/// </summary>
-		private List<BasePodcastModification> AddDefaultPodcastModificationActions(List<BasePodcastModification> existing, string newUrl)
+		private List<BasePodcastModification> CreateDefaultPodcastModificationActions(string newUrl)
 		{
-			existing.Add(new AddStringToTitleModification(null, " (filtered)"));
+            var modifications = new List<BasePodcastModification>(3);
+			modifications.Add(new AddStringToTitleModification(null, " (filtered)"));
             var url = newUrl.Replace("&", "&amp;").Replace("<", "&lt;");
-			existing.Add(new ReplaceLinkToSelfModification(url));
-			existing.Add(new RemovePodcastElementModification("//itunes:new-feed-url"));
+			modifications.Add(new ReplaceLinkToSelfModification(url));
+			modifications.Add(new RemovePodcastElementModification("//itunes:new-feed-url"));
 
-            return existing;
+            return modifications;
 		}
 
 		/// <summary>

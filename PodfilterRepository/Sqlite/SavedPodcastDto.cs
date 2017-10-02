@@ -23,13 +23,12 @@ namespace PodfilterRepository.Sqlite
         }
 
         /// <summary>
-        /// Constructor for use within the application.
+        /// Constructor for use within the application. Does not add the <see cref="SavedPodcast.Modifications"/> to the <see cref="Modifications"/>.
         /// </summary>
         /// <param name="podcast"></param>
         public SavedPodcastDto(SavedPodcast podcast)
         {
             SavedPodcast = podcast;
-            Modifications = podcast.Modifications.Select(x => new ModificationDto(x)).ToList();
         }
     }
 }
