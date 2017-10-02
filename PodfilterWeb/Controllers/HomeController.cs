@@ -210,8 +210,11 @@ namespace PodfilterWeb.Controllers
         public IActionResult CreatePodcastUrl([FromForm] string urlInputField)
         {
             PodcastUrl = urlInputField;
-            if(string.IsNullOrWhiteSpace(urlInputField))
+            if (string.IsNullOrWhiteSpace(urlInputField))
+            {
                 TempData["errorMessage"] = "You need to enter a podcast url.";
+                return Redirect("/");
+            }
 
             var modifications = GetPodcastModifications();
             if (modifications.Count <= 0)
