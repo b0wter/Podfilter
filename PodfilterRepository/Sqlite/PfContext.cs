@@ -42,6 +42,7 @@ namespace PodfilterRepository.Sqlite
                 .HasValue<IntParameter>(typeof(IntParameter).Name)
                 .HasValue<LongParameter>(typeof(LongParameter).Name)
                 .HasValue<StringParameter>(typeof(StringParameter).Name)
+                .HasValue<DateTimeParameter>(typeof(DateTimeParameter).Name)
                 .HasValue<IntFilterMethodParameter>(typeof(IntFilterMethodParameter).Name)
                 .HasValue<StringFilterMethodParameter>(typeof(StringFilterMethodParameter).Name)
                 .HasValue<DurationFilterMethodParameter>(typeof(DurationFilterMethodParameter).Name)
