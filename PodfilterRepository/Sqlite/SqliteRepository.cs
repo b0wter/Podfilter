@@ -36,6 +36,10 @@ namespace PodfilterRepository.Sqlite
             return ThrowIfNullOrReturn(await Context.FindAsync<T>(id));
         }
 
+        public abstract Task RemoveAsync(long id);
+
+        public abstract Task RemoveAsync(T entity);
+
         public virtual T Persist(T toPersist)
         {
             var persisted = Context.Update(toPersist);
@@ -155,6 +159,30 @@ namespace PodfilterRepository.Sqlite
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
         {
             return ThrowIfNullEmptyOrReturn(Context.Podcasts.Select(dto => dto.SavedPodcast).Where(predicate));
+        }
+
+        public override async Task RemoveAsync(long id)
+        {
+            var savedPodcast = Context.Podcasts
+                                .Include(x => x.SavedPodcast)
+                                .Include(x => x.Modifications).ThenInclude(x => x.Parameters)
+                                .Where(x => x.Id == id)
+                                .SingleOrDefault();
+            Context.Remove(savedPodcast);
+            await Context.SaveChangesAsync();
+        }
+
+        public override async Task RemoveAsync(SavedPodcast entity)
+        {
+            if (entity != null && Context.Podcasts.Any(x => x.Id == entity.Id))
+            {
+                await RemoveAsync(entity.Id);
+            }
+            else
+            {
+                Context.Remove(entity);
+                await Context.SaveChangesAsync();
+            }
         }
     }
 }
