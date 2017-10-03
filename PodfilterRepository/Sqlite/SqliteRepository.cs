@@ -54,7 +54,7 @@ namespace PodfilterRepository.Sqlite
             return persisted.Entity;
         }
 
-        public IEnumerable<T> Persist(IEnumerable<T> toPersist)
+        public virtual IEnumerable<T> Persist(IEnumerable<T> toPersist)
         {
             var persisted = new List<EntityEntry<T>>();
             foreach (var item in toPersist)
@@ -97,8 +97,15 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
+        /// <summary>
+        /// Persists the <paramref name="toPersist"/> in the database. This creates or updates the entity. Note that all modifications/parameters are recreated in the db as well.
+        /// </summary>
+        /// <param name="toPersist"></param>
+        /// <returns></returns>
         public override SavedPodcast Persist(SavedPodcast toPersist)
         {
+            RemoveOldSavedPodcastDtosIfOverMaximum();
+
             var dto = Context.Podcasts.Find(toPersist.Id);
             if (dto == null)
             {
@@ -107,12 +114,38 @@ namespace PodfilterRepository.Sqlite
             }
 
             if (dto.Modifications != null)
+            {
                 Context.RemoveRange(dto.Modifications);
+                Context.RemoveRange(dto.Modifications.SelectMany(x => x.Parameters));
+            }
 
             dto.Modifications = toPersist.Modifications.Select(x => new ModificationDto(x)).ToList();
             Context.SaveChanges();
             toPersist.Id = dto.Id;
             return toPersist;
+        }
+
+        public override IEnumerable<SavedPodcast> Persist(IEnumerable<SavedPodcast> toPersist)
+        {
+            var persisted = new List<SavedPodcast>(toPersist.Count());
+            foreach (var entity in toPersist)
+                persisted.Add(Persist(entity));
+            return persisted;
+        }
+
+        private void RemoveOldSavedPodcastDtosIfOverMaximum()
+        {
+            var surplusAmount = Math.Max(0, Context.Podcasts.Count() - SavedPodcastDto.MaximumSavedPodcastCount);
+            if (surplusAmount == 0)
+                return;
+
+            var surplusPodcasts = Context.Podcasts
+                                    .Include(x => x.Modifications).ThenInclude(x => x.Parameters)
+                                    .Include(x => x.SavedPodcast)
+                                    .OrderBy(x => x.SavedPodcast.LastUsed).Take(surplusAmount);
+
+            Context.RemoveRange(surplusPodcasts);
+            Context.SaveChanges();
         }
 
         public override IQueryable<SavedPodcast> All()
