@@ -11,7 +11,7 @@ namespace PodfilterRepository.Sqlite
         public long Id { get; set; }
         public abstract Type Type { get; }
         public abstract object Value { get; }
-        public int Order { get; }
+        public int Order { get; protected set; }
         
         public static List<BaseDbParameter> FromModification(BasePodcastModification modification, ModificationDto dto)
         {
@@ -19,30 +19,30 @@ namespace PodfilterRepository.Sqlite
 
             if(modification is EpisodeDescriptionFilterModification description)
             {
-                parameters.Add(new StringParameter(description.Argument));
-                parameters.Add(new StringFilterMethodParameter(description.Method));
-                parameters.Add(new BoolParameter(description.CaseInvariant));
+                parameters.Add(new StringParameter(description.Argument, parameters.Count));
+                parameters.Add(new StringFilterMethodParameter(description.Method, parameters.Count));
+                parameters.Add(new BoolParameter(description.CaseInvariant, parameters.Count));
             }
             else if(modification is EpisodeDurationFilterModification duration)
             {
-                parameters.Add(new DurationFilterMethodParameter(duration.Method));
-                parameters.Add(new LongParameter(duration.Duration));
+                parameters.Add(new DurationFilterMethodParameter(duration.Method, parameters.Count));
+                parameters.Add(new LongParameter(duration.Duration, parameters.Count));
             }
             else if(modification is EpisodePublishDateFilterModification publish)
             {
-                parameters.Add(new DateTimeParameter(publish.Date));
-                parameters.Add(new DateTimeFilterMethodParameter(publish.Method));
+                parameters.Add(new DateTimeParameter(publish.Date, parameters.Count));
+                parameters.Add(new DateTimeFilterMethodParameter(publish.Method, parameters.Count));
             }
             else if(modification is EpisodeTitleFilterModification title)
             {
-                parameters.Add(new StringParameter(title.Argument));
-                parameters.Add(new StringFilterMethodParameter(title.Method));
-                parameters.Add(new BoolParameter(title.CaseInvariant));
+                parameters.Add(new StringParameter(title.Argument, parameters.Count));
+                parameters.Add(new StringFilterMethodParameter(title.Method, parameters.Count));
+                parameters.Add(new BoolParameter(title.CaseInvariant, parameters.Count));
             }
             else if(modification is RemoveDuplicateEpisodesModification remove)
             {
-                parameters.Add(new BoolParameter(remove.KeepFirstEpisode));
-                parameters.Add(new RemoveDuplicateEpisodesMethodParameter(remove.TimeFrame));
+                parameters.Add(new BoolParameter(remove.KeepFirstEpisode, parameters.Count));
+                parameters.Add(new RemoveDuplicateEpisodesMethodParameter(remove.TimeFrame, parameters.Count));
             }
             else
             {
@@ -59,9 +59,10 @@ namespace PodfilterRepository.Sqlite
         public override Type Type => typeof(T);
         public override object Value => TypedValue;
 
-        public BaseDbParameter(T value)
+        public BaseDbParameter(T value, int order)
         {
             TypedValue = value;
+            Order = order;
         }
 
         public BaseDbParameter()
@@ -77,7 +78,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public BoolParameter(bool value) : base(value)
+        public BoolParameter(bool value, int order) : base(value, order)
         {
             //
         }
@@ -90,7 +91,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public IntParameter(int value) : base(value)
+        public IntParameter(int value, int order) : base(value, order)
         {
             //
         }
@@ -103,7 +104,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public LongParameter(long value) : base(value)
+        public LongParameter(long value, int order) : base(value, order)
         {
             //
         }
@@ -116,7 +117,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public StringParameter(string value) : base(value)
+        public StringParameter(string value, int order) : base(value, order)
         {
             //
         }
@@ -129,7 +130,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public DateTimeParameter(DateTime value) : base(value)
+        public DateTimeParameter(DateTime value, int order) : base(value, order)
         {
             //
         }
@@ -142,7 +143,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public TimeSpanParameter(TimeSpan value) : base(value)
+        public TimeSpanParameter(TimeSpan value, int order) : base(value, order)
         {
             //
         }
@@ -155,7 +156,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public StringFilterMethodParameter(StringFilter.StringFilterMethod value) : base(value)
+        public StringFilterMethodParameter(StringFilter.StringFilterMethod value, int order) : base(value, order)
         {
             //
         }
@@ -168,7 +169,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public IntFilterMethodParameter(IntFilter.IntFilterMethods value) : base(value)
+        public IntFilterMethodParameter(IntFilter.IntFilterMethods value, int order) : base(value, order)
         {
             //
         }
@@ -181,7 +182,7 @@ namespace PodfilterRepository.Sqlite
             //   
         }
 
-        public DateTimeFilterMethodParameter(DateFilter.DateFilterMethods value) : base(value)
+        public DateTimeFilterMethodParameter(DateFilter.DateFilterMethods value, int order) : base(value, order)
         {
             //
         }
@@ -194,7 +195,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public DurationFilterMethodParameter(DurationFilter.DurationFilterMethods value) : base(value)
+        public DurationFilterMethodParameter(DurationFilter.DurationFilterMethods value, int order) : base(value, order)
         {
             //
         }
@@ -207,7 +208,7 @@ namespace PodfilterRepository.Sqlite
             //
         }
 
-        public RemoveDuplicateEpisodesMethodParameter(RemoveDuplicateEpisodesModification.DuplicateTimeFrames value) : base(value)
+        public RemoveDuplicateEpisodesMethodParameter(RemoveDuplicateEpisodesModification.DuplicateTimeFrames value, int order) : base(value, order)
         {
             //
         }

@@ -37,7 +37,7 @@ namespace PodfilterRepository.Sqlite
 
         public BasePodcastModification ToModification()
         {
-            var parameters = Parameters.Select(x => x.Value).ToArray();
+            var parameters = Parameters.OrderBy(x => x.Order).Select(x => x.Value).ToArray();
             var type = Type.GetType($"{TypeName}, PodfilterCore");
 
             var constructors = type.GetConstructors();
