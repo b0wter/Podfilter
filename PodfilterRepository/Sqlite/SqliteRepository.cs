@@ -99,11 +99,21 @@ namespace PodfilterRepository.Sqlite
 
         public override SavedPodcast Persist(SavedPodcast toPersist)
         {
-            var dto = Context.Podcasts.Find(toPersist.Id);
+            var dto = Context.Podcasts
+                        .Include(x => x.SavedPodcast)
+                        .Include(x => x.Modifications).ThenInclude(x => x.Parameters)
+                        .SingleOrDefault(x => x.Id == toPersist.Id);
+
             if (dto == null)
             {
                 dto = new SavedPodcastDto(toPersist);
                 Context.Podcasts.Add(dto);
+            }
+
+            if(dto.Modifications != null && dto.Modifications.Count != 0)
+            {
+                Context.Modificastions.RemoveRange(dto.Modifications);
+                dto.Modifications.Clear();
             }
 
             dto.Modifications = toPersist.Modifications.Select(x => new ModificationDto(x)).ToList();

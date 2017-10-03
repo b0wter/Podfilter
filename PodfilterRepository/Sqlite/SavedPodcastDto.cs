@@ -13,6 +13,7 @@ namespace PodfilterRepository.Sqlite
         public long SavedPodcastId { get; set; }
         public SavedPodcast SavedPodcast { get; set; }
         public ICollection<ModificationDto> Modifications { get; set; }
+        public const int MaximumSavedPodcastCount = 1000;
 
         /// <summary>
         /// Parameterless constructor for use with the entity framework.

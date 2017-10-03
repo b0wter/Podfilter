@@ -50,6 +50,8 @@ namespace PodfilterWeb.Controllers
 		public async Task<ActionResult> HttpGet_FilterSavedPodcast(long podcastId)
 		{
             var savedPodcast = _podcastProvider.Find(podcastId);
+            savedPodcast.LastUsed = DateTime.Now;
+            _podcastProvider.Persist(savedPodcast);
             var defaultModifications = CreateDefaultPodcastModificationActions(CreateFullUrl()).ToList();
             defaultModifications.ForEach(x => savedPodcast.Modifications.Add(x));
 
