@@ -21,19 +21,19 @@ namespace PodfilterRepository.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SavedPodcastDto>()
-                .ToTable("SavedPodcastDtos");
-            modelBuilder.Entity<SavedPodcastDto>()
-                .HasMany<ModificationDto>(x => x.Modifications);
-            modelBuilder.Entity<SavedPodcastDto>()
-                .ToTable("SavedPodcastDtos")
-                .HasOne<SavedPodcast>(x => x.SavedPodcast);
-            modelBuilder.Entity<SavedPodcast>()
-                .ToTable("SavedPodcasts");
+            modelBuilder.Entity<SavedPodcastDto>().ToTable("SavedPodcastDtos");
+            modelBuilder.Entity<SavedPodcastDto>().HasMany<ModificationDto>(x => x.Modifications);
+            modelBuilder.Entity<SavedPodcastDto>().HasOne<SavedPodcast>(x => x.SavedPodcast);
+
+            modelBuilder.Entity<SavedPodcast>().ToTable("SavedPodcasts");
+            modelBuilder.Entity<SavedPodcast>().Ignore(x => x.Modifications);
+
 
             modelBuilder.Entity<ModificationDto>()
                 .ToTable("ModificationDtos")
                 .HasMany<BaseDbParameter>(x => x.Parameters);
+            modelBuilder.Entity<ModificationDto>().Property(x => x.TypeName).IsRequired();
+
 
             modelBuilder.Entity<BaseDbParameter>()
                 .ToTable("ModificationParameters")

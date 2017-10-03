@@ -91,7 +91,7 @@ namespace PodfilterRepository.Sqlite
 
     public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
     {
-        public SqliteSavedPodcastsRepository(PfContext context) 
+        public SqliteSavedPodcastsRepository(PfContext context)
             : base(context)
         {
             //
@@ -99,22 +99,15 @@ namespace PodfilterRepository.Sqlite
 
         public override SavedPodcast Persist(SavedPodcast toPersist)
         {
-            var dto = Context.Podcasts
-                        .Include(x => x.SavedPodcast)
-                        .Include(x => x.Modifications).ThenInclude(x => x.Parameters)
-                        .SingleOrDefault(x => x.Id == toPersist.Id);
-
+            var dto = Context.Podcasts.Find(toPersist.Id);
             if (dto == null)
             {
                 dto = new SavedPodcastDto(toPersist);
                 Context.Podcasts.Add(dto);
             }
 
-            if(dto.Modifications != null && dto.Modifications.Count != 0)
-            {
-                Context.Modificastions.RemoveRange(dto.Modifications);
-                dto.Modifications.Clear();
-            }
+            if (dto.Modifications != null)
+                Context.RemoveRange(dto.Modifications);
 
             dto.Modifications = toPersist.Modifications.Select(x => new ModificationDto(x)).ToList();
             Context.SaveChanges();
@@ -131,7 +124,7 @@ namespace PodfilterRepository.Sqlite
         {
             var dto = Context.Podcasts
                 .Include(x => x.SavedPodcast)
-                .Include(x => x.Modifications).ThenInclude(x => x.Parameters) 
+                .Include(x => x.Modifications).ThenInclude(x => x.Parameters)
                 .Where(x => x.Id == id)
                 .SingleOrDefault();
             return FillSavedPodcastFromDto(dto);
