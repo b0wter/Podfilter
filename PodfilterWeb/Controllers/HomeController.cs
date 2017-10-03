@@ -95,9 +95,9 @@ namespace PodfilterWeb.Controllers
 
         private BaseModificationMethodTranslator _methodTranslator;
         private BaseStringCompressor _stringCompressor;
-        private IBaseRepository<SavedPodcast> _savedPodcastProvider;
+        private ISavedPodcastRepository _savedPodcastProvider;
 
-        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, IBaseRepository<SavedPodcast> savedPodcastProvider)
+        public HomeController(BaseModificationMethodTranslator methodTranslator, BaseStringCompressor stringCompressor, ISavedPodcastRepository savedPodcastProvider)
         {
             _methodTranslator = methodTranslator;
             _stringCompressor = stringCompressor;

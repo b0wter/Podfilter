@@ -24,10 +24,10 @@ namespace PodfilterWeb.Controllers
 	public class FilterController : ApiBaseController
 	{
 		private readonly BaseCore _core;
-        private readonly IBaseRepository<SavedPodcast> _podcastProvider;
+        private readonly ISavedPodcastRepository _podcastProvider;
 		private readonly BaseStringCompressor _stringCompressor;
 
-        public FilterController(BaseCore core, IBaseRepository<SavedPodcast> podcastProvider, BaseStringCompressor stringCompressor)
+        public FilterController(BaseCore core, ISavedPodcastRepository podcastProvider, BaseStringCompressor stringCompressor)
         {
 			_core = core;
             _podcastProvider = podcastProvider;
@@ -50,8 +50,7 @@ namespace PodfilterWeb.Controllers
 		public async Task<ActionResult> HttpGet_FilterSavedPodcast(long podcastId)
 		{
             var savedPodcast = _podcastProvider.Find(podcastId);
-            savedPodcast.LastUsed = DateTime.Now;
-            _podcastProvider.Persist(savedPodcast);
+            _podcastProvider.UpdateLastUsed(savedPodcast);
             var defaultModifications = CreateDefaultPodcastModificationActions(CreateFullUrl()).ToList();
             defaultModifications.ForEach(x => savedPodcast.Modifications.Add(x));
 

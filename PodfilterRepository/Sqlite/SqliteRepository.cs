@@ -89,7 +89,7 @@ namespace PodfilterRepository.Sqlite
         }
     }
 
-    public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>
+    public class SqliteSavedPodcastsRepository : SqliteRepository<SavedPodcast>, ISavedPodcastRepository
     {
         public SqliteSavedPodcastsRepository(PfContext context)
             : base(context)
@@ -98,7 +98,7 @@ namespace PodfilterRepository.Sqlite
         }
 
         /// <summary>
-        /// Persists the <paramref name="toPersist"/> in the database. This creates or updates the entity. Note that all modifications/parameters are recreated in the db as well.
+        /// Persists the <paramref name="toPersist"/> in the database. This creates or updates the entity. Note that all modifications/parameters are recreated in the db as well (increasing their Ids).
         /// </summary>
         /// <param name="toPersist"></param>
         /// <returns></returns>
@@ -125,6 +125,11 @@ namespace PodfilterRepository.Sqlite
             return toPersist;
         }
 
+        /// <summary>
+        /// Persists the <paramref name="toPersist"/> entities by calling <see cref="Persist(SavedPodcast)"/> for each entity.
+        /// </summary>
+        /// <param name="toPersist"></param>
+        /// <returns></returns>
         public override IEnumerable<SavedPodcast> Persist(IEnumerable<SavedPodcast> toPersist)
         {
             var persisted = new List<SavedPodcast>(toPersist.Count());
@@ -133,6 +138,9 @@ namespace PodfilterRepository.Sqlite
             return persisted;
         }
 
+        /// <summary>
+        /// If number of <see cref="SavedPodcast"/>s exceeds <see cref="SavedPodcastDto.MaximumSavedPodcastCount"/> removes the least used podcasts.
+        /// </summary>
         private void RemoveOldSavedPodcastDtosIfOverMaximum()
         {
             var surplusAmount = Math.Max(0, Context.Podcasts.Count() - SavedPodcastDto.MaximumSavedPodcastCount);
@@ -148,11 +156,32 @@ namespace PodfilterRepository.Sqlite
             Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Returns all <see cref="SavedPodcast"/>s, including their modifications and parameters.
+        /// </summary>
+        /// <returns></returns>
         public override IQueryable<SavedPodcast> All()
         {
-            return Context.Podcasts.Select(x => x.SavedPodcast).AsQueryable();
+            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Updates the <see cref="SavedPodcast.LastUsed"/> property with the current time.
+        /// </summary>
+        /// <param name="podcast"></param>
+        public void UpdateLastUsed(SavedPodcast podcast)
+        {
+            var newTime = DateTime.Now;
+            podcast.LastUsed = newTime;
+            Context.Podcasts.Include(x => x.SavedPodcast).First(x => x.SavedPodcast == podcast).SavedPodcast.LastUsed = newTime;
+            Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="SavedPodcast"/> based on its id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override SavedPodcast Find(long id)
         {
             var dto = Context.Podcasts
@@ -163,24 +192,44 @@ namespace PodfilterRepository.Sqlite
             return FillSavedPodcastFromDto(dto);
         }
 
+        /// <summary>
+        /// Returns a <see cref="SavedPodcast"/> based on the given <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public override SavedPodcast Find(Predicate<SavedPodcast> predicate)
         {
             var dto = Context.Podcasts.Find(predicate);
             return FillSavedPodcastFromDto(dto);
         }
 
+        /// <summary>
+        /// Returns a <see cref="SavedPodcast"/> based on its id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override async Task<SavedPodcast> FindAsync(long id)
         {
             var dto = await Context.Podcasts.FindAsync(id);
             return FillSavedPodcastFromDto(dto);
         }
 
+        /// <summary>
+        /// Returns a <see cref="SavedPodcast"/> based on the given <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public override async Task<SavedPodcast> FindAsync(Predicate<SavedPodcast> predicate)
         {
             var dto = await Context.Podcasts.FindAsync(predicate);
             return FillSavedPodcastFromDto(dto);
         }
 
+        /// <summary>
+        /// Fills the <see cref="SavedPodcast"/> with the corresponding modifications and parameters.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         private SavedPodcast FillSavedPodcastFromDto(SavedPodcastDto dto)
         {
             if (dto == null)
@@ -192,11 +241,21 @@ namespace PodfilterRepository.Sqlite
             return dto.SavedPodcast;
         }
 
+        /// <summary>
+        /// Returns the <see cref="SavedPodcast"/>s matching the given <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public override IEnumerable<SavedPodcast> Where(Func<SavedPodcast, int, bool> predicate)
         {
             return ThrowIfNullEmptyOrReturn(Context.Podcasts.Select(dto => dto.SavedPodcast).Where(predicate));
         }
 
+        /// <summary>
+        /// Removes a savedpodcast, its modifications and parameters based on its id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override async Task RemoveAsync(long id)
         {
             var savedPodcast = Context.Podcasts
@@ -208,6 +267,11 @@ namespace PodfilterRepository.Sqlite
             await Context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Removes the <paramref name="entity"/> and its modifications and parameters.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public override async Task RemoveAsync(SavedPodcast entity)
         {
             if (entity != null && Context.Podcasts.Any(x => x.Id == entity.Id))

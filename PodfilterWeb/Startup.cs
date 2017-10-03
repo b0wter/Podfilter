@@ -46,7 +46,7 @@ namespace Podfilter
             services.AddTransient<BaseStringCompressor, GzipStringCompressor>();
 
             services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./podfilter.db"));
-            services.AddSingleton<IBaseRepository<SavedPodcast>, SqliteSavedPodcastsRepository>();
+            services.AddSingleton<ISavedPodcastRepository, SqliteSavedPodcastsRepository>();
 
             // Configure the session management.
             services.AddDistributedMemoryCache();
