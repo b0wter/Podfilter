@@ -88,13 +88,13 @@
                         @if ((int)ViewData["selectedFilter"] == i)
                         {
                             <a href="selectFilter/@i" class="list-group-item active">
-                                <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                                <b>@filter.Name</b> <i><small>&emsp;@filter.DescribeWithTranslator((PodfilterWeb.Helpers.BaseModificationMethodTranslator)ViewData["methodTranslator"])</small></i>
                             </a>
                         }
                         else
                         {
                             <a href="selectFilter/@i" class="list-group-item">
-                                <b>@filter.Name</b> <i><small>&emsp;@filter.Description</small></i>
+                                <b>@filter.Name</b> <i><small>&emsp;@filter.DescribeWithTranslator((PodfilterWeb.Helpers.BaseModificationMethodTranslator)ViewData["methodTranslator"])</small></i>
                             </a>
                         }
                         i++;

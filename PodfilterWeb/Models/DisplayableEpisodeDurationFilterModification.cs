@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PodfilterCore.Models.ContentFilters;
 using System.Runtime.Serialization;
 using PodfilterCore.Models.PodcastModification;
+using PodfilterWeb.Helpers;
 
 namespace PodfilterWeb.Models
 {
@@ -47,6 +48,11 @@ namespace PodfilterWeb.Models
         protected override void DeserializeModification()
         {
             CreateModification(Argument, Method);
+        }
+
+        public override string DescribeWithTranslator(BaseModificationMethodTranslator translator)
+        {
+            return $"Keep episodes {translator.DurationFilterMethodToDisplayString(Method)} {Argument} seconds.";
         }
     }
 }

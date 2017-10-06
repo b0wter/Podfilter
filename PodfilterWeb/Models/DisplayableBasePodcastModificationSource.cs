@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace PodfilterWeb.Models
 {
+    /// <summary>
+    /// Date model that contains all the information needed to create a new instance of a <see cref="DisplayableBasePodcastModification"/>.
+    /// </summary>
     public class DisplayableBasePodcastModificationSource
     {
         [JsonProperty(PropertyName="T")]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PodfilterWeb.Helpers;
 
 namespace PodfilterWeb.Models
 {
@@ -43,6 +44,11 @@ namespace PodfilterWeb.Models
         public static DisplayableRemoveDuplicateEpisodesModification CreateEmptyInstanceForDeserialization()
         {
             return new DisplayableRemoveDuplicateEpisodesModification();
+        }
+
+        public override string DescribeWithTranslator(BaseModificationMethodTranslator translator)
+        {
+            return $"Discards episodes with the same title and release {translator.DuplicateTimeFrameToDisplayString(Method)}.";
         }
     }
 }

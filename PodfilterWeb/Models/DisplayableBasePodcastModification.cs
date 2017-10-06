@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
+using PodfilterWeb.Helpers;
 
 namespace PodfilterWeb.Models
 {
@@ -38,6 +39,8 @@ namespace PodfilterWeb.Models
         }
 
         protected abstract void DeserializeModification();
+
+        public abstract string DescribeWithTranslator(BaseModificationMethodTranslator translator);
 
         public abstract DisplayableBasePodcastModificationSource ToSource();
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PodfilterCore.Models.ContentFilters;
 using System.Runtime.Serialization;
 using PodfilterCore.Models.PodcastModification;
+using PodfilterWeb.Helpers;
 
 namespace PodfilterWeb.Models
 {
@@ -41,6 +42,11 @@ namespace PodfilterWeb.Models
         public static DisplayableEpisodeTitleFilterModification CreateEmptyInstanceForDeserialization()
         {
             return new DisplayableEpisodeTitleFilterModification();
+        }
+
+        public override string DescribeWithTranslator(BaseModificationMethodTranslator translator)
+        {
+            return $"Keep episodes whose title {translator.StringFilterMethodToDisplayString(Method)} {Argument}.";
         }
     }
 }

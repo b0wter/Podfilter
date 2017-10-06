@@ -7,6 +7,7 @@ using PodfilterCore.Models.ContentFilters;
 using System.Runtime.Serialization;
 using PodfilterCore.Helpers;
 using PodfilterCore.Models.PodcastModification;
+using PodfilterWeb.Helpers;
 
 namespace PodfilterWeb.Models
 {
@@ -49,6 +50,11 @@ namespace PodfilterWeb.Models
         public static DisplayableEpisodePublishDateFilterModification CreateEmptyInstanceForDeserialization()
         {
             return new DisplayableEpisodePublishDateFilterModification();
+        }
+
+        public override string DescribeWithTranslator(BaseModificationMethodTranslator translator)
+        {
+            return $"Keep episodes published {translator.DateFilterMethodToDisplayString(Method)} {Argument}.";
         }
     }
 }

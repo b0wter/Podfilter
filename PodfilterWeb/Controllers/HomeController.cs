@@ -114,7 +114,7 @@ namespace PodfilterWeb.Controllers
             var filters = GetPodcastModifications();
             ViewData["currentFilters"] = filters;
             ViewData["currentFilterCount"] = filters.Count;
-
+            ViewData["methodTranslator"] = _methodTranslator;
             ViewData["selectedFilter"] = SelectedFilterIndex;
 
             ViewData["podcastUrl"] = PodcastUrl;
