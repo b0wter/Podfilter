@@ -9,3 +9,14 @@ Project is finished. Please report any bugs you find in the issue tracker. If yo
 http://podfilterweb.azurewebsites.net/
 
 note that this sample runs on a free Azure tier and might not always be available and suffer from poor performance.
+
+# Docker
+Project includes a docker file. To build use:
+
+	docker build -t podfilterweb .  
+
+and run as you please. E.g. with:
+
+	sudo docker run -d -p 8099:80 --name mypodfilter podfilterweb
+
+Replace port 8099 how you see fit.
