@@ -19,4 +19,4 @@ and run as you please. E.g. with:
 
 	sudo docker run -d -p 8099:80 --name mypodfilter podfilterweb
 
-Replace port 8099 how you see fit.
+Replace port 8099 how you see fit. The database is stored in _/app/Database_, in case you want to expose it (recommended for backup).

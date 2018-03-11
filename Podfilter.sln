@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWeb", "PodfilterWeb\PodfilterWeb.csproj", "{A6555056-64D1-4F64-A558-F68CE6C4055F}"
 EndProject
@@ -14,6 +14,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterRepositoryTests", "PodfilterRepositoryTests\PodfilterRepositoryTests.csproj", "{C23CF07B-76CD-4986-9B54-ECDB23D1BEB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodfilterWebTests", "PodfilterWebTests\PodfilterWebTests.csproj", "{BEE17525-6486-413F-BCC6-DBB361EE0604}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9B753D3-B8BC-42EC-B813-523AC41191C4}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		Dockerfile = Dockerfile
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
