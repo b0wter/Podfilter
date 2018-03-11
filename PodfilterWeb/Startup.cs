@@ -20,6 +20,9 @@ namespace Podfilter
 {
     public class Startup
     {
+        private const string DatabaseFolder = "Database";
+        private const string DatabaseName = "podfilter.db";
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -45,7 +48,7 @@ namespace Podfilter
             services.AddTransient<BaseCore, Core>();
             services.AddTransient<BaseStringCompressor, GzipStringCompressor>();
 
-            services.AddDbContext<PfContext>(options => options.UseSqlite("Filename=./Database/podfilter.db"));
+            services.AddDbContext<PfContext>(options => options.UseSqlite($"Filename=./{DatabaseFolder}/{DatabaseName}"));
             services.AddSingleton<ISavedPodcastRepository, SqliteSavedPodcastsRepository>();
 
             // Configure the session management.
@@ -60,6 +63,9 @@ namespace Podfilter
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PfContext context)
         {
+            if (!System.IO.Directory.Exists(DatabaseFolder))
+                System.IO.Directory.CreateDirectory(DatabaseFolder);
+
             context.Database.EnsureCreated();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
