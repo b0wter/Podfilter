@@ -1,0 +1,6 @@
+language: csharp
+solution: Podfilter.sln
+dotnet: 2.1
+script:
+ - dotnet restore
+ - dotnet build
