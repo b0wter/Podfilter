@@ -4,6 +4,9 @@ ASP .Net Core project that helps you filter your favorite podcasts. Removes item
 You simply enter the url to the podcast, select some filters and get a new url that filters the podcast on the fly.
 
 # Status
+
+[![Build Status](https://travis-ci.org/b0wter/Podfilter.svg?branch=master)](https://travis-ci.org/b0wter/Podfilter)
+
 Project is finished. Please report any bugs you find in the issue tracker. If you have any feature request please use the issue tracker as well. To see it in action simply go here:
 
 http://podfilterweb.azurewebsites.net/
