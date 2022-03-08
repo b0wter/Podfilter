@@ -1,19 +1,15 @@
-FROM microsoft/aspnetcore-build:2.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build-env
 WORKDIR /app
-
-# Copy csproj and restore as distinct layers
-COPY *.sln ./
-COPY ./PodfilterCore/*.csproj ./PodfilterCore/
-COPY ./PodfilterWeb/*.csproj ./PodfilterWeb/
-COPY ./PodfilterRepository/*.csproj ./PodfilterRepository/
-RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
+WORKDIR /app/PodfilterWeb
 RUN dotnet publish -c Release -o out
+RUN ls -la /app/PodfilterWeb
+RUN ls -la /app/PodfilterWeb/bin/Release
 
 # Build runtime image
-FROM microsoft/aspnetcore:2.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS runtime
 WORKDIR /app
 COPY --from=build-env /app/PodfilterWeb/out .
 ENTRYPOINT ["dotnet", "PodfilterWeb.dll"]

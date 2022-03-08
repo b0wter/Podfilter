@@ -11,7 +11,7 @@ namespace PodfilterCoreTests.Models.ContentFilters
         public static readonly TimeSpan MediumDuration = new TimeSpan(1, 1, 1);
         public static readonly TimeSpan LongDuration = new TimeSpan(3, 40, 50);
 
-        private static IEnumerable<object[]> GenerateAllTimeTestCombinations()
+        public static IEnumerable<object[]> GenerateAllTimeTestCombinations()
         {
             return new List<object[]>
             {

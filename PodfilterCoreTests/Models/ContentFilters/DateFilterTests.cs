@@ -11,7 +11,7 @@ namespace PodfilterCoreTests.Models.ContentFilters
         public static readonly DateTime MiddleDate = new DateTime(2001, 12, 30);
         public static readonly DateTime LateDate = new DateTime(2017, 10, 5);
 
-        private static IEnumerable<object[]> GenerateAllDateTestCombinations()
+        public static IEnumerable<object[]> GenerateAllDateTestCombinations()
         {
             return new List<object[]>
             {

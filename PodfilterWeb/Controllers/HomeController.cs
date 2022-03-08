@@ -267,7 +267,11 @@ namespace PodfilterWeb.Controllers
                 var persistedPodcast = _savedPodcastProvider.Persist(savedPodcast);
 
                 var baseUrl = GetBaseUrl();
-                TempData["savedPodcastId"] = persistedPodcast.Id;
+                if (persistedPodcast.Id > (long)System.Int32.MaxValue)
+                {
+                    throw new ArgumentException("The podcast id is too large.");
+                }
+                TempData["savedPodcastId"] = (int)persistedPodcast.Id;
                 TempData["savedPodcastUrl"] = $"{baseUrl}/api/filter/{persistedPodcast.Id}";
             }
             catch(Exception ex)

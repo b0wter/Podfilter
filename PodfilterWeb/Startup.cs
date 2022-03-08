@@ -39,7 +39,7 @@ namespace Podfilter
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddRazorPages();
 
             services.AddTransient<IHttpContentProvider<string>, HttpContentProvider<string>>();
             services.AddTransient<IContentDeserializer<string>, StringContentDeserializer>();
@@ -67,9 +67,9 @@ namespace Podfilter
                 System.IO.Directory.CreateDirectory(DatabaseFolder);
 
             context.Database.EnsureCreated();
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
@@ -81,16 +81,27 @@ namespace Podfilter
                 app.UseExceptionHandler("/Home/Error");
             }
 
+                app.UseDeveloperExceptionPage();
             app.UseSession();
 
             app.UseStaticFiles();
 
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+            /*
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            */
         }
     }
 }

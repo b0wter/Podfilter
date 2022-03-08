@@ -14,7 +14,7 @@ namespace PodfilterCoreTests.Models.PodcastModifications
     /// </summary>
     public class RemoveDuplicateEpisodesModificationTests
     {
-        private static IEnumerable<object[]> GenerateSamplePodcasts()
+        public static IEnumerable<object[]> GenerateSamplePodcasts()
         {
             return new List<object[]>
             {

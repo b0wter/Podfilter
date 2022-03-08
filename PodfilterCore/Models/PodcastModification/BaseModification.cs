@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 using Newtonsoft.Json;
 using PodfilterCore.Data;
 
@@ -70,10 +71,7 @@ namespace PodfilterCore.Models.PodcastModification
             // since all the modification of the XElements und XDocuments are performed in place
             // a return value is actually not needed
             var elements = _elementProvider.GetElements(podcast);
-            foreach (var element in elements)
-            {
-                _contentModification.Modify(element);
-            }    
+            elements.ToList().ForEach(e => _contentModification.Modify(e));
         }
     }
 }
